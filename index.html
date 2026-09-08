@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Aerini: A workflow engine you run yourself</title>
+<meta name="description" content="Aerini is a local-first visual workflow engine. Wire nodes on a canvas, run them on your machine or a headless server. No account, no cloud, no telemetry.">
+<link rel="canonical" href="https://aerini.org/">
+<meta name="theme-color" content="#08090d">
+
+<meta property="og:type" content="website">
+<meta property="og:title" content="Aerini: A workflow engine you run yourself">
+<meta property="og:description" content="Local-first visual automation. Build on a canvas, run it anywhere. No account, no cloud, no telemetry. Open source.">
+<meta property="og:image" content="https://raw.githubusercontent.com/Panchak2d/Aerini/main/.github/social-preview.png">
+<meta name="twitter:card" content="summary_large_image">
+<meta name="twitter:title" content="Aerini: A workflow engine you run yourself">
+<meta name="twitter:description" content="Local-first visual automation. Build on a canvas, run it anywhere. No account, no cloud, no telemetry.">
+
+<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2308090d'/%3E%3Crect x='6' y='6' width='7' height='7' rx='1.5' fill='%2334d399'/%3E%3Crect x='19' y='6' width='7' height='7' rx='1.5' fill='%2334d399' opacity='0.55'/%3E%3Crect x='6' y='19' width='7' height='7' rx='1.5' fill='%2334d399' opacity='0.55'/%3E%3Crect x='19' y='19' width='7' height='7' rx='1.5' fill='%2334d399' opacity='0.27'/%3E%3Cline x1='13' y1='9.5' x2='19' y2='9.5' stroke='%2334d399' stroke-width='1.4'/%3E%3Cline x1='9.5' y1='13' x2='9.5' y2='19' stroke='%2334d399' stroke-width='1.4'/%3E%3Cline x1='22.5' y1='13' x2='22.5' y2='19' stroke='%2334d399' stroke-width='1.4' opacity='0.42'/%3E%3C/svg%3E">
+
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link rel="preconnect" href="https://api.github.com" crossorigin>
+<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
+<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"></noscript>
+
+<link rel="stylesheet" href="styles.css">
+
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "SoftwareApplication",
+  "name": "Aerini",
+  "description": "Aerini is a local-first visual workflow engine. Wire nodes on a canvas, run them on your machine or a headless server. No account, no cloud, no telemetry.",
+  "url": "https://aerini.org/",
+  "applicationCategory": "DeveloperApplication",
+  "operatingSystem": "Windows, macOS, Linux",
+  "offers": {
+    "@type": "Offer",
+    "price": 0,
+    "priceCurrency": "USD"
+  },
+  "license": "https://github.com/Panchak2d/Aerini/blob/main/LICENSE",
+  "downloadUrl": "https://github.com/Panchak2d/Aerini/releases",
+  "author": {
+    "@type": "Organization",
+    "name": "Aerini",
+    "url": "https://github.com/Panchak2d/Aerini"
+  },
+  "sameAs": ["https://github.com/Panchak2d/Aerini"]
+}
+</script>
+</head>
+<body>
+
+<a href="#top" class="skip-link">Skip to content</a>
+
+<nav class="nav" id="nav">
+  <div class="wrap nav-inner">
+    <a href="#top" class="brand">
+      <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+        <rect x="4" y="4" width="9" height="9" rx="1.5" fill="#34d399"/>
+        <rect x="19" y="4" width="9" height="9" rx="1.5" fill="#34d399" opacity="0.55"/>
+        <rect x="4" y="19" width="9" height="9" rx="1.5" fill="#34d399" opacity="0.55"/>
+        <rect x="19" y="19" width="9" height="9" rx="1.5" fill="#34d399" opacity="0.27"/>
+        <line x1="13" y1="8.5" x2="19" y2="8.5" stroke="#34d399" stroke-width="1.6"/>
+        <line x1="8.5" y1="13" x2="8.5" y2="19" stroke="#34d399" stroke-width="1.6"/>
+        <line x1="23.5" y1="13" x2="23.5" y2="19" stroke="#34d399" stroke-width="1.6" opacity="0.42"/>
+      </svg>
+      Aerini
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="#how-it-works">How it works</a></li>
+      <li><a href="#why">Why Aerini</a></li>
+      <li><a href="#open-source">Open source</a></li>
+      <li><a href="#community">Community</a></li>
+      <li><a href="#support">Support</a></li>
+      <li><a href="https://docs.aerini.org">Docs</a></li>
+    </ul>
+    <div class="nav-cta">
+      <a href="https://github.com/Panchak2d/Aerini" class="btn btn-ghost" target="_blank" rel="noopener">View source</a>
+      <a href="#get-aerini" class="btn btn-primary" data-role="get-aerini-cta"><span class="cta-label">Get Aerini</span></a>
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" id="navToggleIcon" aria-hidden="true"><line class="nti-top" x1="4" y1="6" x2="20" y2="6"/><line class="nti-mid" x1="4" y1="12" x2="20" y2="12"/><line class="nti-bot" x1="4" y1="18" x2="20" y2="18"/></svg>
+      </button>
+    </div>
+  </div>
+</nav>
+
+<main id="top">
+
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <span class="eyebrow" style="--dot:var(--k-logic)">Local-first workflow engine</span>
+      <h1>Build automation the way you'd build software.</h1>
+      <p class="lede">Aerini is a visual workflow engine you run yourself. Wire nodes together on a canvas, then run the same engine on your machine or drop it onto a server. No account. No cloud. No telemetry.</p>
+      <div class="hero-ctas">
+        <a href="#get-aerini" class="btn btn-primary" data-role="get-aerini-cta">
+          <span class="cta-label">Get Aerini</span>
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 4v13m0 0l5-5m-5 5l-5-5M5 21h14"/></svg>
+        </a>
+        <a href="https://github.com/Panchak2d/Aerini" class="btn btn-ghost" target="_blank" rel="noopener">
+          View source
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M9 18c-4.5 1.5-4.5-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2-.2 4-1 4-4.5a3.5 3.5 0 00-1-2.5 3.3 3.3 0 00-.1-2.5s-.85-.25-2.9 1a10 10 0 00-5 0c-2.05-1.25-2.9-1-2.9-1a3.3 3.3 0 00-.1 2.5 3.5 3.5 0 00-1 2.5c0 3.5 2 4.3 4 4.5-.5.5-.5 1-.5 2V21"/></svg>
+        </a>
+      </div>
+      <div class="hero-plat">
+        <span>WINDOWS</span><span class="dot"></span><span>MACOS</span><span class="dot"></span><span>LINUX</span><span class="dot"></span><span>ARM</span>
+      </div>
+    </div>
+
+    <div class="hero-visual reveal">
+      <div class="hero-panel">
+        <div class="hero-panel-head">
+          <span class="lights"><span></span><span></span><span></span></span>
+          <span>getting-started.aerini</span>
+          <span></span>
+        </div>
+        <div class="hero-canvas" id="heroCanvas"></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="ticker-wrap" id="tickerWrap">
+  <div class="ticker" id="ticker"></div>
+</div>
+
+<section class="intro">
+  <div class="wrap intro-grid">
+    <span class="eyebrow" style="--dot:var(--k-utility)">What it is</span>
+    <div>
+      <p class="intro-copy">Aerini is an app for building automation visually: drop <strong>nodes</strong> onto a canvas, connect them with <strong>wires</strong>, and the resulting graph is your <strong>workflow</strong>. Nothing runs until you tell it to, and once it runs, it stays on hardware you control.</p>
+      <div class="intro-terms">
+        <div class="intro-term"><b>Node</b>One block, one job: fetch a URL, filter a list, call a model.</div>
+        <div class="intro-term"><b>Wire</b>The path data takes from one node's output to the next node's input.</div>
+        <div class="intro-term"><b>Workflow</b>A saved graph of nodes and wires, ready to run on demand or on a schedule.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="ascii-feature">
+  <div class="wrap ascii-feature-inner">
+    <canvas id="asciiWireframe" aria-hidden="true"></canvas>
+    <p class="ascii-feature-caption" id="pulseCaption">· live pulse, mirrors <a href="https://github.com/Panchak2d/Aerini" target="_blank" rel="noopener">github.com/Panchak2d/Aerini</a> ·</p>
+  </div>
+</div>
+
+<section id="how-it-works">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow" style="--dot:var(--k-logic)">How it works</span>
+      <h2>Three nodes. One wire path. Press run.</h2>
+      <p>This is a working recreation of a real Aerini workflow: a trigger that starts a run, an action that fetches data, and a utility that displays it. Press run to watch it move.</p>
+    </div>
+
+    <div class="demo-shell reveal">
+      <div class="demo-top">
+        <span class="name">getting-started · fetch &amp; show</span>
+        <button class="demo-run" id="demoRun"><span class="rdot"></span>Run workflow</button>
+      </div>
+      <div class="demo-canvas" id="demoCanvas"></div>
+      <div class="demo-foot" id="demoFoot">
+        <span>NODES <b>3</b></span>
+        <span>CONNECTIONS <b>2</b></span>
+        <span id="demoStatusLine">STATUS <b>ready</b></span>
+        <span id="demoMemLine">MEM <b>0.0 KB</b></span>
+      </div>
+    </div>
+
+    <div class="demo-steps">
+      <div class="demo-step reveal">
+        <span class="badge badge-trigger">Trigger</span>
+        <p>A run starts here, triggered manually, on a schedule, or from a webhook. Its output is a timestamp every downstream node can read.</p>
+      </div>
+      <div class="demo-step reveal">
+        <span class="badge badge-action">Action</span>
+        <p>Fetches, transforms, or calls out to something external. If it fails, the error output fires instead. No silent breaks.</p>
+      </div>
+      <div class="demo-step reveal">
+        <span class="badge badge-utility">Utility</span>
+        <p>Does something with the result: display it, write it to a file, or pass it to the next workflow in the chain.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="what-it-does">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow" style="--dot:var(--k-action)">What you can build</span>
+      <h2>Whatever you'd otherwise write a script for.</h2>
+      <p>A sample of what people build with it, not an exhaustive list.</p>
+    </div>
+
+    <div class="cap-grid reveal">
+      <div class="cap-card">
+        <span class="badge badge-trigger">Trigger</span>
+        <h3>Webhook receivers</h3>
+        <p>Turn an incoming HTTP request into the start of a workflow. No separate server to run.</p>
+      </div>
+      <div class="cap-card">
+        <span class="badge badge-action">Action</span>
+        <h3>Scheduled reports</h3>
+        <p>Pull data on a timer, shape it, and send it out as a file, message, or email.</p>
+      </div>
+      <div class="cap-card">
+        <span class="badge badge-ai">AI</span>
+        <h3>AI pipelines</h3>
+        <p>Chain model calls with your own logic in between: retries, filters, and branching included.</p>
+      </div>
+      <div class="cap-card">
+        <span class="badge badge-logic">Logic</span>
+        <h3>Alerts &amp; monitors</h3>
+        <p>Poll something on a loop and branch on the result. Only notify when a condition actually changes.</p>
+      </div>
+      <div class="cap-card">
+        <span class="badge badge-utility">Utility</span>
+        <h3>File processing</h3>
+        <p>Watch a folder, transform what lands in it, and move the result somewhere else automatically.</p>
+      </div>
+      <div class="cap-card">
+        <span class="badge badge-action">Action</span>
+        <h3>Cross-posting &amp; uploads</h3>
+        <p>Push the same output to several destinations from one workflow instead of several scripts.</p>
+      </div>
+      <div class="cap-card">
+        <span class="badge badge-utility">Utility</span>
+        <h3>Embeddable chat widget</h3>
+        <p>Drop a floating chat window on any web page, backed by a running workflow. One script tag, no separate backend to stand up.</p>
+      </div>
+      <div class="cap-card">
+        <span class="badge badge-logic">Flow control</span>
+        <h3>Branch-and-merge pipelines</h3>
+        <p>Loop over a list, fan out to parallel branches, then merge the results back into one path before continuing.</p>
+      </div>
+      <div class="cap-card">
+        <span class="badge badge-action">Integration</span>
+        <h3>Two-way app sync</h3>
+        <p>Read from one system, transform the shape, and write it to another, on a schedule or the moment something changes.</p>
+      </div>
+    </div>
+    <div class="cap-stat reveal">40 built-in nodes across trigger, action, logic, AI, flow-control, integration, and utility categories.</div>
+  </div>
+</section>
+
+<section id="why">
+  <div class="ascii-ambient" aria-hidden="true"><canvas id="asciiNetwork"></canvas></div>
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow" style="--dot:var(--k-ai)">Why Aerini</span>
+      <h2>Decisions that shape everything else.</h2>
+    </div>
+
+    <div class="why-list">
+      <div class="why-row reveal">
+        <div><span class="badge badge-utility">Utility</span><h3>Runs itself, not a subscription</h3></div>
+        <div><p>No account to create, no cloud dependency, no telemetry sent anywhere. The only network call Aerini makes on its own is loading a font.</p></div>
+      </div>
+      <div class="why-row reveal">
+        <div><span class="badge badge-action">Action</span><h3>An engine, not just an app</h3></div>
+        <div><p>The workflow engine is a standalone Rust crate. Embed it in your own program, register custom nodes in code, and run it with no UI attached at all.</p><p class="spec">crate: aerini-engine</p></div>
+      </div>
+      <div class="why-row reveal">
+        <div><span class="badge badge-logic">Logic</span><h3>Plugins that can't reach your filesystem</h3></div>
+        <div><p>Third-party nodes compile to WebAssembly and run inside a sandboxed Wasmtime instance: capped memory, no filesystem access, network calls only if you allow them.</p><p class="spec">target: wasm32-wasip2 · sandbox cap: 64 MiB</p></div>
+      </div>
+      <div class="why-row reveal">
+        <div><span class="badge badge-trigger">Trigger</span><h3>One engine, two ways to run it</h3></div>
+        <div><p>Build and test in the desktop app, then run the same workflow unattended on <code>aerini-server</code>, a headless binary for a machine that doesn't need a screen.</p></div>
+      </div>
+      <div class="why-row reveal">
+        <div><span class="badge badge-action">Action</span><h3>Built to be watched while it runs</h3></div>
+        <div><p>A Monitor panel shows memory, active runs, and per-workflow status live, not bolted on after the fact.</p></div>
+      </div>
+      <div class="why-row reveal">
+        <div><span class="badge badge-logic">Logic</span><h3>Install plugins without leaving the app</h3></div>
+        <div><p>Point Settings → Plugins at a folder and install nodes via file picker or drag-and-drop. Multi-node packs install as one signed unit, and a plugin that fails to load shows you why instead of disappearing silently.</p><p class="spec">formats: .wasm · .aerinipkg (multi-node packs)</p></div>
+      </div>
+      <div class="why-row reveal">
+        <div><span class="badge badge-ai">AI</span><h3>AI nodes that don't need a hosted API</h3></div>
+        <div><p>Point AI Prompt or AI Agent's Base URL at Ollama or any OpenAI-compatible server on your own machine or network. The request never leaves your hardware.</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="open-source">
+  <div class="wrap os-grid">
+    <div>
+      <div class="section-head reveal" style="margin-bottom:0">
+        <span class="eyebrow" style="--dot:var(--k-logic)">Open source</span>
+        <h2>Read it, run it, change it.</h2>
+      </div>
+      <div class="os-copy reveal" style="margin-top:26px">
+        <p>Aerini is source-available under the <strong style="color:var(--text-1)">AGPL-3.0</strong>. You can use it, study it, and modify it freely. If you run a modified version as a network service for others, you share those changes back.</p>
+        <p>Most people never touch that condition. If it matters for what you're building, a commercial license removes it.</p>
+      </div>
+      <div class="hero-ctas reveal" style="margin-top:28px">
+        <a href="https://github.com/Panchak2d/Aerini" class="btn btn-primary" target="_blank" rel="noopener">
+          View on GitHub
+          <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M9 18c-4.5 1.5-4.5-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2-.2 4-1 4-4.5a3.5 3.5 0 00-1-2.5 3.3 3.3 0 00-.1-2.5s-.85-.25-2.9 1a10 10 0 00-5 0c-2.05-1.25-2.9-1-2.9-1a3.3 3.3 0 00-.1 2.5 3.5 3.5 0 00-1 2.5c0 3.5 2 4.3 4 4.5-.5.5-.5 1-.5 2V21"/></svg>
+        </a>
+      </div>
+    </div>
+
+    <div class="license-cards reveal">
+      <div class="license-card">
+        <span class="lname">Default</span>
+        <h3>AGPL-3.0</h3>
+        <p>Free for personal use, internal tools, and open-source projects. Modify anything. Just share changes back if you offer it as a service to others.</p>
+      </div>
+      <div class="license-card is-optional">
+        <span class="lname">Optional</span>
+        <h3>Commercial license</h3>
+        <p>For teams that need to ship a modified version without the AGPL's share-back requirement.</p>
+        <a href="pricing.html" class="btn btn-ghost">See pricing</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="community">
+  <div class="ascii-ambient" aria-hidden="true"><canvas id="asciiBranch"></canvas></div>
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow" style="--dot:var(--k-trigger)">Community</span>
+      <h2>Built with the people who use it, not just for them.</h2>
+      <p>Free users get a say in what Aerini builds next, not just supporters. Contribution is also a real path, with defined steps rather than a vague "get involved."</p>
+    </div>
+
+    <div class="ladder reveal">
+      <div class="ladder-step" style="border-color:var(--k-trigger)">
+        <span class="n">01</span><h3>Contributor</h3><p>Open a PR, fix a bug, improve a doc.</p>
+      </div>
+      <div class="ladder-step" style="border-color:var(--k-action)">
+        <span class="n">02</span><h3>Reviewer</h3><p>Review incoming changes from other contributors.</p>
+      </div>
+      <div class="ladder-step" style="border-color:var(--k-logic)">
+        <span class="n">03</span><h3>Maintainer</h3><p>Merge rights over a defined area of the codebase.</p>
+      </div>
+      <div class="ladder-step" style="border-color:var(--k-ai)">
+        <span class="n">04</span><h3>Core maintainer</h3><p>Shapes direction alongside the founder.</p>
+      </div>
+    </div>
+
+    <div class="community-grid">
+      <div class="poll-card reveal">
+        <span class="lname">Open poll</span>
+        <h3>Nothing running right now</h3>
+        <p>Polls open on both GitHub Discussions and Patreon when there's a real decision to make: which trigger to build next, how a feature should behave, that kind of thing. Everyone gets a vote, supporter or not — pick whichever platform you already have an account on.</p>
+        <div class="hero-ctas" style="margin-top:18px">
+          <a href="https://github.com/Panchak2d/Aerini/discussions" class="btn btn-ghost" target="_blank" rel="noopener">Go to Discussions</a>
+          <a href="https://www.patreon.com/c/Panchak2d" class="btn btn-ghost" target="_blank" rel="noopener">Go to Patreon</a>
+        </div>
+      </div>
+      <div class="reveal">
+        <span class="lname" style="font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-3)">🟢 Completed — v0.4</span>
+        <div class="roadmap-list" style="margin-top:14px">
+          <div class="roadmap-item"><span class="badge badge-logic">Logic</span>Workflow versioning and run history</div>
+          <div class="roadmap-item"><span class="badge badge-utility">Utility</span>Multi-node plugin packages (.aerinipkg)</div>
+        </div>
+        <span class="lname" style="font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-3);margin-top:22px;display:block">🟡 In development — v0.5</span>
+        <div class="roadmap-list" style="margin-top:14px">
+          <div class="roadmap-item"><span class="badge badge-logic">Logic</span>Sub-workflows</div>
+        </div>
+        <span class="lname" style="font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-3);margin-top:22px;display:block">🔵 Planned — v0.5</span>
+        <div class="roadmap-list" style="margin-top:14px">
+          <div class="roadmap-item"><span class="badge badge-trigger">Trigger</span>More trigger types (file watch, database poll)</div>
+          <div class="roadmap-item"><span class="badge badge-utility">Utility</span>Workflow bundle import</div>
+        </div>
+        <a href="https://github.com/Panchak2d/Aerini/blob/main/ROADMAP.md" class="btn btn-ghost" target="_blank" rel="noopener" style="margin-top:18px">Full roadmap →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="support">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow" style="--dot:var(--k-utility)">Support</span>
+      <h2>Optional, and never a gate.</h2>
+      <p>The open-source project stays fully usable with zero support. Backing it gets you a few extra things. It doesn't unlock the software itself.</p>
+    </div>
+
+    <div class="support-grid reveal">
+      <div class="support-col">
+        <span class="tag">Everyone</span>
+        <h3>Using Aerini</h3>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Full access to the open-source project</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Every software update and new version</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Changelogs and feature announcements</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>A vote in community polls</li>
+        </ul>
+      </div>
+      <div class="support-col is-supporter">
+        <span class="tag">Supporters</span>
+        <h3>Backing development</h3>
+        <ul>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>New plugins for the node library, roughly every 2–4 weeks</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>A Claude Skill for building Aerini workflows</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Workflow-building guidance and resources</li>
+        </ul>
+        <div class="tier-row">
+          <span class="tier">$1</span><span class="tier">$5</span><span class="tier">$10</span>
+        </div>
+        <div class="hero-ctas" style="margin-top:24px">
+          <a href="https://www.patreon.com/c/Panchak2d" class="btn btn-primary" target="_blank" rel="noopener">Support on Patreon</a>
+          <a href="https://github.com/sponsors/Panchak2d" class="btn btn-ghost" target="_blank" rel="noopener">GitHub Sponsors</a>
+        </div>
+      </div>
+    </div>
+    <p class="reward-note reveal">Once monthly support crosses a set threshold, a share goes directly to contributors, published openly, not decided behind closed doors.</p>
+  </div>
+</section>
+
+<section id="get-aerini">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow" style="--dot:var(--k-action)">Get Aerini</span>
+      <h2>Pick a platform.</h2>
+    </div>
+
+    <div class="platform-grid reveal">
+      <div class="platform-card" data-platform="windows">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="3" y="3" width="8" height="8"/><rect x="13" y="3" width="8" height="8"/><rect x="3" y="13" width="8" height="8"/><rect x="13" y="13" width="8" height="8"/></svg>
+        <h3>Windows</h3>
+        <span class="sub">x64</span>
+        <a href="https://github.com/Panchak2d/Aerini/releases" target="_blank" rel="noopener">Download →</a>
+      </div>
+      <div class="platform-card" data-platform="macos">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>
+        <h3>macOS</h3>
+        <span class="sub">Apple Silicon</span>
+        <a href="https://github.com/Panchak2d/Aerini/releases" target="_blank" rel="noopener">Download →</a>
+      </div>
+      <div class="platform-card" data-platform="linux">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.504 0c-.155 0-.315.008-.48.021-4.226.333-3.105 4.807-3.17 6.298-.076 1.092-.3 1.953-1.05 3.02-.885 1.051-2.127 2.75-2.716 4.521-.278.832-.41 1.684-.287 2.489a.424.424 0 00-.11.135c-.26.268-.45.6-.663.839-.199.199-.485.267-.797.4-.313.136-.658.269-.864.68-.09.189-.136.394-.132.602 0 .199.027.4.055.536.058.399.116.728.04.97-.249.68-.28 1.145-.106 1.484.174.334.535.47.94.601.81.2 1.91.135 2.774.6.926.466 1.866.67 2.616.47.526-.116.97-.464 1.208-.946.587-.003 1.23-.269 2.26-.334.699-.058 1.574.267 2.577.2.025.134.063.198.114.333l.003.003c.391.778 1.113 1.132 1.884 1.071.771-.06 1.592-.536 2.257-1.306.631-.765 1.683-1.084 2.378-1.503.348-.199.629-.469.649-.853.023-.4-.2-.811-.714-1.376v-.097l-.003-.003c-.17-.2-.25-.535-.338-.926-.085-.401-.182-.786-.492-1.046h-.003c-.059-.054-.123-.067-.188-.135a.357.357 0 00-.19-.064c.431-1.278.264-2.55-.173-3.694-.533-1.41-1.465-2.638-2.175-3.483-.796-1.005-1.576-1.957-1.56-3.368.026-2.152.236-6.133-3.544-6.139zm.529 3.405h.013c.213 0 .396.062.584.198.19.135.33.332.438.533.105.259.158.459.166.724 0-.02.006-.04.006-.06v.105a.086.086 0 01-.004-.021l-.004-.024a1.807 1.807 0 01-.15.706.953.953 0 01-.213.335.71.71 0 00-.088-.042c-.104-.045-.198-.064-.284-.133a1.312 1.312 0 00-.22-.066c.05-.06.146-.133.183-.198.053-.128.082-.264.088-.402v-.02a1.21 1.21 0 00-.061-.4c-.045-.134-.101-.2-.183-.333-.084-.066-.167-.132-.267-.132h-.016c-.093 0-.176.03-.262.132a.8.8 0 00-.205.334 1.18 1.18 0 00-.09.4v.019c.002.089.008.179.02.267-.193-.067-.438-.135-.607-.202a1.635 1.635 0 01-.018-.2v-.02a1.772 1.772 0 01.15-.768c.082-.22.232-.406.43-.533a.985.985 0 01.594-.2zm-2.962.059h.036c.142 0 .27.048.399.135.146.129.264.288.344.465.09.199.14.4.153.667v.004c.007.134.006.2-.002.266v.08c-.03.007-.056.018-.083.024-.152.055-.274.135-.393.2.012-.09.013-.18.003-.267v-.015c-.012-.133-.04-.2-.082-.333a.613.613 0 00-.166-.267.248.248 0 00-.183-.064h-.021c-.071.006-.13.04-.186.132a.552.552 0 00-.12.27.944.944 0 00-.023.33v.015c.012.135.037.2.08.334.046.134.098.2.166.268.01.009.02.018.034.024-.07.057-.117.07-.176.136a.304.304 0 01-.131.068 2.62 2.62 0 01-.275-.402 1.772 1.772 0 01-.155-.667 1.759 1.759 0 01.08-.668 1.43 1.43 0 01.283-.535c.128-.133.26-.2.418-.2zm1.37 1.706c.332 0 .733.065 1.216.399.293.2.523.269 1.052.468h.003c.255.136.405.266.478.399v-.131a.571.571 0 01.016.47c-.123.31-.516.643-1.063.842v.002c-.268.135-.501.333-.775.465-.276.135-.588.292-1.012.267a1.139 1.139 0 01-.448-.067 3.566 3.566 0 01-.322-.198c-.195-.135-.363-.332-.612-.465v-.005h-.005c-.4-.246-.616-.512-.686-.71-.07-.268-.005-.47.193-.6.224-.135.38-.271.483-.336.104-.074.143-.102.176-.131h.002v-.003c.169-.202.436-.47.839-.601.139-.036.294-.065.466-.065zm2.8 2.142c.358 1.417 1.196 3.475 1.735 4.473.286.534.855 1.659 1.102 3.024.156-.005.33.018.513.064.646-1.671-.546-3.467-1.089-3.966-.22-.2-.232-.335-.123-.335.59.534 1.365 1.572 1.646 2.757.13.535.16 1.104.021 1.67.067.028.135.06.205.067 1.032.534 1.413.938 1.23 1.537v-.043c-.06-.003-.12 0-.18 0h-.016c.151-.467-.182-.825-1.065-1.224-.915-.4-1.646-.336-1.77.465-.008.043-.013.066-.018.135-.068.023-.139.053-.209.064-.43.268-.662.669-.793 1.187-.13.533-.17 1.156-.205 1.869v.003c-.02.334-.17.838-.319 1.35-1.5 1.072-3.58 1.538-5.348.334a2.645 2.645 0 00-.402-.533 1.45 1.45 0 00-.275-.333c.182 0 .338-.03.465-.067a.615.615 0 00.314-.334c.108-.267 0-.697-.345-1.163-.345-.467-.931-.995-1.788-1.521-.63-.4-.986-.87-1.15-1.396-.165-.534-.143-1.085-.015-1.645.245-1.07.873-2.11 1.274-2.763.107-.065.037.135-.408.974-.396.751-1.14 2.497-.122 3.854a8.123 8.123 0 01.647-2.876c.564-1.278 1.743-3.504 1.836-5.268.048.036.217.135.289.202.218.133.38.333.59.465.21.201.477.335.876.335.039.003.075.006.11.006.412 0 .73-.134.997-.268.29-.134.52-.334.74-.4h.005c.467-.135.835-.402 1.044-.7zm2.185 8.958c.037.6.343 1.245.882 1.377.588.134 1.434-.333 1.791-.765l.211-.01c.315-.007.577.01.847.268l.003.003c.208.199.305.53.391.876.085.4.154.78.409 1.066.486.527.645.906.636 1.14l.003-.007v.018l-.003-.012c-.015.262-.185.396-.498.595-.63.401-1.746.712-2.457 1.57-.618.737-1.37 1.14-2.036 1.191-.664.053-1.237-.2-1.574-.898l-.005-.003c-.21-.4-.12-1.025.056-1.69.176-.668.428-1.344.463-1.897.037-.714.076-1.335.195-1.814.12-.465.308-.797.641-.984l.045-.022zm-10.814.049h.01c.053 0 .105.005.157.014.376.055.706.333 1.023.752l.91 1.664.003.003c.243.533.754 1.064 1.189 1.637.434.598.77 1.131.729 1.57v.006c-.057.744-.48 1.148-1.125 1.294-.645.135-1.52.002-2.395-.464-.968-.536-2.118-.469-2.857-.602-.369-.066-.61-.2-.723-.4-.11-.2-.113-.602.123-1.23v-.004l.002-.003c.117-.334.03-.752-.027-1.118-.055-.401-.083-.71.043-.94.16-.334.396-.4.69-.533.294-.135.64-.202.915-.47h.002v-.002c.256-.268.445-.601.668-.838.19-.201.38-.336.663-.336zm7.159-9.074c-.435.201-.945.535-1.488.535-.542 0-.97-.267-1.28-.466-.154-.134-.28-.268-.373-.335-.164-.134-.144-.333-.074-.333.109.016.129.134.199.2.096.066.215.2.36.333.292.2.68.467 1.167.467.485 0 1.053-.267 1.398-.466.195-.135.445-.334.648-.467.156-.136.149-.267.279-.267.128.016.034.134-.147.332a8.097 8.097 0 01-.69.468zm-1.082-1.583V5.64c-.006-.02.013-.042.029-.05.074-.043.18-.027.26.004.063 0 .16.067.15.135-.006.049-.085.066-.135.066-.055 0-.092-.043-.141-.068-.052-.018-.146-.008-.163-.065zm-.551 0c-.02.058-.113.049-.166.066-.047.025-.086.068-.14.068-.05 0-.13-.02-.136-.068-.01-.066.088-.133.15-.133.08-.031.184-.047.259-.005.019.009.036.03.03.05v.02h.003z"/></svg>
+        <h3>Linux</h3>
+        <span class="sub">x64 &amp; ARM</span>
+        <a href="https://github.com/Panchak2d/Aerini/releases" target="_blank" rel="noopener">Download →</a>
+      </div>
+      <div class="platform-card">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3M13 15h4"/></svg>
+        <h3>Build from source</h3>
+        <span class="sub">Embed the engine</span>
+        <a href="https://github.com/Panchak2d/Aerini" target="_blank" rel="noopener">View repo →</a>
+      </div>
+    </div>
+
+    <p class="dl-note reveal">Building from source: <code>git clone https://github.com/Panchak2d/Aerini.git</code>. See the repo's <code>docs/</code> folder for engine-embedding and plugin-authoring guides.</p>
+  </div>
+</section>
+
+<section id="faq">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow" style="--dot:var(--k-utility)">FAQ</span>
+      <h2>Common questions.</h2>
+    </div>
+    <div class="faq-list reveal" id="faqList">
+      <div class="faq-item">
+        <button class="faq-q">What license does Aerini use?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+        <div class="faq-a"><div class="faq-a-inner">AGPL-3.0. Free to use, study, and modify. If you run a modified version as a network service for others, you're required to share those changes.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Can I use it commercially without AGPL's terms?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+        <div class="faq-a"><div class="faq-a-inner">Yes. A commercial license is available for teams that need to distribute a modified version without the share-back requirement. See the pricing page linked in the Open Source section.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">Do I need to pay to use Aerini?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+        <div class="faq-a"><div class="faq-a-inner">No. The full application is free and open source. Support is optional and adds extras like plugins and guidance. It doesn't unlock the core app.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">What platforms are supported?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+        <div class="faq-a"><div class="faq-a-inner">Windows, macOS (Apple Silicon), and Linux, including ARM. Build from source for other targets.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">How does the community influence development?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+        <div class="faq-a"><div class="faq-a-inner">Through polls on GitHub Discussions and Patreon (both open to every user, not just supporters or patrons — either just needs a free account) and through the contribution ladder for anyone who wants to work on the code directly.</div></div>
+      </div>
+      <div class="faq-item">
+        <button class="faq-q">How can I contribute?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+        <div class="faq-a"><div class="faq-a-inner">Open a pull request against the GitHub repo. Reviewer and maintainer access follow from there. See the Community section above.</div></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="final-cta">
+  <div class="wrap">
+    <span class="eyebrow" style="--dot:var(--k-logic);justify-content:center">Ready when you are</span>
+    <h2>Your machine. Your workflow. Your rules.</h2>
+    <p class="lede" style="margin-left:auto;margin-right:auto">Free, open source, and yours to inspect line by line.</p>
+    <div class="hero-ctas">
+      <a href="#get-aerini" class="btn btn-primary" data-role="get-aerini-cta"><span class="cta-label">Get Aerini</span></a>
+      <a href="https://github.com/Panchak2d/Aerini" class="btn btn-ghost" target="_blank" rel="noopener">View source</a>
+    </div>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  <div class="wrap">
+    <div class="foot-grid">
+      <div>
+        <a href="#top" class="foot-brand">
+          <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
+            <rect x="4" y="4" width="9" height="9" rx="1.5" fill="#34d399"/>
+            <rect x="19" y="4" width="9" height="9" rx="1.5" fill="#34d399" opacity="0.55"/>
+            <rect x="4" y="19" width="9" height="9" rx="1.5" fill="#34d399" opacity="0.55"/>
+            <rect x="19" y="19" width="9" height="9" rx="1.5" fill="#34d399" opacity="0.27"/>
+            <line x1="13" y1="8.5" x2="19" y2="8.5" stroke="#34d399" stroke-width="1.6"/>
+            <line x1="8.5" y1="13" x2="8.5" y2="19" stroke="#34d399" stroke-width="1.6"/>
+            <line x1="23.5" y1="13" x2="23.5" y2="19" stroke="#34d399" stroke-width="1.6" opacity="0.42"/>
+          </svg>
+          Aerini
+        </a>
+        <p class="foot-desc">A local-first visual workflow engine. Free, open source, and built to run on hardware you control.</p>
+      </div>
+      <nav class="foot-col" aria-label="Product">
+        <p class="foot-label">Product</p>
+        <a href="#how-it-works">How it works</a>
+        <a href="#why">Why Aerini</a>
+        <a href="#get-aerini">Download</a>
+        <a href="https://github.com/Panchak2d/Aerini/tree/main/docs" target="_blank" rel="noopener">Docs</a>
+        <a href="https://github.com/Panchak2d/Aerini/blob/main/CHANGELOG.md" target="_blank" rel="noopener">Changelog</a>
+        <a href="https://github.com/Panchak2d/Aerini/blob/main/ROADMAP.md" target="_blank" rel="noopener">Roadmap</a>
+      </nav>
+      <nav class="foot-col" aria-label="Community">
+        <p class="foot-label">Community</p>
+        <a href="https://github.com/Panchak2d/Aerini" target="_blank" rel="noopener">GitHub</a>
+        <a href="https://github.com/Panchak2d/Aerini/discussions" target="_blank" rel="noopener">Discussions</a>
+        <a href="https://www.patreon.com/c/Panchak2d" target="_blank" rel="noopener">Patreon</a>
+        <a href="#community">Contribute</a>
+      </nav>
+      <nav class="foot-col" aria-label="Legal">
+        <p class="foot-label">Legal</p>
+        <a href="https://github.com/Panchak2d/Aerini/blob/main/LICENSE" target="_blank" rel="noopener">AGPL-3.0 license</a>
+        <a href="pricing.html">Commercial license</a>
+        <a href="privacy.html">Privacy policy</a>
+        <a href="security.html">Security policy</a>
+        <a href="contact.html">Contact</a>
+      </nav>
+    </div>
+    <div class="foot-bottom">
+      <span>© <span id="year"></span> Aerini · licensed AGPL-3.0</span>
+      <span>Built like the app it markets.</span>
+    </div>
+  </div>
+</footer>
+
+<div class="mobile-cta-bar" id="mobileCtaBar">
+  <a href="#get-aerini" class="btn btn-primary" data-role="get-aerini-cta"><span class="cta-label">Get Aerini</span></a>
+</div>
+
+<script src="script.js" defer></script>
+</body>
+</html>

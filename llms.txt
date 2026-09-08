@@ -1,0 +1,27 @@
+# Aerini
+
+> Aerini is a local-first visual workflow engine: wire nodes together on a canvas, then run the same engine on your machine or a headless server.
+
+No account, no cloud, no telemetry. The only network call Aerini makes on its own is loading a font.
+
+Desktop app for Windows (x64), macOS (Apple Silicon), and Linux (x64 and ARM). 40 built-in nodes across trigger, action, logic, AI, flow-control, integration, and utility categories. Workflows run manually, on a schedule, or from a webhook.
+
+The workflow engine is a standalone Rust crate (`aerini-engine`) that can be embedded in other programs. A separate headless binary (`aerini-server`) runs workflows unattended, without the desktop app. Third-party plugin nodes compile to WebAssembly and run in a sandboxed Wasmtime instance with capped memory and no filesystem access; a Settings → Plugins UI installs single `.wasm` nodes or multi-node `.aerinipkg` packs via file picker or drag-and-drop. AI Prompt and AI Agent can point at Ollama or any OpenAI-compatible server on your own hardware instead of a hosted API. A workflow behind a Webhook trigger can also be exposed as an embeddable chat widget, dropped onto any web page with one script tag.
+
+Licensed AGPL-3.0: free to use, study, and modify. Running a modified version as a network service for others requires sharing those changes back. A commercial license removes that requirement.
+
+## Pages
+
+- [Homepage](https://aerini.org/): Product overview, how it works, feature list, and download links for every platform.
+- [FAQ](https://aerini.org/#faq): Answers on license, cost, platform support, and how to contribute.
+- [Pricing](https://aerini.org/pricing.html): The commercial license — a flat one-time fee for teams shipping a modified version without the AGPL's share-back requirement.
+- [Contact](https://aerini.org/contact.html): Email, GitHub Issues, and GitHub Discussions contact channels.
+- [Privacy policy](https://aerini.org/privacy.html): What the website collects (nothing) and what the app sends over the network (nothing on its own).
+- [Security policy](https://aerini.org/security.html): How to report a vulnerability, response timeline, and what's protected by default.
+
+## Optional
+
+- [GitHub repository](https://github.com/Panchak2d/Aerini): Source code, releases, and discussions. Not yet public: these links return 404 until it is.
+- [AGPL-3.0 license](https://github.com/Panchak2d/Aerini/blob/main/LICENSE): Full license text, in the same repository.
+- [Docs folder](https://github.com/Panchak2d/Aerini/tree/main/docs): Engine-embedding, plugin-authoring, and deployment guides. Same 404-until-public caveat as the repository link.
+- [Changelog](https://github.com/Panchak2d/Aerini/blob/main/CHANGELOG.md): Version history. Same 404-until-public caveat as the repository link.
