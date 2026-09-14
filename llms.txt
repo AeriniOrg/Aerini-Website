@@ -14,14 +14,14 @@ Licensed AGPL-3.0: free to use, study, and modify. Running a modified version as
 
 - [Homepage](https://aerini.org/): Product overview, how it works, feature list, and download links for every platform.
 - [FAQ](https://aerini.org/#faq): Answers on license, cost, platform support, and how to contribute.
-- [Pricing](https://aerini.org/pricing.html): The commercial license — a flat one-time fee for teams shipping a modified version without the AGPL's share-back requirement.
-- [Contact](https://aerini.org/contact.html): Email, GitHub Issues, and GitHub Discussions contact channels.
-- [Privacy policy](https://aerini.org/privacy.html): What the website collects (nothing) and what the app sends over the network (nothing on its own).
-- [Security policy](https://aerini.org/security.html): How to report a vulnerability, response timeline, and what's protected by default.
+- [Pricing](https://aerini.org/pricing): The commercial license — a flat one-time fee for teams shipping a modified version without the AGPL's share-back requirement.
+- [Contact](https://aerini.org/contact): Email, GitHub Issues, and GitHub Discussions contact channels.
+- [Privacy policy](https://aerini.org/privacy): What the website collects (nothing) and what the app sends over the network (nothing on its own).
+- [Security policy](https://aerini.org/security): How to report a vulnerability, response timeline, and what's protected by default.
 
 ## Optional
 
 - [GitHub repository](https://github.com/Panchak2d/Aerini): Source code, releases, and discussions. Not yet public: these links return 404 until it is.
 - [AGPL-3.0 license](https://github.com/Panchak2d/Aerini/blob/main/LICENSE): Full license text, in the same repository.
-- [Docs folder](https://github.com/Panchak2d/Aerini/tree/main/docs): Engine-embedding, plugin-authoring, and deployment guides. Same 404-until-public caveat as the repository link.
+- [Docs](https://docs.aerini.org): Engine-embedding, plugin-authoring, and deployment guides.
 - [Changelog](https://github.com/Panchak2d/Aerini/blob/main/CHANGELOG.md): Version history. Same 404-until-public caveat as the repository link.

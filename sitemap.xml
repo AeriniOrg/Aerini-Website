@@ -7,25 +7,31 @@
     <priority>1.0</priority>
   </url>
   <url>
-    <loc>https://aerini.org/pricing.html</loc>
+    <loc>https://aerini.org/pricing</loc>
     <lastmod>2026-09-08</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
-    <loc>https://aerini.org/contact.html</loc>
+    <loc>https://aerini.org/license-terms</loc>
+    <lastmod>2026-09-08</lastmod>
+    <changefreq>monthly</changefreq>
+    <priority>0.5</priority>
+  </url>
+  <url>
+    <loc>https://aerini.org/contact</loc>
     <lastmod>2026-08-29</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://aerini.org/privacy.html</loc>
+    <loc>https://aerini.org/privacy</loc>
     <lastmod>2026-08-29</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
-    <loc>https://aerini.org/security.html</loc>
+    <loc>https://aerini.org/security</loc>
     <lastmod>2026-08-29</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>

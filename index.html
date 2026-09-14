@@ -11,7 +11,7 @@
 <meta property="og:type" content="website">
 <meta property="og:title" content="Aerini: A workflow engine you run yourself">
 <meta property="og:description" content="Local-first visual automation. Build on a canvas, run it anywhere. No account, no cloud, no telemetry. Open source.">
-<meta property="og:image" content="https://raw.githubusercontent.com/Panchak2d/Aerini/main/.github/social-preview.png">
+<meta property="og:image" content="https://aerini.org/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Aerini: A workflow engine you run yourself">
 <meta name="twitter:description" content="Local-first visual automation. Build on a canvas, run it anywhere. No account, no cloud, no telemetry.">
@@ -35,6 +35,7 @@
   "url": "https://aerini.org/",
   "applicationCategory": "DeveloperApplication",
   "operatingSystem": "Windows, macOS, Linux",
+  "softwareVersion": "0.4.0",
   "offers": {
     "@type": "Offer",
     "price": 0,
@@ -48,6 +49,44 @@
     "url": "https://github.com/Panchak2d/Aerini"
   },
   "sameAs": ["https://github.com/Panchak2d/Aerini"]
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "What license does Aerini use?",
+      "acceptedAnswer": { "@type": "Answer", "text": "AGPL-3.0. Free to use, study, and modify. If you run a modified version as a network service for others, you're required to share those changes." }
+    },
+    {
+      "@type": "Question",
+      "name": "Can I use it commercially without AGPL's terms?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Yes. A commercial license is available for teams that need to distribute a modified version without the share-back requirement. See the pricing page linked in the Open Source section." }
+    },
+    {
+      "@type": "Question",
+      "name": "Do I need to pay to use Aerini?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. The full application is free and open source. Support is optional and adds extras like plugins and guidance. It doesn't unlock the core app." }
+    },
+    {
+      "@type": "Question",
+      "name": "What platforms are supported?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Windows, macOS (Apple Silicon), and Linux, including ARM. Build from source for other targets." }
+    },
+    {
+      "@type": "Question",
+      "name": "How does the community influence development?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Through polls on GitHub Discussions and Patreon (both open to every user, not just supporters or patrons — either just needs a free account) and through the contribution ladder for anyone who wants to work on the code directly." }
+    },
+    {
+      "@type": "Question",
+      "name": "How can I contribute?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Open a pull request against the GitHub repo. Reviewer and maintainer access follow from there. See the Community section above." }
+    }
+  ]
 }
 </script>
 </head>
@@ -316,7 +355,7 @@
         <span class="lname">Optional</span>
         <h3>Commercial license</h3>
         <p>For teams that need to ship a modified version without the AGPL's share-back requirement.</p>
-        <a href="pricing.html" class="btn btn-ghost">See pricing</a>
+        <a href="/pricing" class="btn btn-ghost">See pricing</a>
       </div>
     </div>
   </div>
@@ -409,7 +448,7 @@
         </div>
         <div class="hero-ctas" style="margin-top:24px">
           <a href="https://www.patreon.com/c/Panchak2d" class="btn btn-primary" target="_blank" rel="noopener">Support on Patreon</a>
-          <a href="https://github.com/sponsors/Panchak2d" class="btn btn-ghost" target="_blank" rel="noopener">GitHub Sponsors</a>
+          <a href="https://github.com/Panchak2d/Aerini" class="btn btn-ghost" target="_blank" rel="noopener">Star on GitHub</a>
         </div>
       </div>
     </div>
@@ -449,9 +488,15 @@
         <span class="sub">Embed the engine</span>
         <a href="https://github.com/Panchak2d/Aerini" target="_blank" rel="noopener">View repo →</a>
       </div>
+      <div class="platform-card">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 2l8 4.5v9L12 20l-8-4.5v-9L12 2z"/><path d="M4 6.5l8 4.5 8-4.5M12 11v9"/></svg>
+        <h3>Server</h3>
+        <span class="sub">aerini-server via Docker</span>
+        <a href="https://docs.aerini.org/operations/server-deploy" target="_blank" rel="noopener">Deployment guide →</a>
+      </div>
     </div>
 
-    <p class="dl-note reveal">Building from source: <code>git clone https://github.com/Panchak2d/Aerini.git</code>. See the repo's <code>docs/</code> folder for engine-embedding and plugin-authoring guides.</p>
+    <p class="dl-note reveal">Building from source: <code>git clone https://github.com/Panchak2d/Aerini.git</code>. See the repo's <code>docs/</code> folder for engine-embedding and plugin-authoring guides. Running the headless engine unattended (<code>aerini-server</code>): no standalone binary is published yet — use the official Docker image or build from source; see the deployment guide above.</p>
   </div>
 </section>
 
@@ -527,7 +572,7 @@
         <a href="#how-it-works">How it works</a>
         <a href="#why">Why Aerini</a>
         <a href="#get-aerini">Download</a>
-        <a href="https://github.com/Panchak2d/Aerini/tree/main/docs" target="_blank" rel="noopener">Docs</a>
+        <a href="https://docs.aerini.org" target="_blank" rel="noopener">Docs</a>
         <a href="https://github.com/Panchak2d/Aerini/blob/main/CHANGELOG.md" target="_blank" rel="noopener">Changelog</a>
         <a href="https://github.com/Panchak2d/Aerini/blob/main/ROADMAP.md" target="_blank" rel="noopener">Roadmap</a>
       </nav>
@@ -541,10 +586,10 @@
       <nav class="foot-col" aria-label="Legal">
         <p class="foot-label">Legal</p>
         <a href="https://github.com/Panchak2d/Aerini/blob/main/LICENSE" target="_blank" rel="noopener">AGPL-3.0 license</a>
-        <a href="pricing.html">Commercial license</a>
-        <a href="privacy.html">Privacy policy</a>
-        <a href="security.html">Security policy</a>
-        <a href="contact.html">Contact</a>
+        <a href="/pricing">Commercial license</a>
+        <a href="/privacy">Privacy policy</a>
+        <a href="/security">Security policy</a>
+        <a href="/contact">Contact</a>
       </nav>
     </div>
     <div class="foot-bottom">

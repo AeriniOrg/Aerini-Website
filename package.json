@@ -1,0 +1,12 @@
+{
+  "name": "aerini-website",
+  "private": true,
+  "description": "Static marketing site for Aerini (aerini.org). No build step — plain HTML/CSS/JS served as-is.",
+  "scripts": {
+    "check": "node scripts/check-site.mjs",
+    "check:live": "node scripts/check-site.mjs --live"
+  },
+  "engines": {
+    "node": ">=18"
+  }
+}

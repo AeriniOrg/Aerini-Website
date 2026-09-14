@@ -5,13 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Pricing · Aerini</title>
 <meta name="description" content="Aerini itself is free under AGPL-3.0. This is the commercial license: a flat one-time fee for teams shipping a modified version without the AGPL's share-back requirement.">
-<link rel="canonical" href="https://aerini.org/pricing.html">
+<link rel="canonical" href="https://aerini.org/pricing">
 <meta name="theme-color" content="#08090d">
 
 <meta property="og:type" content="website">
 <meta property="og:title" content="Pricing · Aerini">
 <meta property="og:description" content="Aerini is free under AGPL-3.0. The commercial license is a flat one-time fee for teams shipping a modified build without the share-back requirement.">
-<meta property="og:image" content="https://raw.githubusercontent.com/Panchak2d/Aerini/main/.github/social-preview.png">
+<meta property="og:image" content="https://aerini.org/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Pricing · Aerini">
 <meta name="twitter:description" content="Aerini is free under AGPL-3.0. The commercial license is a flat one-time fee for teams shipping a modified build without the share-back requirement.">
@@ -32,14 +32,47 @@
   "@type": "Product",
   "name": "Aerini Commercial License",
   "description": "Removes the AGPL-3.0 network-copyleft requirement for teams distributing a modified version of Aerini.",
-  "url": "https://aerini.org/pricing.html",
+  "url": "https://aerini.org/pricing",
   "offers": {
     "@type": "Offer",
     "price": 299,
     "priceCurrency": "USD",
     "availability": "https://schema.org/InStock",
-    "url": "https://aerini.org/pricing.html"
+    "url": "https://aerini.org/pricing"
   }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "FAQPage",
+  "mainEntity": [
+    {
+      "@type": "Question",
+      "name": "Do I actually need this?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Only if you're distributing a modified version of Aerini and don't want to share those changes back under AGPL-3.0. Personal use, internal tools, and running the stock app all stay free — this page doesn't apply to you." }
+    },
+    {
+      "@type": "Question",
+      "name": "What does the license actually cover?",
+      "acceptedAnswer": { "@type": "Answer", "text": "It removes the AGPL-3.0's network-copyleft clause for the version of Aerini you buy it against, giving you a perpetual right to distribute a modified build without publishing your changes. It covers the version you're licensed on — if you're not sure whether a later version needs a fresh license, email us." }
+    },
+    {
+      "@type": "Question",
+      "name": "Is this the same as Patreon or GitHub Sponsors?",
+      "acceptedAnswer": { "@type": "Answer", "text": "No. Support funds development and unlocks extras like plugins and guidance — it isn't a license and doesn't touch AGPL's terms. This page is strictly the legal exception for redistributing modified code. See the Support section on the homepage for that." }
+    },
+    {
+      "@type": "Question",
+      "name": "How do I pay, and what happens after?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Checkout runs through Polar. You'll get a receipt by email right away. The full license text is available on the license terms page." }
+    },
+    {
+      "@type": "Question",
+      "name": "What if something's wrong with my purchase?",
+      "acceptedAnswer": { "@type": "Answer", "text": "Email aerini@proton.me and it'll get handled directly — one small team, one inbox, same as everything else." }
+    }
+  ]
 }
 </script>
 </head>
@@ -49,7 +82,7 @@
 
 <nav class="nav" id="nav">
   <div class="wrap nav-inner">
-    <a href="index.html" class="brand">
+    <a href="/" class="brand">
       <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
         <rect x="4" y="4" width="9" height="9" rx="1.5" fill="#34d399"/>
         <rect x="19" y="4" width="9" height="9" rx="1.5" fill="#34d399" opacity="0.55"/>
@@ -62,16 +95,16 @@
       Aerini
     </a>
     <ul class="nav-links" id="navLinks">
-      <li><a href="index.html#how-it-works">How it works</a></li>
-      <li><a href="index.html#why">Why Aerini</a></li>
-      <li><a href="index.html#open-source">Open source</a></li>
-      <li><a href="index.html#community">Community</a></li>
-      <li><a href="index.html#support">Support</a></li>
-      <li><a href="index.html#get-aerini" class="btn btn-primary" data-role="get-aerini-cta"><span class="cta-label">Get Aerini</span></a></li>
+      <li><a href="/#how-it-works">How it works</a></li>
+      <li><a href="/#why">Why Aerini</a></li>
+      <li><a href="/#open-source">Open source</a></li>
+      <li><a href="/#community">Community</a></li>
+      <li><a href="/#support">Support</a></li>
+      <li><a href="/#get-aerini" class="btn btn-primary" data-role="get-aerini-cta"><span class="cta-label">Get Aerini</span></a></li>
     </ul>
     <div class="nav-cta">
       <a href="https://github.com/Panchak2d/Aerini" class="btn btn-ghost" target="_blank" rel="noopener">View source</a>
-      <a href="index.html#get-aerini" class="btn btn-primary" data-role="get-aerini-cta"><span class="cta-label">Get Aerini</span></a>
+      <a href="/#get-aerini" class="btn btn-primary" data-role="get-aerini-cta"><span class="cta-label">Get Aerini</span></a>
       <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" id="navToggleIcon" aria-hidden="true"><line class="nti-top" x1="4" y1="6" x2="20" y2="6"/><line class="nti-mid" x1="4" y1="12" x2="20" y2="12"/><line class="nti-bot" x1="4" y1="18" x2="20" y2="18"/></svg>
       </button>
@@ -118,9 +151,9 @@
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Covers the version of Aerini you're licensed on</li>
         </ul>
         <div class="hero-ctas" style="margin-top:24px">
-          <a href="__POLAR_CHECKOUT_LINK__" class="btn btn-primary" data-polar-checkout data-polar-checkout-theme="dark">Buy commercial license</a>
+          <a href="__POLAR_CHECKOUT_LINK__" class="btn btn-primary" data-polar-checkout data-polar-checkout-theme="dark" data-checkout-fallback="mailto:aerini@proton.me?subject=Commercial%20license%20purchase" data-role="buy-license-cta">Buy commercial license</a>
         </div>
-        <p class="dl-note" style="margin-top:14px"><a href="license-terms.html">Read the full terms</a> · or <a href="mailto:aerini@proton.me">email us</a> first if you want to read them before buying.</p>
+        <p class="dl-note" style="margin-top:14px"><a href="/license-terms">Read the full terms</a> · or <a href="mailto:aerini@proton.me">email us</a> first if you want to read them before buying.</p>
       </div>
     </div>
 
@@ -145,11 +178,11 @@
       </div>
       <div class="faq-item">
         <button class="faq-q">Is this the same as Patreon or GitHub Sponsors?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
-        <div class="faq-a"><div class="faq-a-inner">No. Support funds development and unlocks extras like plugins and guidance — it isn't a license and doesn't touch AGPL's terms. This page is strictly the legal exception for redistributing modified code. See the <a href="index.html#support">Support section</a> for that.</div></div>
+        <div class="faq-a"><div class="faq-a-inner">No. Support funds development and unlocks extras like plugins and guidance — it isn't a license and doesn't touch AGPL's terms. This page is strictly the legal exception for redistributing modified code. See the <a href="/#support">Support section</a> for that.</div></div>
       </div>
       <div class="faq-item">
         <button class="faq-q">How do I pay, and what happens after?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
-        <div class="faq-a"><div class="faq-a-inner">Checkout runs through Polar. You'll get a receipt by email right away. Full license text: <a href="license-terms.html">read it here</a>.</div></div>
+        <div class="faq-a"><div class="faq-a-inner">Checkout runs through Polar. You'll get a receipt by email right away. Full license text: <a href="/license-terms">read it here</a>.</div></div>
       </div>
       <div class="faq-item">
         <button class="faq-q">What if something's wrong with my purchase?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
@@ -164,7 +197,7 @@
   <div class="wrap">
     <div class="foot-grid">
       <div>
-        <a href="index.html" class="foot-brand">
+        <a href="/" class="foot-brand">
           <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
             <rect x="4" y="4" width="9" height="9" rx="1.5" fill="#34d399"/>
             <rect x="19" y="4" width="9" height="9" rx="1.5" fill="#34d399" opacity="0.55"/>
@@ -180,10 +213,10 @@
       </div>
       <nav class="foot-col" aria-label="Product">
         <p class="foot-label">Product</p>
-        <a href="index.html#how-it-works">How it works</a>
-        <a href="index.html#why">Why Aerini</a>
-        <a href="index.html#get-aerini">Download</a>
-        <a href="https://github.com/Panchak2d/Aerini/tree/main/docs" target="_blank" rel="noopener">Docs</a>
+        <a href="/#how-it-works">How it works</a>
+        <a href="/#why">Why Aerini</a>
+        <a href="/#get-aerini">Download</a>
+        <a href="https://docs.aerini.org" target="_blank" rel="noopener">Docs</a>
         <a href="https://github.com/Panchak2d/Aerini/blob/main/CHANGELOG.md" target="_blank" rel="noopener">Changelog</a>
         <a href="https://github.com/Panchak2d/Aerini/blob/main/ROADMAP.md" target="_blank" rel="noopener">Roadmap</a>
       </nav>
@@ -192,15 +225,15 @@
         <a href="https://github.com/Panchak2d/Aerini" target="_blank" rel="noopener">GitHub</a>
         <a href="https://github.com/Panchak2d/Aerini/discussions" target="_blank" rel="noopener">Discussions</a>
         <a href="https://www.patreon.com/c/Panchak2d" target="_blank" rel="noopener">Patreon</a>
-        <a href="index.html#community">Contribute</a>
+        <a href="/#community">Contribute</a>
       </nav>
       <nav class="foot-col" aria-label="Legal">
         <p class="foot-label">Legal</p>
         <a href="https://github.com/Panchak2d/Aerini/blob/main/LICENSE" target="_blank" rel="noopener">AGPL-3.0 license</a>
-        <a href="pricing.html">Commercial license</a>
-        <a href="privacy.html">Privacy policy</a>
-        <a href="security.html">Security policy</a>
-        <a href="contact.html">Contact</a>
+        <a href="/pricing">Commercial license</a>
+        <a href="/privacy">Privacy policy</a>
+        <a href="/security">Security policy</a>
+        <a href="/contact">Contact</a>
       </nav>
     </div>
     <div class="foot-bottom">
@@ -210,7 +243,8 @@
   </div>
 </footer>
 
-<script src="https://cdn.jsdelivr.net/npm/@polar-sh/checkout@0.1/dist/embed.global.js" defer data-auto-init></script>
 <script src="script.js" defer></script>
+<!-- version pin and integrity hash must be updated together; a floating tag here defeats the integrity check -->
+<script src="https://cdn.jsdelivr.net/npm/@polar-sh/checkout@0.1.15/dist/embed.global.js" integrity="sha384-cahoDBb6jqcy/nI95rzv3Y/qHhTMk6K/P23HB8wK8Exw/CWv659cFJycoxNkEjEs" crossorigin="anonymous" defer data-auto-init></script>
 </body>
 </html>

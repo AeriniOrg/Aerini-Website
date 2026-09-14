@@ -28,6 +28,16 @@
   var yearEl = document.getElementById('year');
   if(yearEl) yearEl.textContent = new Date().getFullYear();
 
+  /* ---------- checkout link guard ---------- */
+  document.querySelectorAll('[data-checkout-fallback]').forEach(function(a){
+    if(a.getAttribute('href').indexOf('__') === 0){
+      a.removeAttribute('data-polar-checkout');
+      a.href = a.getAttribute('data-checkout-fallback');
+      a.textContent = 'Email us to buy a license';
+      a.title = 'Online checkout isn\'t live yet — this opens an email instead.';
+    }
+  });
+
   /* ---------- scroll reveal ---------- */
   if('IntersectionObserver' in window){
     var io = new IntersectionObserver(function(entries){

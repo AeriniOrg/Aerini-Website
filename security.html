@@ -5,13 +5,13 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Security Policy · Aerini</title>
 <meta name="description" content="How to report a security vulnerability in Aerini, our response timeline, supported versions, and a link to the full security documentation.">
-<link rel="canonical" href="https://aerini.org/security.html">
+<link rel="canonical" href="https://aerini.org/security">
 <meta name="theme-color" content="#08090d">
 
 <meta property="og:type" content="website">
 <meta property="og:title" content="Security Policy · Aerini">
 <meta property="og:description" content="How to report a vulnerability, our response timeline, and what protects your data by default.">
-<meta property="og:image" content="https://raw.githubusercontent.com/Panchak2d/Aerini/main/.github/social-preview.png">
+<meta property="og:image" content="https://aerini.org/og-image.png">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Security Policy · Aerini">
 <meta name="twitter:description" content="How to report a vulnerability, our response timeline, and what protects your data by default.">
@@ -32,7 +32,7 @@
 
 <nav class="nav" id="nav">
   <div class="wrap nav-inner">
-    <a href="index.html" class="brand">
+    <a href="/" class="brand">
       <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
         <rect x="4" y="4" width="9" height="9" rx="1.5" fill="#34d399"/>
         <rect x="19" y="4" width="9" height="9" rx="1.5" fill="#34d399" opacity="0.55"/>
@@ -45,16 +45,16 @@
       Aerini
     </a>
     <ul class="nav-links" id="navLinks">
-      <li><a href="index.html#how-it-works">How it works</a></li>
-      <li><a href="index.html#why">Why Aerini</a></li>
-      <li><a href="index.html#open-source">Open source</a></li>
-      <li><a href="index.html#community">Community</a></li>
-      <li><a href="index.html#support">Support</a></li>
-      <li><a href="index.html#get-aerini" class="btn btn-primary" data-role="get-aerini-cta"><span class="cta-label">Get Aerini</span></a></li>
+      <li><a href="/#how-it-works">How it works</a></li>
+      <li><a href="/#why">Why Aerini</a></li>
+      <li><a href="/#open-source">Open source</a></li>
+      <li><a href="/#community">Community</a></li>
+      <li><a href="/#support">Support</a></li>
+      <li><a href="/#get-aerini" class="btn btn-primary" data-role="get-aerini-cta"><span class="cta-label">Get Aerini</span></a></li>
     </ul>
     <div class="nav-cta">
       <a href="https://github.com/Panchak2d/Aerini" class="btn btn-ghost" target="_blank" rel="noopener">View source</a>
-      <a href="index.html#get-aerini" class="btn btn-primary" data-role="get-aerini-cta"><span class="cta-label">Get Aerini</span></a>
+      <a href="/#get-aerini" class="btn btn-primary" data-role="get-aerini-cta"><span class="cta-label">Get Aerini</span></a>
       <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" id="navToggleIcon" aria-hidden="true"><line class="nti-top" x1="4" y1="6" x2="20" y2="6"/><line class="nti-mid" x1="4" y1="12" x2="20" y2="12"/><line class="nti-bot" x1="4" y1="18" x2="20" y2="18"/></svg>
       </button>
@@ -95,7 +95,7 @@
       <p>In scope: the Aerini engine, the server binary, the desktop app, and the official Docker image. Out of scope: third-party services a workflow node happens to connect to, such as Slack or Stripe. A vulnerability in one of those services is a report for that vendor, not for Aerini.</p>
 
       <h2>What Aerini protects by default</h2>
-      <p>Credentials are encrypted with AES-256-GCM, with the encryption key held in your OS keychain rather than alongside the encrypted data itself. Aerini makes no telemetry calls, no analytics calls, and no automatic update pings. Nodes that can run arbitrary code on your machine, like Shell Command and Code (JS), trigger a warning before a workflow containing them runs. The HTTP node blocks requests to internal and private IP addresses to reduce the risk of server-side request forgery, though this protection has a known gap around DNS timing that only an egress firewall closes completely. For the full model, including server-deployment hardening and how each protection actually works, see the <a href="https://github.com/Panchak2d/Aerini/blob/main/docs/guide/security.md" target="_blank" rel="noopener">security documentation</a> in the repository.</p>
+      <p>Credentials are encrypted with AES-256-GCM, with the encryption key held in your OS keychain rather than alongside the encrypted data itself. Aerini makes no telemetry calls, no analytics calls, and no automatic update pings. Nodes that can run arbitrary code on your machine, like Shell Command and Code (JS), trigger a warning before a workflow containing them runs. The HTTP node blocks requests to internal and private IP addresses to reduce the risk of server-side request forgery, though this protection has a known gap around DNS timing that only an egress firewall closes completely. For the full model, including server-deployment hardening and how each protection actually works, see the <a href="https://docs.aerini.org/guide/security" target="_blank" rel="noopener">security documentation</a>.</p>
 
       <h2>Contact</h2>
       <p>Security reports and questions about this page: <a href="mailto:aerini@proton.me">aerini@proton.me</a>.</p>
@@ -108,7 +108,7 @@
   <div class="wrap">
     <div class="foot-grid">
       <div>
-        <a href="index.html" class="foot-brand">
+        <a href="/" class="foot-brand">
           <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
             <rect x="4" y="4" width="9" height="9" rx="1.5" fill="#34d399"/>
             <rect x="19" y="4" width="9" height="9" rx="1.5" fill="#34d399" opacity="0.55"/>
@@ -124,25 +124,25 @@
       </div>
       <nav class="foot-col" aria-label="Product">
         <p class="foot-label">Product</p>
-        <a href="index.html#how-it-works">How it works</a>
-        <a href="index.html#why">Why Aerini</a>
-        <a href="index.html#get-aerini">Download</a>
-        <a href="https://github.com/Panchak2d/Aerini/tree/main/docs" target="_blank" rel="noopener">Docs</a>
+        <a href="/#how-it-works">How it works</a>
+        <a href="/#why">Why Aerini</a>
+        <a href="/#get-aerini">Download</a>
+        <a href="https://docs.aerini.org" target="_blank" rel="noopener">Docs</a>
         <a href="https://github.com/Panchak2d/Aerini/blob/main/CHANGELOG.md" target="_blank" rel="noopener">Changelog</a>
       </nav>
       <nav class="foot-col" aria-label="Community">
         <p class="foot-label">Community</p>
         <a href="https://github.com/Panchak2d/Aerini" target="_blank" rel="noopener">GitHub</a>
         <a href="https://github.com/Panchak2d/Aerini/discussions" target="_blank" rel="noopener">Discussions</a>
-        <a href="index.html#community">Contribute</a>
+        <a href="/#community">Contribute</a>
       </nav>
       <nav class="foot-col" aria-label="Legal">
         <p class="foot-label">Legal</p>
         <a href="https://github.com/Panchak2d/Aerini/blob/main/LICENSE" target="_blank" rel="noopener">AGPL-3.0 license</a>
-        <a href="pricing.html">Commercial license</a>
-        <a href="privacy.html">Privacy policy</a>
-        <a href="security.html">Security policy</a>
-        <a href="contact.html">Contact</a>
+        <a href="/pricing">Commercial license</a>
+        <a href="/privacy">Privacy policy</a>
+        <a href="/security">Security policy</a>
+        <a href="/contact">Contact</a>
       </nav>
     </div>
     <div class="foot-bottom">

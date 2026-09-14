@@ -11,7 +11,7 @@
   /* text */
   --text-1: #e6edf3;
   --text-2: #9aa4b2;
-  --text-3: #7a8492;
+  --text-3: #8a94a2;
 
   /* node-kind accents, exactly as categorized in the app */
   --k-trigger: #8aa9c9;   /* trigger: solid 3px  */
@@ -374,14 +374,14 @@ section{ position:relative; z-index:1; padding: 128px 0; scroll-margin-top: 84px
 .reward-note{ margin-top:20px; padding-top:20px; border-top:1px dashed var(--border); font-size:12.5px; color:var(--text-3); line-height:1.6; }
 
 /* ================= DOWNLOAD ================= */
-.platform-grid{ display:grid; grid-template-columns:repeat(4,1fr); gap:1px; background:var(--border); border:1px solid var(--border); border-radius:var(--radius-m); overflow:hidden; }
+.platform-grid{ display:grid; grid-template-columns:repeat(5,1fr); gap:1px; background:var(--border); border:1px solid var(--border); border-radius:var(--radius-m); overflow:hidden; }
 .platform-card{ background:var(--surface-1); padding:28px 22px; display:flex; flex-direction:column; gap:16px; }
 .platform-card svg{ width:26px; height:26px; color:var(--text-2); }
 .platform-card h3{ font-size:15.5px; }
 .platform-card .sub{ font-family:var(--font-mono); font-size:11px; color:var(--text-3); }
 .platform-card a{ margin-top:auto; font-family:var(--font-mono); font-size:12.5px; color:var(--k-action); display:flex; align-items:center; gap:6px; }
 .platform-card a:hover{ color:var(--k-logic); }
-@media (max-width:780px){ .platform-grid{ grid-template-columns:1fr 1fr; } }
+@media (max-width:780px){ .platform-grid{ grid-template-columns:repeat(3,1fr); } }
 @media (max-width:480px){ .platform-grid{ grid-template-columns:1fr; } }
 .dl-note{ margin-top:30px; font-size:13.5px; color:var(--text-3); font-family:var(--font-mono); line-height:1.7; }
 .dl-note code{ background:var(--surface-2); padding:2px 7px; border-radius:2px; color:var(--text-2); overflow-wrap:break-word; }
