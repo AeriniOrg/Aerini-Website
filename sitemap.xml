@@ -2,43 +2,43 @@
 <urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
   <url>
     <loc>https://aerini.org/</loc>
-    <lastmod>2026-08-29</lastmod>
+    <lastmod>2026-10-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>1.0</priority>
   </url>
   <url>
     <loc>https://aerini.org/pricing</loc>
-    <lastmod>2026-09-08</lastmod>
+    <lastmod>2026-10-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.6</priority>
   </url>
   <url>
     <loc>https://aerini.org/license-terms</loc>
-    <lastmod>2026-09-21</lastmod>
+    <lastmod>2026-10-05</lastmod>
     <changefreq>monthly</changefreq>
     <priority>0.5</priority>
   </url>
   <url>
     <loc>https://aerini.org/license-terms-v1.0</loc>
-    <lastmod>2026-09-21</lastmod>
+    <lastmod>2026-10-05</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://aerini.org/contact</loc>
-    <lastmod>2026-08-29</lastmod>
+    <lastmod>2026-10-05</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://aerini.org/privacy</loc>
-    <lastmod>2026-08-29</lastmod>
+    <lastmod>2026-10-05</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>
   <url>
     <loc>https://aerini.org/security</loc>
-    <lastmod>2026-08-29</lastmod>
+    <lastmod>2026-10-05</lastmod>
     <changefreq>yearly</changefreq>
     <priority>0.3</priority>
   </url>

@@ -232,19 +232,6 @@ section{ position:relative; z-index:1; padding: 128px 0; scroll-margin-top: 84px
 }
 .hg-readout b{ color: var(--text-2); font-weight:500; }
 
-/* ticker */
-.ticker-wrap{
-  border-top:1px solid var(--border-soft); border-bottom:1px solid var(--border-soft);
-  overflow:hidden; padding: 18px 0; background: var(--surface-1);
-}
-.ticker{ display:flex; width:max-content; gap:40px; animation: ticker 32s linear infinite; }
-@media (prefers-reduced-motion: reduce){ .ticker{ animation:none; } }
-.ticker span{
-  font-family: var(--font-mono); font-size:12.5px; letter-spacing:0.05em;
-  color: var(--text-2); white-space:nowrap; display:flex; align-items:center; gap:40px;
-}
-.ticker span::after{ content:"·"; color: var(--border); margin-left:40px; }
-@keyframes ticker{ to{ transform: translateX(-50%); } }
 
 /* ================= INTRO ================= */
 .intro{ padding: 120px 0 60px; }
@@ -446,36 +433,6 @@ footer{ border-top:1px solid var(--border-soft); padding: 64px 0 40px; position:
 @media (max-width:780px){ .foot-grid{ grid-template-columns:1fr 1fr; } }
 @media (max-width:480px){ .foot-grid{ grid-template-columns:1fr; } }
 
-/* ================= ASCII WIREFRAME (primary, below "What it is") ================= */
-.ascii-feature{
-  border-top:1px solid var(--border-soft); border-bottom:1px solid var(--border-soft);
-  background: var(--surface-1);
-}
-.ascii-feature-inner{ height: clamp(240px, 34vw, 380px); position:relative; }
-.ascii-feature canvas{ display:block; width:100%; height:100%; }
-.ascii-feature-caption{
-  position:absolute; left:0; right:0; bottom:10px; margin:0;
-  text-align:center; font-family:var(--font-mono); font-size:11px;
-  letter-spacing:0.04em; color:var(--text-3); pointer-events:none;
-}
-.ascii-feature-caption a{ pointer-events:auto; color:var(--text-2); text-decoration:underline; text-underline-offset:2px; text-decoration-color:var(--border); }
-.ascii-feature-caption a:hover{ color:var(--text-1); }
-.ascii-feature-caption.is-archived{ color:var(--text-2); }
-
-/* ================= AMBIENT ASCII BACKGROUNDS (community + why) ================= */
-#community, #why{ position:relative; }
-.ascii-ambient{ position:absolute; z-index:0; pointer-events:none; }
-.ascii-ambient canvas{ display:block; width:100%; height:100%; }
-#community .ascii-ambient{ top:0; right:0; width:min(460px, 55vw); height:min(460px, 55vw); opacity:0.85; }
-#why .ascii-ambient{ inset:0; opacity:0.12; }
-@media (max-width:900px){
-  #community .ascii-ambient{
-    position:static; width:100%; height:clamp(140px, 42vw, 220px); opacity:0.6; margin-bottom:20px;
-    -webkit-mask-image: linear-gradient(to bottom, #000 65%, transparent 100%);
-    mask-image: linear-gradient(to bottom, #000 65%, transparent 100%);
-  }
-}
-
 /* ================= MOBILE BOTTOM CTA BAR ================= */
 .mobile-cta-bar{
   display:none; position:fixed; left:0; right:0; bottom:0; z-index:60;
@@ -516,3 +473,10 @@ footer{ border-top:1px solid var(--border-soft); padding: 64px 0 40px; position:
     cursor: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='24' height='24' viewBox='0 0 24 24'%3E%3Crect x='7' y='7' width='10' height='10' rx='2' fill='%2334d399' stroke='%2308090d' stroke-width='1.5'/%3E%3Cpath d='M17 12h5M12 2v5M12 17v5M2 12h5' stroke='%2334d399' stroke-width='1.4' stroke-linecap='round' opacity='0.55'/%3E%3C/svg%3E") 12 12, pointer;
   }
 }
+
+/* download notes + hero platform line */
+.hero-plat{ margin:28px 0 0; font-family:var(--font-mono); font-size:12px; letter-spacing:.04em; color:var(--text-2); }
+.install-notes{ list-style:none; margin:28px auto 0; padding:0; max-width:760px; display:grid; gap:10px; }
+.install-notes li{ border-left:2px solid var(--border); padding:2px 0 2px 14px; color:var(--text-2); font-size:14px; line-height:1.55; }
+.install-notes b{ color:var(--text-1); font-weight:600; }
+:focus-visible{ outline:2px solid var(--k-action); outline-offset:3px; }

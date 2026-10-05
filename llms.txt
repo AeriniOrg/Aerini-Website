@@ -2,11 +2,11 @@
 
 > Aerini is a local-first visual workflow engine: wire nodes together on a canvas, then run the same engine on your machine or a headless server.
 
-No account, no cloud, no telemetry. The only network call Aerini makes on its own is loading a font.
+No account, no cloud, no telemetry. Aerini's interface loads one font from Google Fonts; the only other call is the Check for Updates button, when clicked.
 
-Desktop app for Windows (x64), macOS (Apple Silicon), and Linux (x64 and ARM). 40 built-in nodes across trigger, action, logic, AI, flow-control, integration, and utility categories. Workflows run manually, on a schedule, or from a webhook.
+Desktop app for Windows (x64), macOS (Apple Silicon only), and Linux (x64 and ARM64). Current release line: 0.4 (pre-1.0). 40 built-in nodes in seven categories: Triggers, Core Actions, Files & Storage, Integrations, AI, Logic, and Utility. Workflows run manually, on a schedule, or from a webhook.
 
-The workflow engine is a standalone Rust crate (`aerini-engine`) that can be embedded in other programs. A separate headless binary (`aerini-server`) runs workflows unattended, without the desktop app. Third-party plugin nodes compile to WebAssembly and run in a sandboxed Wasmtime instance with capped memory and no filesystem access; a Settings → Plugins UI installs single `.wasm` nodes or multi-node `.aerinipkg` packs via file picker or drag-and-drop. AI Prompt and AI Agent can point at Ollama or any OpenAI-compatible server on your own hardware instead of a hosted API. A workflow behind a Webhook trigger can also be exposed as an embeddable chat widget, dropped onto any web page with one script tag.
+The workflow engine is a standalone Rust crate (`aerini-engine`) that can be embedded in other programs. A separate headless binary (`aerini-server`) runs workflows unattended, without the desktop app. Third-party plugin nodes compile to WebAssembly and run in a sandboxed Wasmtime instance with capped memory, a per-call time limit, filtered outbound HTTP, and no filesystem access; the Plugins panel installs single `.wasm` nodes or multi-node `.aerinipkg` packs via file picker or drag-and-drop. AI Prompt and AI Agent can point at Ollama or any OpenAI-compatible server on your own hardware instead of a hosted API. A workflow behind a Webhook trigger can also be exposed as an embeddable chat widget, dropped onto any web page with one script tag; it is served by aerini-server in api mode.
 
 Licensed AGPL-3.0: free to use, study, and modify. Distributing a modified version — including running it as a network service for others — requires sharing those changes back. A commercial license removes that requirement.
 
