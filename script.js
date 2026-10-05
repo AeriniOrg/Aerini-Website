@@ -50,6 +50,18 @@
     document.querySelectorAll('.reveal').forEach(function(el){ el.classList.add('is-visible'); });
   }
 
+  /* ---------- fact ticker ---------- */
+  var facts = [
+    '40 BUILT-IN NODES', 'AGPL-3.0 LICENSED', 'ZERO TELEMETRY', 'RUST WORKFLOW ENGINE',
+    'WASM-SANDBOXED PLUGINS', 'NO ACCOUNT REQUIRED', 'WINDOWS · MACOS · LINUX · ARM', 'RUNS AS A DESKTOP APP OR HEADLESS SERVER'
+  ];
+  var tickerEl = document.getElementById('ticker');
+  if(tickerEl){
+    var html = '';
+    for(var r=0;r<2;r++){ facts.forEach(function(f){ html += '<span>'+f+'</span>'; }); }
+    tickerEl.innerHTML = html;
+  }
+
   /* ---------- FAQ accordion ---------- */
   document.querySelectorAll('.faq-item').forEach(function(item, i){
     var q = item.querySelector('.faq-q');
@@ -69,6 +81,7 @@
 
   /* ---------- smart download ---------- */
   var GH_REPO = 'Panchak2d/Aerini';
+  var repoArchived = false;
   var GH_RELEASES_API = 'https://api.github.com/repos/' + GH_REPO + '/releases/latest';
   var ASSET_PATTERN = { windows: /-setup\.exe$/i, macos: /\.dmg$/i, linux: /\.AppImage$/i };
   var OS_LABEL = { windows: 'Windows', macos: 'macOS', linux: 'Linux' };
@@ -332,7 +345,7 @@
     });
   }
 
-  /* ---------- rebuild both graphs on resize; these need it separately since they position nodes in px, not on a canvas grid ---------- */
+  /* ---------- rebuild both graphs on resize; ASCII canvases handle their own resize above, these need it separately since they position nodes in px, not on a canvas grid ---------- */
   var graphResizeTimer;
   window.addEventListener('resize', function(){
     clearTimeout(graphResizeTimer);
@@ -392,4 +405,428 @@
       }, { passive:true });
     }
   })();
+
+  /* ---------- animated ASCII art (shared engine) ---------- */
+  var asciiReduceMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  var RAMP = ' .:+*#@';
+  function hexToRgb(hex, fallback){
+    hex = (hex || '').trim();
+    if(!/^#[0-9a-fA-F]{6}$/.test(hex)) hex = fallback;
+    return parseInt(hex.slice(1,3),16)+','+parseInt(hex.slice(3,5),16)+','+parseInt(hex.slice(5,7),16);
+  }
+  var rootStyle = getComputedStyle(document.documentElement);
+  var COLOR_PEAK = hexToRgb(rootStyle.getPropertyValue('--k-logic'), '#34d399');
+  var COLOR_BASE = hexToRgb(rootStyle.getPropertyValue('--text-2'), '#9aa4b2');
+  var COLOR_TRIGGER = hexToRgb(rootStyle.getPropertyValue('--k-trigger'), '#8aa9c9');
+  var COLOR_ACTION  = hexToRgb(rootStyle.getPropertyValue('--k-action'),  '#4d9eff');
+  var COLOR_LOGIC   = hexToRgb(rootStyle.getPropertyValue('--k-logic'),   '#34d399');
+  var COLOR_AI      = hexToRgb(rootStyle.getPropertyValue('--k-ai'),      '#a78bfa');
+
+  function distToSeg(px,py,x1,y1,x2,y2){
+    var dx=x2-x1, dy=y2-y1;
+    var len2=dx*dx+dy*dy;
+    var u = len2>0 ? ((px-x1)*dx+(py-y1)*dy)/len2 : 0;
+    u = Math.max(0, Math.min(1, u));
+    var ex=x1+u*dx, ey=y1+u*dy;
+    return { d: Math.hypot(px-ex, py-ey), u: u };
+  }
+
+  function makeCharCanvas(canvas, cols, rows){
+    var mobile = document.body.classList.contains('is-mobile');
+    var dpr = Math.min(window.devicePixelRatio || 1, mobile ? 1 : 2);
+    var rect = canvas.getBoundingClientRect();
+    var w = Math.max(1, Math.round(rect.width * dpr));
+    var h = Math.max(1, Math.round(rect.height * dpr));
+    canvas.width = w; canvas.height = h;
+    var ctx = canvas.getContext('2d');
+    var cw = w / cols, ch = h / rows;
+    ctx.font = Math.ceil(ch) + 'px monospace';
+    ctx.textBaseline = 'top';
+    return { ctx: ctx, cw: cw, ch: ch, w: w, h: h };
+  }
+
+  function putChar(ctx, col, row, cw, ch, glyph, brightness, colorOverride){
+    if(brightness <= 0.03) return;
+    var color = colorOverride || (brightness > 0.55 ? COLOR_PEAK : COLOR_BASE);
+    ctx.fillStyle = 'rgba(' + color + ',' + Math.min(brightness,1).toFixed(2) + ')';
+    ctx.fillText(glyph, col * cw, row * ch);
+  }
+
+  function runScene(canvas, setup){
+    if(!canvas || !canvas.getContext) return;
+    var state = setup(canvas);
+    var running = false, raf = null, lastFrame = 0;
+    function frame(now){
+      raf = null;
+      if(!running) return;
+      if(now - lastFrame >= state.frameInterval){
+        lastFrame = now;
+        if(state.render(now / 1000) === false){ running = false; return; }
+      }
+      raf = requestAnimationFrame(frame);
+    }
+    function start(){
+      if(running) return;
+      running = true;
+      state.render(0);
+      if(!asciiReduceMotion) raf = requestAnimationFrame(frame);
+    }
+    function stop(){ running = false; if(raf){ cancelAnimationFrame(raf); raf = null; } }
+    if('IntersectionObserver' in window){
+      new IntersectionObserver(function(entries){ if(entries[0].isIntersecting) start(); else stop(); }, { threshold: 0.01 }).observe(canvas);
+    } else { start(); }
+    var resizeTimer;
+    window.addEventListener('resize', function(){
+      clearTimeout(resizeTimer);
+      resizeTimer = setTimeout(function(){ state = setup(canvas); if(!running) state.render(0); }, 200);
+    });
+    if(document.fonts && document.fonts.ready){
+      document.fonts.ready.then(function(){ state = setup(canvas); if(!running) state.render(0); });
+    }
+  }
+
+  /* primary: oscilloscope-style pulse trace, below "What it is" — the engine is alive, running unattended */
+  function setupHeartbeat(canvas){
+    var mobile = document.body.classList.contains('is-mobile');
+    var cols = mobile ? 46 : 74, rows = mobile ? 24 : 36;
+    var g = makeCharCanvas(canvas, cols, rows);
+    var pts = [
+      [0.00,0],[0.10,0.04],[0.16,-0.04],[0.19,0],
+      [0.22,0.95],[0.26,-0.75],[0.29,0.18],[0.34,0.02],
+      [0.42,0.32],[0.50,0],[1.00,0]
+    ];
+    function wave(x){
+      x = ((x%1)+1)%1;
+      for(var i=0;i<pts.length-1;i++){
+        var a=pts[i], b=pts[i+1];
+        if(x>=a[0] && x<=b[0]){
+          var u = (b[0]===a[0]) ? 0 : (x-a[0])/(b[0]-a[0]);
+          return a[1]+(b[1]-a[1])*u;
+        }
+      }
+      return 0;
+    }
+    var beatsVisible = mobile ? 2.4 : 3.4, speed = 0.22;
+
+    var pointer = { active:false, col:-1, touchTimer:null };
+    var wrapEl = canvas.closest('.ascii-feature') || canvas;
+    function setPointer(clientX){
+      var rect = canvas.getBoundingClientRect();
+      if(rect.width<=0){ pointer.active=false; return; }
+      var nx = (clientX - rect.left) / rect.width;
+      if(nx<0 || nx>1){ pointer.active=false; return; }
+      pointer.active = true;
+      pointer.col = Math.max(0, Math.min(cols-1, Math.round(nx*cols - 0.5)));
+    }
+    wrapEl.addEventListener('pointermove', function(e){
+      if(pointer.touchTimer){ clearTimeout(pointer.touchTimer); pointer.touchTimer=null; }
+      setPointer(e.clientX);
+    }, { passive:true });
+    wrapEl.addEventListener('pointerdown', function(e){ setPointer(e.clientX); }, { passive:true });
+    wrapEl.addEventListener('pointerleave', function(e){
+      if(e.pointerType==='touch'){ pointer.touchTimer = setTimeout(function(){ pointer.active=false; }, 650); }
+      else{ pointer.active=false; }
+    }, { passive:true });
+
+    return {
+      frameInterval: mobile ? 1000/24 : 1000/30,
+      render: function(t){
+        g.ctx.clearRect(0,0,g.w,g.h);
+        if(repoArchived){
+          var flatRow = Math.round(rows/2);
+          for(var fc=0; fc<cols; fc++){ putChar(g.ctx, fc, flatRow, g.cw, g.ch, '\u2500', 0.3, COLOR_BASE); }
+          return false;
+        }
+        var mid = Math.round(rows/2);
+        for(var gc=0; gc<cols; gc+=3){ putChar(g.ctx, gc, mid, g.cw, g.ch, '\u00B7', 0.1); }
+        var prevRow = null;
+        for(var c=0;c<cols;c++){
+          var px=(c+0.5)/cols;
+          var wv = wave(px*beatsVisible - t*speed);
+          var targetRow = rows/2 - wv*(rows*0.36);
+          var tr = Math.max(0, Math.min(rows-1, Math.round(targetRow)));
+          if(prevRow!==null && Math.abs(tr-prevRow)>1){
+            var lo=Math.min(prevRow,tr), hi=Math.max(prevRow,tr);
+            for(var r=lo+1;r<hi;r++){ putChar(g.ctx, c, r, g.cw, g.ch, '\u2502', 0.4); }
+          }
+          var peakBright = Math.min(1, 0.55 + Math.abs(wv)*0.5);
+          var glyph = RAMP[Math.max(0,Math.min(RAMP.length-1,Math.floor(peakBright*(RAMP.length-1))))];
+          putChar(g.ctx, c, tr, g.cw, g.ch, glyph, peakBright);
+          prevRow = tr;
+          if(pointer.active && c===pointer.col){
+            for(var pr=0; pr<rows; pr++){ if(pr!==tr) putChar(g.ctx, c, pr, g.cw, g.ch, '\u00B7', 0.16); }
+            putChar(g.ctx, c, tr, g.cw, g.ch, '\u25C6', 1, COLOR_PEAK);
+          }
+        }
+        var lastPx = (cols-0.5)/cols;
+        var lastWv = wave(lastPx*beatsVisible - t*speed);
+        var lastRow = Math.max(0, Math.min(rows-1, Math.round(rows/2 - lastWv*(rows*0.36))));
+        putChar(g.ctx, cols-1, lastRow, g.cw, g.ch, '\u2588', 1, COLOR_PEAK);
+      }
+    };
+  }
+
+  /* ambient: sealed independent loops, no shared hub, behind "Why Aerini" */
+  function setupNetwork(canvas){
+    var mobile = document.body.classList.contains('is-mobile');
+    var cols = mobile ? 40 : 64, rows = mobile ? 24 : 38;
+    var g = makeCharCanvas(canvas, cols, rows);
+    var boxes = [
+      {cx:0.15,cy:0.22,s:0.075,sp:0.16,ph:0.00},
+      {cx:0.83,cy:0.18,s:0.055,sp:0.21,ph:0.42},
+      {cx:0.50,cy:0.52,s:0.090,sp:0.12,ph:0.71},
+      {cx:0.18,cy:0.80,s:0.065,sp:0.19,ph:0.18},
+      {cx:0.86,cy:0.82,s:0.060,sp:0.24,ph:0.55}
+    ];
+    var loops = boxes.map(function(b){
+      var x1=b.cx-b.s, x2=b.cx+b.s, y1=b.cy-b.s, y2=b.cy+b.s;
+      return {
+        sp: b.sp, ph: b.ph,
+        edges: [
+          {x1:x1,y1:y1,x2:x2,y2:y1,p0:0.00},
+          {x1:x2,y1:y1,x2:x2,y2:y2,p0:0.25},
+          {x1:x2,y1:y2,x2:x1,y2:y2,p0:0.50},
+          {x1:x1,y1:y2,x2:x1,y2:y1,p0:0.75}
+        ]
+      };
+    });
+    return {
+      frameInterval: mobile ? 1000/12 : 1000/20,
+      render: function(t){
+        g.ctx.clearRect(0,0,g.w,g.h);
+        for(var r=0;r<rows;r++){
+          for(var c=0;c<cols;c++){
+            var px=(c+0.5)/cols, py=(r+0.5)/rows, bright=0;
+            for(var L=0;L<loops.length;L++){
+              var loop=loops[L];
+              var phase=((t*loop.sp+loop.ph)%1+1)%1;
+              for(var i=0;i<4;i++){
+                var e=loop.edges[i];
+                var res=distToSeg(px,py,e.x1,e.y1,e.x2,e.y2);
+                if(res.d<0.03) bright=Math.max(bright,0.14);
+                var gp=e.p0+res.u*0.25;
+                var dphase=Math.abs(gp-phase); dphase=Math.min(dphase,1-dphase);
+                var glow=Math.max(0,1-dphase*9)*Math.max(0,1-res.d*22);
+                bright=Math.max(bright,glow);
+              }
+            }
+            putChar(g.ctx, c, r, g.cw, g.ch, RAMP[Math.floor(bright*(RAMP.length-1))], bright);
+          }
+        }
+      }
+    };
+  }
+
+  /* banyan-style world tree behind "Community": a solid lobed canopy on a
+     forking trunk, a small root fan, and two aerial roots reaching the
+     ground — one tree standing in for many contributors */
+  function buildTree(cols, rows, boxAspect){
+    var seed = 1337;
+    function rng(){
+      seed = (seed + 0x6D2B79F5) | 0;
+      var x = Math.imul(seed ^ (seed >>> 15), 1 | seed);
+      x = (x + Math.imul(x ^ (x >>> 7), 61 | x)) ^ x;
+      return ((x ^ (x >>> 14)) >>> 0) / 4294967296;
+    }
+    // Correction is driven by the box's actual measured aspect, not by
+    // cols/rows -- those are just grid resolution and don't reliably track
+    // the CSS breakpoint that reshapes the box (they're set at different
+    // widths). Clamped so a very short box still fits the canopy.
+    var aspect = Math.min(boxAspect, 1.5);
+    function glyphFor(dx, dy){
+      // dx,dy are already visually-proportioned (aspect applied by the caller)
+      var deg = Math.abs(Math.atan2(dy, dx)) * 180 / Math.PI;
+      if(deg < 24) return '\u2500';
+      if(deg > 66) return '\u2502';
+      return (dx > 0) === (dy > 0) ? '\u2572' : '\u2571';
+    }
+
+    var branches = [], blobs = [], roots = [], aerials = [];
+    var baseX = 0.5, baseY = 0.95;
+
+    var trunkTopX = baseX + (rng()-0.5)*0.02, trunkTopY = baseY - 0.20*aspect;
+    var midY = baseY - 0.10*aspect;
+    branches.push({x1:baseX,y1:baseY,x2:baseX,y2:midY,glyph:glyphFor(0,midY-baseY),off:0,depth:0});
+    branches.push({x1:baseX,y1:midY,x2:trunkTopX,y2:trunkTopY,glyph:glyphFor(trunkTopX-baseX,trunkTopY-midY),off:0.18,depth:0});
+
+    // Banyan reference: more, flatter/wider-spreading limbs than an upright
+    // shade tree, and aerial prop roots dropping from most of them (not just
+    // the two outer limbs) rather than a single trunk. Kept vertically
+    // compact -- a banyan reads as wide, not tall -- which is also what
+    // keeps it clear of the clamp above on short boxes.
+    var LIMBS = 7, spanDeg = 162;
+    for(var i=0;i<LIMBS;i++){
+      var tDeg = -spanDeg/2 + (spanDeg/(LIMBS-1))*i + (rng()-0.5)*8;
+      var a = tDeg * Math.PI/180;
+      var len = 0.16 + rng()*0.05;
+      var mx = trunkTopX + Math.sin(a)*len, my = trunkTopY - Math.cos(a)*len*aspect;
+      branches.push({x1:trunkTopX,y1:trunkTopY,x2:mx,y2:my,glyph:glyphFor(mx-trunkTopX,my-trunkTopY),off:0.4+i*0.06,depth:1});
+      var a2 = a + (rng()-0.5)*0.3, len2 = len*0.55;
+      var sx = mx + Math.sin(a2)*len2, sy = my - Math.cos(a2)*len2*aspect;
+      branches.push({x1:mx,y1:my,x2:sx,y2:sy,glyph:glyphFor(sx-mx,sy-my),off:0.75+i*0.06,depth:2});
+
+      // more, larger, tighter-clustered blobs per limb -> full foliage
+      // instead of a scatter of separate leaf-clumps
+      var band = i < 2 ? 0 : i < 3 ? 1 : i < 6 ? 2 : 3;
+      var blobCount = 5 + Math.floor(rng()*3);
+      for(var b=0;b<blobCount;b++){
+        var r = 0.085 + rng()*0.055;
+        blobs.push({
+          cx: sx + (rng()-0.5)*0.11, cy: sy - (rng()*0.07 + 0.012)*aspect,
+          r: r, ry: r/aspect, band: band, phase: rng()*6.283
+        });
+      }
+      if(rng() < 0.8){
+        aerials.push({x: sx + (rng()-0.5)*0.02, y1: sy, y2: baseY - 0.005 - rng()*0.015});
+      }
+    }
+
+    var ROOTS = 3;
+    for(var j=0;j<ROOTS;j++){
+      var rDeg = -50 + (100/(ROOTS-1))*j + (rng()-0.5)*8;
+      var ra = Math.PI + rDeg*Math.PI/180, rlen = 0.05 + rng()*0.02;
+      var rx = baseX + Math.sin(ra)*rlen, ry = baseY - Math.cos(ra)*rlen*aspect;
+      roots.push({x1:baseX,y1:baseY,x2:rx,y2:ry,glyph:glyphFor(rx-baseX,ry-baseY)});
+    }
+
+    return { branches:branches, blobs:blobs, roots:roots, aerials:aerials, groundY: baseY };
+  }
+
+  function setupBranch(canvas){
+    var mobile = document.body.classList.contains('is-mobile');
+    var cols = mobile ? 48 : 54, rows = mobile ? 24 : 54;
+    var g = makeCharCanvas(canvas, cols, rows);
+    var tree = buildTree(cols, rows, g.w / g.h);
+    var groundRow = Math.round(tree.groundY * rows);
+    var bandColors = [COLOR_TRIGGER, COLOR_ACTION, COLOR_LOGIC, COLOR_AI];
+    // A segment thinner than one character cell skips grid cells at a
+    // diagonal and reads as broken dashes instead of a continuous line.
+    var minWidth = Math.max(1/cols, 1/rows) * 0.85;
+    // width only depends on e.depth, which is fixed per branch -- precompute
+    // once instead of recomputing it for every cell the render loop visits.
+    // Bounding boxes (padded by each shape's own threshold) let the per-cell
+    // loop below skip the expensive distance math entirely for anything that
+    // provably can't be within range of a given cell.
+    tree.branches.forEach(function(e){
+      e.width = Math.max(minWidth, 0.027 - e.depth*0.007);
+      e.bx0 = Math.min(e.x1,e.x2) - e.width; e.bx1 = Math.max(e.x1,e.x2) + e.width;
+      e.by0 = Math.min(e.y1,e.y2) - e.width; e.by1 = Math.max(e.y1,e.y2) + e.width;
+    });
+    tree.roots.forEach(function(re){
+      re.bx0 = Math.min(re.x1,re.x2) - 0.011; re.bx1 = Math.max(re.x1,re.x2) + 0.011;
+      re.by0 = Math.min(re.y1,re.y2) - 0.011; re.by1 = Math.max(re.y1,re.y2) + 0.011;
+    });
+
+    var pointer = { active:false, x:0, y:0, touchTimer:null };
+    var section = canvas.closest('section') || canvas;
+    function setPointer(clientX, clientY){
+      var rect = canvas.getBoundingClientRect();
+      if(rect.width<=0 || rect.height<=0){ pointer.active=false; return; }
+      var nx=(clientX-rect.left)/rect.width, ny=(clientY-rect.top)/rect.height;
+      if(nx<0||nx>1||ny<0||ny>1){ pointer.active=false; return; }
+      pointer.active=true; pointer.x=nx; pointer.y=ny;
+    }
+    section.addEventListener('pointermove', function(e){
+      if(pointer.touchTimer){ clearTimeout(pointer.touchTimer); pointer.touchTimer=null; }
+      setPointer(e.clientX, e.clientY);
+    }, { passive:true });
+    section.addEventListener('pointerdown', function(e){ setPointer(e.clientX, e.clientY); }, { passive:true });
+    section.addEventListener('pointerleave', function(e){
+      if(e.pointerType==='touch'){ pointer.touchTimer = setTimeout(function(){ pointer.active=false; }, 700); }
+      else{ pointer.active=false; }
+    }, { passive:true });
+
+    return {
+      frameInterval: mobile ? 1000/12 : 1000/20,
+      render: function(t){
+        g.ctx.clearRect(0,0,g.w,g.h);
+        for(var r=0;r<rows;r++){
+          for(var c=0;c<cols;c++){
+            var px=(c+0.5)/cols, py=(r+0.5)/rows, bright=0, glyph=null, color=null;
+
+            var bestNd=Infinity, bestBlob=null;
+            for(var i=0;i<tree.blobs.length;i++){
+              var bl=tree.blobs[i];
+              if(px<bl.cx-bl.r || px>bl.cx+bl.r || py<bl.cy-bl.ry || py>bl.cy+bl.ry) continue;
+              var nd=Math.hypot((px-bl.cx)/bl.r, (py-bl.cy)/bl.ry);
+              if(nd<bestNd){ bestNd=nd; bestBlob=bl; }
+            }
+            if(bestBlob && bestNd<1){
+              var edge=0.22;
+              var b = bestNd<(1-edge) ? 0.99 : 0.99*(1-(bestNd-(1-edge))/edge);
+              b += 0.06*Math.sin(t*0.5+bestBlob.phase);
+              if(pointer.active){
+                var pd=Math.hypot(px-pointer.x,py-pointer.y);
+                if(pd<0.12) b += (1-pd/0.12)*0.35;
+              }
+              bright=Math.max(0,b); color=bandColors[bestBlob.band]; glyph=null;
+            }
+            for(var k=0;k<tree.branches.length;k++){
+              var e=tree.branches[k];
+              if(px<e.bx0 || px>e.bx1 || py<e.by0 || py>e.by1) continue;
+              var res=distToSeg(px,py,e.x1,e.y1,e.x2,e.y2);
+              if(res.d<e.width){
+                var lb=0.82+0.18*(1-res.d/e.width);
+                var localT=(((t*0.4)-e.off)%2.2+2.2)%2.2;
+                if(localT<0.5){ lb=Math.max(lb, lb+Math.max(0,1-Math.abs(res.u-localT/0.5)*5)*0.18); }
+                if(lb>=bright){ bright=Math.max(bright,lb); color=COLOR_BASE; glyph=e.glyph; }
+              }
+            }
+            for(var m=0;m<tree.roots.length;m++){
+              var re=tree.roots[m];
+              if(px<re.bx0 || px>re.bx1 || py<re.by0 || py>re.by1) continue;
+              var rres=distToSeg(px,py,re.x1,re.y1,re.x2,re.y2);
+              if(rres.d<0.011){ var rb=0.7; if(rb>=bright){ bright=Math.max(bright,rb); color=COLOR_TRIGGER; glyph=re.glyph; } }
+            }
+            for(var n=0;n<tree.aerials.length;n++){
+              var ae=tree.aerials[n];
+              if(py>ae.y1 && py<ae.y2){
+                var at=(py-ae.y1)/(ae.y2-ae.y1);
+                var aw=0.005 + Math.max(0,at-0.55)*0.018;
+                if(Math.abs(px-ae.x)<aw){
+                  var ab=0.4; if(ab>=bright){ bright=Math.max(bright,ab); color=COLOR_TRIGGER; glyph='\u2502'; }
+                }
+              }
+            }
+            if(bright<0.07 && r>=groundRow-1 && r<=groundRow+1 && (c%2===0)){
+              bright=0.2; glyph='\u00B7'; color=COLOR_BASE;
+            }
+            if(bright<=0.03) continue;
+            if(glyph===null){ glyph = RAMP[Math.max(0,Math.min(RAMP.length-1,Math.floor(bright*(RAMP.length-1))))]; }
+            putChar(g.ctx, c, r, g.cw, g.ch, glyph, bright, color);
+          }
+        }
+      }
+    };
+  }
+
+  (function checkRepoArchived(){
+    var caption = document.getElementById('pulseCaption');
+    function applyDead(){
+      repoArchived = true;
+      if(caption){
+        caption.textContent = '\u00B7 archived \u2014 this pulse stopped when the repository did \u00B7';
+        caption.classList.add('is-archived');
+      }
+    }
+    var cacheKey = 'aerini_repo_status', ttl = 6*60*60*1000, cached = null;
+    try{
+      var raw = localStorage.getItem(cacheKey);
+      if(raw){ cached = JSON.parse(raw); if(Date.now() - cached.ts > ttl) cached = null; }
+    } catch(e){ cached = null; }
+    if(cached){ if(cached.archived) applyDead(); return; }
+    if(!('fetch' in window)) return;
+    fetch('https://api.github.com/repos/' + GH_REPO).then(function(res){
+      if(!res.ok) throw new Error('status ' + res.status);
+      return res.json();
+    }).then(function(data){
+      var archived = !!data.archived;
+      try{ localStorage.setItem(cacheKey, JSON.stringify({ archived: archived, ts: Date.now() })); } catch(e){}
+      if(archived) applyDead();
+    }).catch(function(){});
+  })();
+
+  runScene(document.getElementById('asciiWireframe'), setupHeartbeat);
+  runScene(document.getElementById('asciiNetwork'), setupNetwork);
+  runScene(document.getElementById('asciiBranch'), setupBranch);
 })();

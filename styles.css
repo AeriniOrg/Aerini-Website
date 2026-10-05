@@ -184,12 +184,6 @@ section{ position:relative; z-index:1; padding: 128px 0; scroll-margin-top: 84px
 .hero h1{ font-size: clamp(36px, 5.4vw, 60px); line-height:1.05; margin-top:20px; }
 .hero .lede{ color: var(--text-2); font-size: 18px; max-width: 480px; margin-top: 22px; line-height:1.6; }
 .hero-ctas{ display:flex; gap:14px; margin-top:34px; flex-wrap:wrap; }
-.hero-plat{
-  display:flex; align-items:center; gap:10px; margin-top: 34px;
-  font-family: var(--font-mono); font-size:12.5px; color: var(--text-3);
-  letter-spacing:0.04em;
-}
-.hero-plat .dot{ width:4px;height:4px;border-radius:50%;background:var(--text-3); }
 
 .hero-visual{ position:relative; }
 .hero-panel{
@@ -350,7 +344,7 @@ section{ position:relative; z-index:1; padding: 128px 0; scroll-margin-top: 84px
 @media (max-width:640px){ .support-grid{ grid-template-columns:1fr; } }
 .support-col{ background:var(--surface-1); padding:32px; }
 .support-col .tag{ font-family:var(--font-mono); font-size:11px; letter-spacing:0.08em; text-transform:uppercase; color:var(--text-3); }
-.support-col h3{ font-size:22px; margin-top:10px; }
+.support-col h2, .support-col h3{ font-size:22px; margin-top:10px; }
 .support-col ul{ margin-top:22px; display:flex; flex-direction:column; gap:13px; }
 .support-col li{ display:flex; gap:10px; font-size:14.5px; color:var(--text-2); line-height:1.5; }
 .support-col li svg{ flex-shrink:0; width:15px; height:15px; margin-top:2px; color: var(--k-logic); }
@@ -433,6 +427,50 @@ footer{ border-top:1px solid var(--border-soft); padding: 64px 0 40px; position:
 @media (max-width:780px){ .foot-grid{ grid-template-columns:1fr 1fr; } }
 @media (max-width:480px){ .foot-grid{ grid-template-columns:1fr; } }
 
+/* ticker */
+.ticker-wrap{
+  border-top:1px solid var(--border-soft); border-bottom:1px solid var(--border-soft);
+  overflow:hidden; padding: 18px 0; background: var(--surface-1);
+}
+.ticker{ display:flex; width:max-content; gap:40px; animation: ticker 32s linear infinite; }
+@media (prefers-reduced-motion: reduce){ .ticker{ animation:none; } }
+.ticker span{
+  font-family: var(--font-mono); font-size:12.5px; letter-spacing:0.05em;
+  color: var(--text-2); white-space:nowrap; display:flex; align-items:center; gap:40px;
+}
+.ticker span::after{ content:"·"; color: var(--border); margin-left:40px; }
+@keyframes ticker{ to{ transform: translateX(-50%); } }
+
+/* ================= ASCII WIREFRAME (primary, below "What it is") ================= */
+.ascii-feature{
+  border-top:1px solid var(--border-soft); border-bottom:1px solid var(--border-soft);
+  background: var(--surface-1);
+}
+.ascii-feature-inner{ height: clamp(240px, 34vw, 380px); position:relative; }
+.ascii-feature canvas{ display:block; width:100%; height:100%; }
+.ascii-feature-caption{
+  position:absolute; left:0; right:0; bottom:10px; margin:0;
+  text-align:center; font-family:var(--font-mono); font-size:11px;
+  letter-spacing:0.04em; color:var(--text-3); pointer-events:none;
+}
+.ascii-feature-caption a{ pointer-events:auto; color:var(--text-2); text-decoration:underline; text-underline-offset:2px; text-decoration-color:var(--border); }
+.ascii-feature-caption a:hover{ color:var(--text-1); }
+.ascii-feature-caption.is-archived{ color:var(--text-2); }
+
+/* ================= AMBIENT ASCII BACKGROUNDS (community + why) ================= */
+#community, #why{ position:relative; }
+.ascii-ambient{ position:absolute; z-index:0; pointer-events:none; }
+.ascii-ambient canvas{ display:block; width:100%; height:100%; }
+#community .ascii-ambient{ top:0; right:0; width:min(460px, 55vw); height:min(460px, 55vw); opacity:0.85; }
+#why .ascii-ambient{ inset:0; opacity:0.12; }
+@media (max-width:900px){
+  #community .ascii-ambient{
+    position:static; width:100%; height:clamp(140px, 42vw, 220px); opacity:0.6; margin-bottom:20px;
+    -webkit-mask-image: linear-gradient(to bottom, #000 65%, transparent 100%);
+    mask-image: linear-gradient(to bottom, #000 65%, transparent 100%);
+  }
+}
+
 /* ================= MOBILE BOTTOM CTA BAR ================= */
 .mobile-cta-bar{
   display:none; position:fixed; left:0; right:0; bottom:0; z-index:60;
@@ -476,7 +514,7 @@ footer{ border-top:1px solid var(--border-soft); padding: 64px 0 40px; position:
 
 /* download notes + hero platform line */
 .hero-plat{ margin:28px 0 0; font-family:var(--font-mono); font-size:12px; letter-spacing:.04em; color:var(--text-2); }
-.install-notes{ list-style:none; margin:28px auto 0; padding:0; max-width:760px; display:grid; gap:10px; }
+.install-notes{ list-style:none; margin:28px 0 0; padding:0; max-width:760px; display:grid; gap:10px; }
 .install-notes li{ border-left:2px solid var(--border); padding:2px 0 2px 14px; color:var(--text-2); font-size:14px; line-height:1.55; }
 .install-notes b{ color:var(--text-1); font-weight:600; }
 :focus-visible{ outline:2px solid var(--k-action); outline-offset:3px; }
