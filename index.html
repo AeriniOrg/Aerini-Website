@@ -2,89 +2,187 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Aerini: A workflow engine you run yourself</title>
-<meta name="description" content="Aerini is a local-first visual workflow engine. Wire nodes on a canvas, run them on your machine or a headless server. No account, no cloud, no telemetry.">
-<link rel="canonical" href="https://aerini.org/">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src https://api.github.com; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#08090d">
-
+<script src="/guard.js"></script>
+<title>Aerini: Local-first visual workflow automation, open source</title>
+<meta name="description" content="Aerini is an open source, local-first visual workflow engine. Wire nodes on a canvas, run them on your machine or a headless server. No account, no cloud, no telemetry.">
+<link rel="canonical" href="https://aerini.org/">
 <meta property="og:type" content="website">
-<meta property="og:title" content="Aerini: A workflow engine you run yourself">
-<meta property="og:description" content="Local-first visual automation. Build on a canvas, run it anywhere. No account, no cloud, no telemetry. Open source.">
+<meta property="og:site_name" content="Aerini">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="https://aerini.org/">
+<meta property="og:title" content="Aerini: Local-first visual workflow automation, open source">
+<meta property="og:description" content="Local-first visual workflow automation. Build on a canvas, run it on your machine or a server. No account, no cloud, no telemetry. Open source (AGPL-3.0).">
 <meta property="og:image" content="https://aerini.org/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Aerini: three connected workflow nodes, Start, Fetch Data and Show Result, above the tagline &#x27;A workflow engine you run yourself.&#x27;">
 <meta name="twitter:card" content="summary_large_image">
-<meta name="twitter:title" content="Aerini: A workflow engine you run yourself">
-<meta name="twitter:description" content="Local-first visual automation. Build on a canvas, run it anywhere. No account, no cloud, no telemetry.">
-
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2308090d'/%3E%3Crect x='6' y='6' width='7' height='7' rx='1.5' fill='%2334d399'/%3E%3Crect x='19' y='6' width='7' height='7' rx='1.5' fill='%2334d399' opacity='0.55'/%3E%3Crect x='6' y='19' width='7' height='7' rx='1.5' fill='%2334d399' opacity='0.55'/%3E%3Crect x='19' y='19' width='7' height='7' rx='1.5' fill='%2334d399' opacity='0.27'/%3E%3Cline x1='13' y1='9.5' x2='19' y2='9.5' stroke='%2334d399' stroke-width='1.4'/%3E%3Cline x1='9.5' y1='13' x2='9.5' y2='19' stroke='%2334d399' stroke-width='1.4'/%3E%3Cline x1='22.5' y1='13' x2='22.5' y2='19' stroke='%2334d399' stroke-width='1.4' opacity='0.42'/%3E%3C/svg%3E">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<meta name="twitter:title" content="Aerini: Local-first visual workflow automation, open source">
+<meta name="twitter:description" content="Local-first visual workflow automation. Build on a canvas, run it on your machine or a server. No account, no cloud, no telemetry. Open source (AGPL-3.0).">
+<meta name="twitter:image" content="https://aerini.org/og-image.png">
+<meta name="twitter:image:alt" content="Aerini: three connected workflow nodes, Start, Fetch Data and Show Result, above the tagline &#x27;A workflow engine you run yourself.&#x27;">
+<link rel="icon" href="/icons/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preload" href="/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/styles.css">
+<link rel="alternate" type="text/plain" href="/llms.txt" title="Aerini summary for language models">
 <link rel="preconnect" href="https://api.github.com" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"></noscript>
-
-<link rel="stylesheet" href="styles.css">
-
 <script type="application/ld+json">
 {
   "@context": "https://schema.org",
-  "@type": "SoftwareApplication",
-  "name": "Aerini",
-  "description": "Aerini is a local-first visual workflow engine. Wire nodes on a canvas, run them on your machine or a headless server. No account, no cloud, no telemetry.",
-  "url": "https://aerini.org/",
-  "applicationCategory": "DeveloperApplication",
-  "operatingSystem": "Windows, macOS, Linux",
-  "softwareVersion": "0.4.1",
-  "offers": {
-    "@type": "Offer",
-    "price": 0,
-    "priceCurrency": "USD"
-  },
-  "license": "https://github.com/Panchak2d/Aerini/blob/main/LICENSE",
-  "downloadUrl": "https://github.com/Panchak2d/Aerini/releases",
-  "author": {
-    "@type": "Organization",
-    "name": "Aerini",
-    "url": "https://github.com/Panchak2d/Aerini"
-  },
-  "sameAs": ["https://github.com/Panchak2d/Aerini"]
-}
-</script>
-<script type="application/ld+json">
-{
-  "@context": "https://schema.org",
-  "@type": "FAQPage",
-  "mainEntity": [
+  "@graph": [
     {
-      "@type": "Question",
-      "name": "What license does Aerini use?",
-      "acceptedAnswer": { "@type": "Answer", "text": "AGPL-3.0. Free to use, study, and modify. If you distribute a modified version — including running it as a network service for others — you're required to share those changes." }
+      "@type": "Organization",
+      "@id": "https://aerini.org/#org",
+      "name": "Aerini",
+      "url": "https://aerini.org/",
+      "logo": {
+        "@type": "ImageObject",
+        "url": "https://aerini.org/icons/icon-512.png",
+        "width": 512,
+        "height": 512
+      },
+      "email": "support@aerini.org",
+      "sameAs": [
+        "https://github.com/Panchak2d/Aerini",
+        "https://www.patreon.com/c/Panchak2d"
+      ]
     },
     {
-      "@type": "Question",
-      "name": "Can I use it commercially without AGPL's terms?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Yes. A commercial license covers one named product and one minor version line (for example 0.4.x), and lifts the share-back requirement for it. See the pricing page." }
+      "@type": "WebSite",
+      "@id": "https://aerini.org/#website",
+      "url": "https://aerini.org/",
+      "name": "Aerini",
+      "description": "Aerini is an open source, local-first visual workflow engine. Wire nodes on a canvas, run them on your machine or a headless server. No account, no cloud, no telemetry.",
+      "inLanguage": "en",
+      "publisher": {
+        "@id": "https://aerini.org/#org"
+      }
     },
     {
-      "@type": "Question",
-      "name": "Do I need to pay to use Aerini?",
-      "acceptedAnswer": { "@type": "Answer", "text": "No. The full application is free and open source. Support is optional and adds extras like plugins and guidance. It doesn't unlock the core app." }
+      "@type": "SoftwareApplication",
+      "@id": "https://aerini.org/#software",
+      "name": "Aerini",
+      "url": "https://aerini.org/",
+      "description": "Aerini is an open source, local-first visual workflow engine. Wire nodes on a canvas, run them on your machine or a headless server. No account, no cloud, no telemetry.",
+      "applicationCategory": "DeveloperApplication",
+      "operatingSystem": "Windows, macOS, Linux",
+      "softwareVersion": "0.4.2",
+      "isAccessibleForFree": true,
+      "offers": {
+        "@type": "Offer",
+        "price": 0,
+        "priceCurrency": "USD"
+      },
+      "license": "https://github.com/Panchak2d/Aerini/blob/main/LICENSE",
+      "downloadUrl": "https://github.com/Panchak2d/Aerini/releases",
+      "releaseNotes": "https://github.com/Panchak2d/Aerini/blob/main/CHANGELOG.md",
+      "image": "https://aerini.org/og-image.png",
+      "featureList": [
+        "Visual node-and-wire workflow editor",
+        "40 built-in nodes in seven categories",
+        "Manual, schedule, and webhook triggers",
+        "Standalone Rust workflow engine (aerini-engine)",
+        "Headless server (aerini-server) for unattended runs",
+        "WebAssembly-sandboxed plugin nodes",
+        "Local AI model support through Ollama or any OpenAI-compatible server",
+        "No account, no cloud, no telemetry"
+      ],
+      "author": {
+        "@id": "https://aerini.org/#org"
+      },
+      "publisher": {
+        "@id": "https://aerini.org/#org"
+      },
+      "sameAs": [
+        "https://github.com/Panchak2d/Aerini"
+      ]
     },
     {
-      "@type": "Question",
-      "name": "What platforms are supported?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Windows (x64), macOS (Apple Silicon only, no Intel build yet), and Linux (x64 and ARM64). Build from source for anything else. Windows on ARM is not a release target." }
-    },
-    {
-      "@type": "Question",
-      "name": "How does the community influence development?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Through polls on GitHub Discussions and Patreon (both open to every user, not just supporters or patrons — either just needs a free account) and through the contribution ladder for anyone who wants to work on the code directly." }
-    },
-    {
-      "@type": "Question",
-      "name": "How can I contribute?",
-      "acceptedAnswer": { "@type": "Answer", "text": "Open a pull request against the GitHub repo. Reviewer and maintainer access follow from there. See the Community section above." }
+      "@type": "FAQPage",
+      "@id": "https://aerini.org/#faq",
+      "mainEntity": [
+        {
+          "@type": "Question",
+          "name": "What license does Aerini use?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "AGPL-3.0. Free to use, study, and modify. If you distribute a modified version — including running it as a network service for others — you're required to share those changes."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Can I use it commercially without AGPL's terms?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Yes. A commercial license covers one named product and one minor version line (for example 0.4.x), and lifts the share-back requirement for it. See the pricing page."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Do I need to pay to use Aerini?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No. The full application is free and open source. Support is optional and adds extras like plugins and guidance. It doesn't unlock the core app."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "What platforms are supported?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Windows (x64), macOS (Apple Silicon only, no Intel build yet), and Linux (x64 and ARM64). Build from source for anything else. Windows on ARM is not a release target."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "Does Aerini send telemetry or require an account?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "No account, and no telemetry, analytics, or automatic update calls. There are two fixed exceptions: the app loads the Inter typeface from Google Fonts at startup, and Settings → About has a Check for Updates button that contacts GitHub only when you click it."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How is Aerini different from cloud automation services?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Cloud automation services run your workflows on their servers, under their account system. Aerini runs on your own machine or server. Workflows, run history, and credentials stay there, and nothing runs until you start it. The source is open, so you can read exactly what it does."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How do I update Aerini?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Open Settings → About and click Check for Updates. If one is available, choose Install and restart, and the app downloads the signed update from GitHub. Aerini never checks for updates on its own."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How does the community influence development?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Through polls on GitHub Discussions and Patreon (both open to every user, not just supporters or patrons — either just needs a free account) and through the contribution ladder for anyone who wants to work on the code directly."
+          }
+        },
+        {
+          "@type": "Question",
+          "name": "How can I contribute?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "Open a pull request against the GitHub repo. Reviewer and maintainer access follow from there. See the Community section above."
+          }
+        }
+      ]
     }
   ]
 }
@@ -94,7 +192,7 @@
 
 <a href="#top" class="skip-link">Skip to content</a>
 
-<nav class="nav" id="nav">
+<nav class="nav" id="nav" aria-label="Primary">
   <div class="wrap nav-inner">
     <a href="#top" class="brand">
       <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
@@ -120,19 +218,19 @@
     <div class="nav-cta">
       <a href="https://github.com/Panchak2d/Aerini" class="btn btn-ghost" target="_blank" rel="noopener">View source</a>
       <a href="#get-aerini" class="btn btn-primary" data-role="get-aerini-cta"><span class="cta-label">Get Aerini</span></a>
-      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" id="navToggleIcon" aria-hidden="true"><line class="nti-top" x1="4" y1="6" x2="20" y2="6"/><line class="nti-mid" x1="4" y1="12" x2="20" y2="12"/><line class="nti-bot" x1="4" y1="18" x2="20" y2="18"/></svg>
       </button>
     </div>
   </div>
 </nav>
 
-<main id="top">
+<main id="top" tabindex="-1">
 
 <section class="hero">
   <div class="wrap hero-grid">
     <div>
-      <span class="eyebrow" style="--dot:var(--k-logic)">Local-first workflow engine</span>
+      <span class="eyebrow eb-logic">Local-first workflow engine</span>
       <h1>Build automation the way you'd build software.</h1>
       <p class="lede">Aerini is a visual workflow engine you run yourself. Wire nodes together on a canvas, then run the same engine on your machine or drop it onto a server. No account. No cloud. No telemetry.</p>
       <div class="hero-ctas">
@@ -161,13 +259,13 @@
   </div>
 </section>
 
-<div class="ticker-wrap" id="tickerWrap">
+<div class="ticker-wrap" id="tickerWrap" aria-hidden="true">
   <div class="ticker" id="ticker"></div>
 </div>
 
 <section class="intro">
   <div class="wrap intro-grid">
-    <span class="eyebrow" style="--dot:var(--k-utility)">What it is</span>
+    <span class="eyebrow eb-utility">What it is</span>
     <div>
       <p class="intro-copy">Aerini is an app for building automation visually: drop <strong>nodes</strong> onto a canvas, connect them with <strong>wires</strong>, and the resulting graph is your <strong>workflow</strong>. Nothing runs until you start it, and when it does, it runs on hardware you control.</p>
       <div class="intro-terms">
@@ -189,7 +287,7 @@
 <section id="how-it-works">
   <div class="wrap">
     <div class="section-head reveal">
-      <span class="eyebrow" style="--dot:var(--k-logic)">How it works</span>
+      <span class="eyebrow eb-logic">How it works</span>
       <h2>Three nodes. One wire path. Press run.</h2>
       <p>This is a working recreation of a real Aerini workflow: a trigger that starts a run, an action that fetches data, and a utility that displays it. Press run to watch it move.</p>
     </div>
@@ -228,7 +326,7 @@
 <section id="what-it-does">
   <div class="wrap">
     <div class="section-head reveal">
-      <span class="eyebrow" style="--dot:var(--k-action)">What you can build</span>
+      <span class="eyebrow eb-action">What you can build</span>
       <h2>Whatever you'd otherwise write a script for.</h2>
       <p>A sample of what people build with it, not an exhaustive list.</p>
     </div>
@@ -257,7 +355,7 @@
       <div class="cap-card">
         <span class="badge badge-utility">Utility</span>
         <h3>File processing</h3>
-        <p>Watch a folder, reshape what lands in it, and write the result somewhere else. Folder watching is a Patreon plugin: included for supporters, or available to buy on Patreon.</p>
+        <p>Watch a folder, reshape what lands in it, and write the result somewhere else. Folder watching is the <a href="https://www.patreon.com/Panchak2d/posts/file-watcher-for-172472318" target="_blank" rel="noopener">File Watcher</a> plugin on Patreon: included for supporters, or available to buy on its own.</p>
       </div>
       <div class="cap-card">
         <span class="badge badge-action">Action</span>
@@ -288,7 +386,7 @@
   <div class="ascii-ambient" aria-hidden="true"><canvas id="asciiNetwork"></canvas></div>
   <div class="wrap">
     <div class="section-head reveal">
-      <span class="eyebrow" style="--dot:var(--k-ai)">Why Aerini</span>
+      <span class="eyebrow eb-ai">Why Aerini</span>
       <h2>Decisions that shape everything else.</h2>
     </div>
 
@@ -328,15 +426,15 @@
 <section id="open-source">
   <div class="wrap os-grid">
     <div>
-      <div class="section-head reveal" style="margin-bottom:0">
-        <span class="eyebrow" style="--dot:var(--k-logic)">Open source</span>
+      <div class="section-head reveal mb-0">
+        <span class="eyebrow eb-logic">Open source</span>
         <h2>Read it, run it, change it.</h2>
       </div>
-      <div class="os-copy reveal" style="margin-top:26px">
-        <p>Aerini is open source under the <strong style="color:var(--text-1)">AGPL-3.0</strong>. You can use it, study it, and modify it freely. If you distribute a modified version — including running it as a network service for others — you share those changes back.</p>
+      <div class="os-copy reveal mt-26">
+        <p>Aerini is open source under the <strong class="u-text-1">AGPL-3.0</strong>. You can use it, study it, and modify it freely. If you distribute a modified version — including running it as a network service for others — you share those changes back.</p>
         <p>Most people never touch that condition. If it matters for what you're building, a commercial license removes it for one named product.</p>
       </div>
-      <div class="hero-ctas reveal" style="margin-top:28px">
+      <div class="hero-ctas reveal mt-28">
         <a href="https://github.com/Panchak2d/Aerini" class="btn btn-primary" target="_blank" rel="noopener">
           View on GitHub
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M9 18c-4.5 1.5-4.5-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2-.2 4-1 4-4.5a3.5 3.5 0 00-1-2.5 3.3 3.3 0 00-.1-2.5s-.85-.25-2.9 1a10 10 0 00-5 0c-2.05-1.25-2.9-1-2.9-1a3.3 3.3 0 00-.1 2.5 3.5 3.5 0 00-1 2.5c0 3.5 2 4.3 4 4.5-.5.5-.5 1-.5 2V21"/></svg>
@@ -364,22 +462,22 @@
   <div class="ascii-ambient" aria-hidden="true"><canvas id="asciiBranch"></canvas></div>
   <div class="wrap">
     <div class="section-head reveal">
-      <span class="eyebrow" style="--dot:var(--k-trigger)">Community</span>
+      <span class="eyebrow eb-trigger">Community</span>
       <h2>Built with the people who use it, not just for them.</h2>
       <p>Free users get a say in what Aerini builds next, not just supporters. Contribution is also a real path, with defined steps rather than a vague "get involved."</p>
     </div>
 
     <div class="ladder reveal">
-      <div class="ladder-step" style="border-color:var(--k-trigger)">
+      <div class="ladder-step bc-trigger">
         <span class="n">01</span><h3>Contributor</h3><p>Open a PR, fix a bug, improve a doc.</p>
       </div>
-      <div class="ladder-step" style="border-color:var(--k-action)">
+      <div class="ladder-step bc-action">
         <span class="n">02</span><h3>Reviewer</h3><p>Review incoming changes from other contributors.</p>
       </div>
-      <div class="ladder-step" style="border-color:var(--k-logic)">
+      <div class="ladder-step bc-logic">
         <span class="n">03</span><h3>Maintainer</h3><p>Merge rights over a defined area of the codebase.</p>
       </div>
-      <div class="ladder-step" style="border-color:var(--k-ai)">
+      <div class="ladder-step bc-ai">
         <span class="n">04</span><h3>Core maintainer</h3><p>Shapes direction alongside the founder.</p>
       </div>
     </div>
@@ -389,27 +487,27 @@
         <span class="lname">Open poll</span>
         <h3>Nothing running right now</h3>
         <p>Polls open on both GitHub Discussions and Patreon when there's a real decision to make: which trigger to build next, how a feature should behave, that kind of thing. Everyone gets a vote, supporter or not — pick whichever platform you already have an account on.</p>
-        <div class="hero-ctas" style="margin-top:18px">
+        <div class="hero-ctas mt-18">
           <a href="https://github.com/Panchak2d/Aerini/discussions" class="btn btn-ghost" target="_blank" rel="noopener">Go to Discussions</a>
           <a href="https://www.patreon.com/c/Panchak2d" class="btn btn-ghost" target="_blank" rel="noopener">Go to Patreon</a>
         </div>
       </div>
       <div class="reveal">
-        <span class="lname" style="font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-3)">Shipped in v0.4</span>
-        <div class="roadmap-list" style="margin-top:14px">
+        <span class="lname roadmap-label">Shipped in v0.4</span>
+        <div class="roadmap-list mt-14">
           <div class="roadmap-item"><span class="badge badge-logic">Logic</span>Workflow versioning and run history</div>
           <div class="roadmap-item"><span class="badge badge-utility">Utility</span>Multi-node plugin packages (.aerinipkg)</div>
         </div>
-        <span class="lname" style="font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-3);margin-top:22px;display:block">In development, v0.5</span>
-        <div class="roadmap-list" style="margin-top:14px">
+        <span class="lname roadmap-label roadmap-label-gap">In development, v0.5</span>
+        <div class="roadmap-list mt-14">
           <div class="roadmap-item"><span class="badge badge-logic">Logic</span>Sub-workflows</div>
         </div>
-        <span class="lname" style="font-family:var(--font-mono);font-size:11px;letter-spacing:.06em;text-transform:uppercase;color:var(--text-3);margin-top:22px;display:block">Planned, v0.5</span>
-        <div class="roadmap-list" style="margin-top:14px">
-          <div class="roadmap-item"><span class="badge badge-trigger">Trigger</span>More trigger types (file watch, database poll)</div>
+        <span class="lname roadmap-label roadmap-label-gap">Planned, v0.5</span>
+        <div class="roadmap-list mt-14">
+          <div class="roadmap-item"><span class="badge badge-trigger">Trigger</span>More trigger types (database poll)</div>
           <div class="roadmap-item"><span class="badge badge-utility">Utility</span>Workflow bundle import</div>
         </div>
-        <a href="https://github.com/Panchak2d/Aerini/blob/main/ROADMAP.md" class="btn btn-ghost" target="_blank" rel="noopener" style="margin-top:18px">Full roadmap →</a>
+        <a href="https://github.com/Panchak2d/Aerini/blob/main/ROADMAP.md" class="btn btn-ghost mt-18" target="_blank" rel="noopener">Full roadmap →</a>
       </div>
     </div>
   </div>
@@ -418,7 +516,7 @@
 <section id="support">
   <div class="wrap">
     <div class="section-head reveal">
-      <span class="eyebrow" style="--dot:var(--k-utility)">Support</span>
+      <span class="eyebrow eb-utility">Support</span>
       <h2>Optional, and never a gate.</h2>
       <p>The open-source project stays fully usable with zero support. Backing it gets you a few extra things. It doesn't unlock the software itself.</p>
     </div>
@@ -441,11 +539,12 @@
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>New plugins for the node library, roughly every 2–4 weeks</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>A Claude Skill for building Aerini workflows</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Workflow-building guidance and resources</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg><span>Not a supporter? Buy one at a time, no membership needed: the <a href="https://www.patreon.com/Panchak2d/posts/file-watcher-for-172472318" target="_blank" rel="noopener">File Watcher plugin</a> or the <a href="https://www.patreon.com/Panchak2d/posts/aerini-skill-for-172470926" target="_blank" rel="noopener">Claude Skill</a>.</span></li>
         </ul>
         <div class="tier-row">
-          <span class="tier">$1</span><span class="tier">$5</span><span class="tier">$10</span>
+          <span class="tier">$5</span><span class="tier">$10</span>
         </div>
-        <div class="hero-ctas" style="margin-top:24px">
+        <div class="hero-ctas mt-24">
           <a href="https://www.patreon.com/c/Panchak2d" class="btn btn-primary" target="_blank" rel="noopener">Support on Patreon</a>
           <a href="https://github.com/Panchak2d/Aerini" class="btn btn-ghost" target="_blank" rel="noopener">Star on GitHub</a>
         </div>
@@ -458,7 +557,7 @@
 <section id="get-aerini">
   <div class="wrap">
     <div class="section-head reveal">
-      <span class="eyebrow" style="--dot:var(--k-action)">Get Aerini</span>
+      <span class="eyebrow eb-action">Get Aerini</span>
       <h2>Pick a platform.</h2>
     </div>
 
@@ -504,32 +603,44 @@
 <section id="faq">
   <div class="wrap">
     <div class="section-head reveal">
-      <span class="eyebrow" style="--dot:var(--k-utility)">FAQ</span>
+      <span class="eyebrow eb-utility">FAQ</span>
       <h2>Common questions.</h2>
     </div>
     <div class="faq-list reveal" id="faqList">
       <div class="faq-item">
-        <button class="faq-q">What license does Aerini use?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+        <button type="button" class="faq-q">What license does Aerini use?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
         <div class="faq-a"><div class="faq-a-inner">AGPL-3.0. Free to use, study, and modify. If you distribute a modified version — including running it as a network service for others — you're required to share those changes.</div></div>
       </div>
       <div class="faq-item">
-        <button class="faq-q">Can I use it commercially without AGPL's terms?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+        <button type="button" class="faq-q">Can I use it commercially without AGPL's terms?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
         <div class="faq-a"><div class="faq-a-inner">Yes. A commercial license covers one named product and one minor version line (for example 0.4.x), and lifts the share-back requirement for it. See the <a href="/pricing">pricing page</a>.</div></div>
       </div>
       <div class="faq-item">
-        <button class="faq-q">Do I need to pay to use Aerini?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+        <button type="button" class="faq-q">Do I need to pay to use Aerini?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
         <div class="faq-a"><div class="faq-a-inner">No. The full application is free and open source. Support is optional and adds extras like plugins and guidance. It doesn't unlock the core app.</div></div>
       </div>
       <div class="faq-item">
-        <button class="faq-q">What platforms are supported?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+        <button type="button" class="faq-q">What platforms are supported?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
         <div class="faq-a"><div class="faq-a-inner">Windows (x64), macOS (Apple Silicon only, no Intel build yet), and Linux (x64 and ARM64). Build from source for anything else. Windows on ARM is not a release target.</div></div>
       </div>
       <div class="faq-item">
-        <button class="faq-q">How does the community influence development?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+        <button type="button" class="faq-q">Does Aerini send telemetry or require an account?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+        <div class="faq-a"><div class="faq-a-inner">No account, and no telemetry, analytics, or automatic update calls. There are two fixed exceptions: the app loads the Inter typeface from Google Fonts at startup, and Settings → About has a Check for Updates button that contacts GitHub only when you click it.</div></div>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-q">How is Aerini different from cloud automation services?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+        <div class="faq-a"><div class="faq-a-inner">Cloud automation services run your workflows on their servers, under their account system. Aerini runs on your own machine or server. Workflows, run history, and credentials stay there, and nothing runs until you start it. The source is open, so you can read exactly what it does.</div></div>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-q">How do I update Aerini?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+        <div class="faq-a"><div class="faq-a-inner">Open Settings → About and click Check for Updates. If one is available, choose Install and restart, and the app downloads the signed update from GitHub. Aerini never checks for updates on its own.</div></div>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-q">How does the community influence development?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
         <div class="faq-a"><div class="faq-a-inner">Through polls on GitHub Discussions and Patreon (both open to every user, not just supporters or patrons — either just needs a free account) and through the contribution ladder for anyone who wants to work on the code directly.</div></div>
       </div>
       <div class="faq-item">
-        <button class="faq-q">How can I contribute?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+        <button type="button" class="faq-q">How can I contribute?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
         <div class="faq-a"><div class="faq-a-inner">Open a pull request against the GitHub repo. Reviewer and maintainer access follow from there. See the Community section above.</div></div>
       </div>
     </div>
@@ -538,9 +649,9 @@
 
 <section class="final-cta">
   <div class="wrap">
-    <span class="eyebrow" style="--dot:var(--k-logic);justify-content:center">Ready when you are</span>
+    <span class="eyebrow eb-logic u-jc-center">Ready when you are</span>
     <h2>Your machine. Your workflow. Your rules.</h2>
-    <p class="lede" style="margin-left:auto;margin-right:auto">Free, open source, and yours to inspect line by line.</p>
+    <p class="lede u-mx-auto">Free, open source, and yours to inspect line by line.</p>
     <div class="hero-ctas">
       <a href="#get-aerini" class="btn btn-primary" data-role="get-aerini-cta"><span class="cta-label">Get Aerini</span></a>
       <a href="https://github.com/Panchak2d/Aerini" class="btn btn-ghost" target="_blank" rel="noopener">View source</a>
@@ -595,7 +706,7 @@
       </nav>
     </div>
     <div class="foot-bottom">
-      <span>© <span id="year"></span> Aerini · licensed AGPL-3.0</span>
+      <span>© <span id="year">2026</span> Aerini · licensed AGPL-3.0</span>
       <span>Pre-1.0 software. The file format may still change.</span>
     </div>
   </div>
@@ -605,6 +716,6 @@
   <a href="#get-aerini" class="btn btn-primary" data-role="get-aerini-cta"><span class="cta-label">Get Aerini</span></a>
 </div>
 
-<script src="script.js" defer></script>
+<script src="/script.js" defer></script>
 </body>
 </html>

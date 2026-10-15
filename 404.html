@@ -2,25 +2,27 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Page not found · Aerini</title>
-<meta name="robots" content="noindex">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src https://api.github.com; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#08090d">
-
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2308090d'/%3E%3Crect x='6' y='6' width='7' height='7' rx='1.5' fill='%2334d399'/%3E%3Crect x='19' y='6' width='7' height='7' rx='1.5' fill='%2334d399' opacity='0.55'/%3E%3Crect x='6' y='19' width='7' height='7' rx='1.5' fill='%2334d399' opacity='0.55'/%3E%3Crect x='19' y='19' width='7' height='7' rx='1.5' fill='%2334d399' opacity='0.27'/%3E%3Cline x1='13' y1='9.5' x2='19' y2='9.5' stroke='%2334d399' stroke-width='1.4'/%3E%3Cline x1='9.5' y1='13' x2='9.5' y2='19' stroke='%2334d399' stroke-width='1.4'/%3E%3Cline x1='22.5' y1='13' x2='22.5' y2='19' stroke='%2334d399' stroke-width='1.4' opacity='0.42'/%3E%3C/svg%3E">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"></noscript>
-
-<link rel="stylesheet" href="styles.css">
+<script src="/guard.js"></script>
+<title>Page not found · Aerini</title>
+<meta name="description" content="">
+<meta name="robots" content="noindex">
+<link rel="icon" href="/icons/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preload" href="/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/styles.css">
 </head>
 <body>
 
 <a href="#top" class="skip-link">Skip to content</a>
 
-<nav class="nav" id="nav">
+<nav class="nav" id="nav" aria-label="Primary">
   <div class="wrap nav-inner">
     <a href="/" class="brand">
       <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
@@ -46,22 +48,22 @@
     <div class="nav-cta">
       <a href="https://github.com/Panchak2d/Aerini" class="btn btn-ghost" target="_blank" rel="noopener">View source</a>
       <a href="/#get-aerini" class="btn btn-primary" data-role="get-aerini-cta"><span class="cta-label">Get Aerini</span></a>
-      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" id="navToggleIcon" aria-hidden="true"><line class="nti-top" x1="4" y1="6" x2="20" y2="6"/><line class="nti-mid" x1="4" y1="12" x2="20" y2="12"/><line class="nti-bot" x1="4" y1="18" x2="20" y2="18"/></svg>
       </button>
     </div>
   </div>
 </nav>
 
-<main id="top">
-<section style="padding-top:200px; padding-bottom:140px">
+<main id="top" tabindex="-1">
+<section class="pt-200 pb-140">
   <div class="wrap">
-    <div class="section-head" style="text-align:center; margin-left:auto; margin-right:auto">
-      <span class="eyebrow" style="--dot:var(--k-utility); justify-content:center">404</span>
+    <div class="section-head u-center u-mx-auto">
+      <span class="eyebrow eb-utility u-jc-center">404</span>
       <h1>This node doesn't exist.</h1>
-      <p style="color:var(--text-2); max-width:520px; margin:14px auto 0">The page you're looking for was moved, renamed, or never wired up. Try one of these instead.</p>
+      <p class="note-narrow">The page you're looking for was moved, renamed, or never wired up. Try one of these instead.</p>
     </div>
-    <div class="hero-ctas" style="justify-content:center; margin-top:32px">
+    <div class="hero-ctas u-jc-center mt-32">
       <a href="/" class="btn btn-primary">Back to home</a>
       <a href="https://docs.aerini.org" class="btn btn-ghost" target="_blank" rel="noopener">Read the docs</a>
       <a href="/contact" class="btn btn-ghost">Contact us</a>
@@ -113,12 +115,12 @@
       </nav>
     </div>
     <div class="foot-bottom">
-      <span>© <span id="year"></span> Aerini · licensed AGPL-3.0</span>
+      <span>© <span id="year">2026</span> Aerini · licensed AGPL-3.0</span>
       <span>Pre-1.0 software. The file format may still change.</span>
     </div>
   </div>
 </footer>
 
-<script src="script.js" defer></script>
+<script src="/script.js" defer></script>
 </body>
 </html>

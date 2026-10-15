@@ -3,6 +3,7 @@
   "private": true,
   "description": "Static marketing site for Aerini (aerini.org). No build step — plain HTML/CSS/JS served as-is.",
   "scripts": {
+    "dev": "node scripts/dev.mjs",
     "check": "node scripts/check-site.mjs",
     "check:live": "node scripts/check-site.mjs --live"
   },

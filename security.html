@@ -2,35 +2,85 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src https://api.github.com; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; upgrade-insecure-requests">
+<meta name="referrer" content="strict-origin-when-cross-origin">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="color-scheme" content="dark">
+<meta name="theme-color" content="#08090d">
+<script src="/guard.js"></script>
 <title>Security Policy · Aerini</title>
 <meta name="description" content="How to report a security vulnerability in Aerini, our response timeline, supported versions, and a link to the full security documentation.">
 <link rel="canonical" href="https://aerini.org/security">
-<meta name="theme-color" content="#08090d">
-
 <meta property="og:type" content="website">
+<meta property="og:site_name" content="Aerini">
+<meta property="og:locale" content="en_US">
+<meta property="og:url" content="https://aerini.org/security">
 <meta property="og:title" content="Security Policy · Aerini">
 <meta property="og:description" content="How to report a vulnerability, our response timeline, and what protects your data by default.">
 <meta property="og:image" content="https://aerini.org/og-image.png">
+<meta property="og:image:type" content="image/png">
+<meta property="og:image:width" content="1200">
+<meta property="og:image:height" content="630">
+<meta property="og:image:alt" content="Aerini: three connected workflow nodes, Start, Fetch Data and Show Result, above the tagline &#x27;A workflow engine you run yourself.&#x27;">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Security Policy · Aerini">
 <meta name="twitter:description" content="How to report a vulnerability, our response timeline, and what protects your data by default.">
-
-<link rel="icon" type="image/svg+xml" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='6' fill='%2308090d'/%3E%3Crect x='6' y='6' width='7' height='7' rx='1.5' fill='%2334d399'/%3E%3Crect x='19' y='6' width='7' height='7' rx='1.5' fill='%2334d399' opacity='0.55'/%3E%3Crect x='6' y='19' width='7' height='7' rx='1.5' fill='%2334d399' opacity='0.55'/%3E%3Crect x='19' y='19' width='7' height='7' rx='1.5' fill='%2334d399' opacity='0.27'/%3E%3Cline x1='13' y1='9.5' x2='19' y2='9.5' stroke='%2334d399' stroke-width='1.4'/%3E%3Cline x1='9.5' y1='13' x2='9.5' y2='19' stroke='%2334d399' stroke-width='1.4'/%3E%3Cline x1='22.5' y1='13' x2='22.5' y2='19' stroke='%2334d399' stroke-width='1.4' opacity='0.42'/%3E%3C/svg%3E">
-
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link rel="preconnect" href="https://api.github.com" crossorigin>
-<link rel="preload" as="style" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap" onload="this.onload=null;this.rel='stylesheet'">
-<noscript><link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500;600&display=swap"></noscript>
-
-<link rel="stylesheet" href="styles.css">
+<meta name="twitter:image" content="https://aerini.org/og-image.png">
+<meta name="twitter:image:alt" content="Aerini: three connected workflow nodes, Start, Fetch Data and Show Result, above the tagline &#x27;A workflow engine you run yourself.&#x27;">
+<link rel="icon" href="/icons/favicon.svg" type="image/svg+xml">
+<link rel="icon" href="/favicon.ico" sizes="48x48">
+<link rel="apple-touch-icon" href="/icons/apple-touch-icon.png">
+<link rel="manifest" href="/site.webmanifest">
+<link rel="preload" href="/fonts/inter-latin-wght-normal.woff2" as="font" type="font/woff2" crossorigin>
+<link rel="stylesheet" href="/styles.css">
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "WebPage",
+  "@id": "https://aerini.org/security#webpage",
+  "url": "https://aerini.org/security",
+  "name": "Security Policy · Aerini",
+  "description": "How to report a security vulnerability in Aerini, our response timeline, supported versions, and a link to the full security documentation.",
+  "inLanguage": "en",
+  "dateModified": "2026-10-15",
+  "isPartOf": {
+    "@type": "WebSite",
+    "name": "Aerini",
+    "url": "https://aerini.org/"
+  },
+  "publisher": {
+    "@type": "Organization",
+    "name": "Aerini",
+    "url": "https://aerini.org/"
+  }
+}
+</script>
+<script type="application/ld+json">
+{
+  "@context": "https://schema.org",
+  "@type": "BreadcrumbList",
+  "itemListElement": [
+    {
+      "@type": "ListItem",
+      "position": 1,
+      "name": "Home",
+      "item": "https://aerini.org/"
+    },
+    {
+      "@type": "ListItem",
+      "position": 2,
+      "name": "Security policy",
+      "item": "https://aerini.org/security"
+    }
+  ]
+}
+</script>
 </head>
 <body>
 
 <a href="#top" class="skip-link">Skip to content</a>
 
-<nav class="nav" id="nav">
+<nav class="nav" id="nav" aria-label="Primary">
   <div class="wrap nav-inner">
     <a href="/" class="brand">
       <svg viewBox="0 0 32 32" fill="none" aria-hidden="true">
@@ -56,23 +106,23 @@
     <div class="nav-cta">
       <a href="https://github.com/Panchak2d/Aerini" class="btn btn-ghost" target="_blank" rel="noopener">View source</a>
       <a href="/#get-aerini" class="btn btn-primary" data-role="get-aerini-cta"><span class="cta-label">Get Aerini</span></a>
-      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false">
+      <button class="nav-toggle" id="navToggle" aria-label="Toggle menu" aria-expanded="false" aria-controls="navLinks">
         <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" id="navToggleIcon" aria-hidden="true"><line class="nti-top" x1="4" y1="6" x2="20" y2="6"/><line class="nti-mid" x1="4" y1="12" x2="20" y2="12"/><line class="nti-bot" x1="4" y1="18" x2="20" y2="18"/></svg>
       </button>
     </div>
   </div>
 </nav>
 
-<main id="top">
-<section style="padding-top:160px">
+<main id="top" tabindex="-1">
+<section class="pt-160">
   <div class="wrap">
     <div class="section-head">
-      <span class="eyebrow" style="--dot:var(--k-utility)">Security</span>
+      <span class="eyebrow eb-utility">Security</span>
       <h1>Security Policy</h1>
     </div>
 
     <div class="policy">
-      <p class="updated">Last updated August 2026</p>
+      <p class="updated">Last updated October 2026</p>
 
       <h2>Short version</h2>
       <p>Report vulnerabilities privately, not as a public GitHub issue. Credentials are encrypted on your machine, and the app has no telemetry by default. The paragraphs below cover reporting, response times, and what's actually protected. For the full technical breakdown, see the security documentation linked at the bottom of this page.</p>
@@ -97,6 +147,9 @@
 
       <h2>What Aerini protects by default</h2>
       <p>Credentials are encrypted with AES-256-GCM, with the encryption key held in your OS keychain rather than alongside the encrypted data itself. Aerini makes no telemetry calls, no analytics calls, and no automatic update pings. Nodes that can run arbitrary code on your machine, like Shell Command and Code (JS), trigger a warning before a workflow containing them runs. The HTTP node blocks requests to internal and private IP addresses to reduce the risk of server-side request forgery, though this protection has a known gap around DNS timing that only an egress firewall closes completely. For the full model, including server-deployment hardening and how each protection actually works, see the <a href="https://docs.aerini.org/guide/security" target="_blank" rel="noopener">security documentation</a>.</p>
+
+      <h2>This website</h2>
+      <p>The site is static: no accounts, no forms, no database. Every script, stylesheet, and font is served from this domain, except the Pricing page's checkout script, which is pinned to an exact version and verified with a Subresource Integrity hash. A Content Security Policy blocks inline scripts and styles and limits where the page can load content or send requests. Our contact details are also published as a <a href="/.well-known/security.txt">security.txt</a> file.</p>
 
       <h2>Contact</h2>
       <p>Security reports and questions about this page: <a href="mailto:support@aerini.org">support@aerini.org</a>.</p>
@@ -148,12 +201,12 @@
       </nav>
     </div>
     <div class="foot-bottom">
-      <span>© <span id="year"></span> Aerini · licensed AGPL-3.0</span>
+      <span>© <span id="year">2026</span> Aerini · licensed AGPL-3.0</span>
       <span>Pre-1.0 software. The file format may still change.</span>
     </div>
   </div>
 </footer>
 
-<script src="script.js" defer></script>
+<script src="/script.js" defer></script>
 </body>
 </html>

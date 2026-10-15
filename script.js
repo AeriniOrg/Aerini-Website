@@ -18,6 +18,15 @@
       navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
     });
   }
+  if(nav && navToggle){
+    document.addEventListener('keydown', function(e){
+      if(e.key === 'Escape' && nav.classList.contains('is-open')){
+        nav.classList.remove('is-open');
+        navToggle.setAttribute('aria-expanded','false');
+        navToggle.focus();
+      }
+    });
+  }
   if(navLinks && nav && navToggle){
     navLinks.querySelectorAll('a').forEach(function(a){
       a.addEventListener('click', function(){ nav.classList.remove('is-open'); navToggle.setAttribute('aria-expanded','false'); });
@@ -57,9 +66,7 @@
   ];
   var tickerEl = document.getElementById('ticker');
   if(tickerEl){
-    var html = '';
-    for(var r=0;r<2;r++){ facts.forEach(function(f){ html += '<span>'+f+'</span>'; }); }
-    tickerEl.innerHTML = html;
+    for(var r=0;r<2;r++){ facts.forEach(function(f){ var sp = document.createElement('span'); sp.textContent = f; tickerEl.appendChild(sp); }); }
   }
 
   /* ---------- FAQ accordion ---------- */
@@ -83,25 +90,75 @@
   var GH_REPO = 'Panchak2d/Aerini';
   var repoArchived = false;
   var GH_RELEASES_API = 'https://api.github.com/repos/' + GH_REPO + '/releases/latest';
+  var DOWNLOAD_PREFIX = 'https://github.com/' + GH_REPO + '/releases/download/';
+  var TAG_RE = /^v?\d+\.\d+\.\d+(?:[-.][0-9A-Za-z.]+)?$/;
   var ASSET_PATTERN = { windows: /-setup\.exe$/i, macos: /\.dmg$/i, linux: /\.AppImage$/i };
   var OS_LABEL = { windows: 'Windows', macos: 'macOS', linux: 'Linux' };
+  var RELEASE_CACHE_KEY = 'aerini_release', RELEASE_TTL = 60*60*1000;
 
+  /* Phones, tablets and Chromebooks cannot run the desktop installers: return null so the generic CTA stays. */
   function detectOS(){
     var ua = navigator.userAgent || '', plat = navigator.platform || '';
+    if(/Android|iPhone|iPad|iPod|CrOS/.test(ua)) return null;
     if(/Win/.test(plat) || /Windows/.test(ua)) return 'windows';
-    if(/Mac/.test(plat) || /Macintosh/.test(ua)) return 'macos';
+    if(/Mac/.test(plat) || /Macintosh/.test(ua)) return (navigator.maxTouchPoints > 1) ? null : 'macos'; /* iPadOS reports a Mac platform */
     if(/Linux|X11/.test(plat) || /Linux/.test(ua)) return 'linux';
     return null;
   }
+  var linuxArm = /aarch64|arm64|armv[78]/i.test((navigator.userAgent || '') + ' ' + (navigator.platform || ''));
 
   function findAsset(assets, os){
     var candidates = [];
     for(var i=0;i<assets.length;i++){ if(ASSET_PATTERN[os].test(assets[i].name)) candidates.push(assets[i]); }
     if(candidates.length < 2) return candidates[0] || null;
+    var wantArm = (os === 'macos') || (os === 'linux' && linuxArm);
     for(var j=0;j<candidates.length;j++){
-      if(!/arm64|aarch64/i.test(candidates[j].name)) return candidates[j];
+      if(/arm64|aarch64/i.test(candidates[j].name) === wantArm) return candidates[j];
     }
     return candidates[0];
+  }
+
+  /* Only accept installer URLs that live under this repository's release downloads. */
+  function trustedAssets(list){
+    var out = [];
+    (list || []).forEach(function(a){
+      if(a && typeof a.name === 'string' && typeof a.url === 'string' && a.url.indexOf(DOWNLOAD_PREFIX) === 0 && /^[\w.+\-]+$/.test(a.name)) out.push({ name: a.name, url: a.url });
+    });
+    return out;
+  }
+
+  function readReleaseCache(){
+    try{
+      var c = JSON.parse(localStorage.getItem(RELEASE_CACHE_KEY) || 'null');
+      if(c && typeof c.ts === 'number' && Date.now() - c.ts < RELEASE_TTL && TAG_RE.test(c.tag)) return c;
+    } catch(e){}
+    return null;
+  }
+  function writeReleaseCache(tag, assets){
+    try{ localStorage.setItem(RELEASE_CACHE_KEY, JSON.stringify({ ts: Date.now(), tag: tag, assets: assets })); } catch(e){}
+  }
+
+  function applyRelease(tag, assets, ctas, cards, detected){
+    cards.forEach(function(card){
+      var os = card.getAttribute('data-platform');
+      var asset = findAsset(assets, os);
+      var link = card.querySelector('a');
+      if(!asset || !link) return;
+      link.href = asset.url;
+      link.textContent = 'Download ' + tag + ' \u2192';
+      link.removeAttribute('target');
+      link.removeAttribute('rel');
+    });
+    if(detected){
+      var heroAsset = findAsset(assets, detected);
+      if(heroAsset){
+        ctas.forEach(function(cta){
+          cta.href = heroAsset.url;
+          var label = cta.querySelector('.cta-label');
+          if(label) label.textContent = 'Get Aerini for ' + OS_LABEL[detected];
+        });
+      }
+    }
   }
 
   function initSmartDownload(){
@@ -109,34 +166,20 @@
     var cards = document.querySelectorAll('[data-platform]');
     var detected = detectOS();
     if(!('fetch' in window)) return;
+    if(!ctas.length && !cards.length) return;
+
+    var cached = readReleaseCache();
+    if(cached){ applyRelease(cached.tag, trustedAssets(cached.assets), ctas, cards, detected); return; }
 
     fetch(GH_RELEASES_API, { headers: { 'Accept': 'application/vnd.github+json' } })
       .then(function(res){ if(!res.ok) throw new Error('release lookup failed'); return res.json(); })
       .then(function(release){
-        var assets = release.assets || [];
-        var version = release.tag_name || '';
-
-        cards.forEach(function(card){
-          var os = card.getAttribute('data-platform');
-          var asset = findAsset(assets, os);
-          var link = card.querySelector('a');
-          if(!asset || !link) return;
-          link.href = asset.browser_download_url;
-          link.textContent = 'Download ' + version + ' \u2192';
-          link.removeAttribute('target');
-          link.removeAttribute('rel');
-        });
-
-        if(detected){
-          var heroAsset = findAsset(assets, detected);
-          if(heroAsset){
-            ctas.forEach(function(cta){
-              cta.href = heroAsset.browser_download_url;
-              var label = cta.querySelector('.cta-label');
-              if(label) label.textContent = 'Get Aerini for ' + OS_LABEL[detected];
-            });
-          }
-        }
+        var tag = typeof release.tag_name === 'string' ? release.tag_name : '';
+        if(!TAG_RE.test(tag)) return;
+        var assets = trustedAssets((release.assets || []).map(function(a){ return { name: a.name, url: a.browser_download_url }; }));
+        if(!assets.length) return;
+        writeReleaseCache(tag, assets);
+        applyRelease(tag, assets, ctas, cards, detected);
       })
       /* Repo private, no release published yet, offline, or GitHub API
          rate-limited: every CTA and platform card already has a working
@@ -802,6 +845,7 @@
 
   (function checkRepoArchived(){
     var caption = document.getElementById('pulseCaption');
+    if(!caption) return;
     function applyDead(){
       repoArchived = true;
       if(caption){
