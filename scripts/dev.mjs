@@ -61,8 +61,7 @@ createServer(async (req, res) => {
     let body = await readFile(file);
     const type = TYPES[extname(file)] || "application/octet-stream";
     if (type.startsWith("text/html")) {
-      // Dev only: let the page open the live-reload event stream on its own origin.
-      body = Buffer.from(body.toString().replace("connect-src https://api.github.com", "connect-src 'self' https://api.github.com").replace("</body>", RELOAD + "</body>"));
+      body = Buffer.from(body.toString().replace("</body>", RELOAD + "</body>"));
     }
     res.writeHead(status, { "Content-Type": type, "Cache-Control": "no-store" });
     res.end(body);

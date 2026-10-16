@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src https://api.github.com; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.github.com; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
@@ -128,7 +128,7 @@
       <p>This website does not use cookies, does not run analytics, and does not have accounts. The Aerini application does not send telemetry of any kind. Everything below explains exactly what small amount of network activity does happen, and why.</p>
 
       <h2>What this website collects</h2>
-      <p>This site stores nothing itself: no account system, no sign-up form, no comment section, and no server-side database behind it. Nothing you type or click here is saved by us. Loading the page does trigger a few requests to third-party services that see your IP address: GitHub's API and, on the Pricing page, Polar's checkout script. Fonts are served from this site, not from a third party. See the next section for details.</p>
+      <p>This site stores nothing itself: no account system, no sign-up form, no comment section, and no server-side database behind it. Nothing you type or click here is saved by us. Loading the page does trigger a few requests to third-party services that see your IP address: GitHub's API (only as a fallback, when the download links can't be resolved from this site) and, on the Pricing page, Polar's checkout script. Fonts are served from this site, not from a third party. See the next section for details.</p>
 
       <h2>Cookies and local storage</h2>
       <p>This site sets no cookies. Its only use of your browser's local storage is two small caches. <code>aerini_repo_status</code> records whether Aerini's GitHub repository is archived, so the page doesn't repeat that lookup for six hours. <code>aerini_release</code> records the latest release's version number and installer links, so the download buttons don't repeat their lookup for an hour. Neither contains personal information, and neither is ever sent anywhere. Nothing here is used to recognize you on a return visit. The one exception to the no-cookies statement is the Pricing page, where clicking "Buy commercial license" opens a checkout window run by Polar (see below). That window is Polar's, not ours, and Polar's own cookie and privacy practices apply to it, not this policy.</p>

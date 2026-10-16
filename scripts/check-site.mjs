@@ -85,6 +85,7 @@ for (const f of files) {
   else {
     if (/unsafe-eval|unsafe-inline/.test(csp)) fail(`${f}: CSP contains unsafe-eval/unsafe-inline`);
     if (!/default-src 'none'/.test(csp) || !/object-src 'none'/.test(csp) || !/base-uri 'none'/.test(csp)) fail(`${f}: CSP lost default-src/object-src/base-uri 'none'`);
+    if (!/connect-src 'self'/.test(csp)) fail(`${f}: CSP connect-src must include 'self' (script.js reads release.json)`);
     if (f !== "pricing.html" && /frame-src|cdn\.jsdelivr\.net/.test(csp)) fail(`${f}: CSP allows frames/CDN scripts but only pricing.html needs them`);
   }
 
@@ -136,6 +137,14 @@ for (const f of files) {
       if (!externalToCheck.has(link)) externalToCheck.set(link, []);
       externalToCheck.get(link).push(f);
     }
+  }
+}
+
+// fetch-release.mjs rewrites these exact card anchors at deploy time; fail early if the markup drifts.
+{
+  const html = read("index.html");
+  for (const os of ["windows", "macos", "linux"]) {
+    if (!new RegExp(`data-platform="${os}"[\\s\\S]*?<a href="[^"]*"[^>]*>Download \u2192</a>`).test(html)) fail(`index.html: ${os} download card no longer matches the pattern scripts/fetch-release.mjs rewrites`);
   }
 }
 

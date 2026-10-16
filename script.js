@@ -89,7 +89,6 @@
   /* ---------- smart download ---------- */
   var GH_REPO = 'Panchak2d/Aerini';
   var repoArchived = false;
-  var GH_RELEASES_API = 'https://api.github.com/repos/' + GH_REPO + '/releases/latest';
   var DOWNLOAD_PREFIX = 'https://github.com/' + GH_REPO + '/releases/download/';
   var TAG_RE = /^v?\d+\.\d+\.\d+(?:[-.][0-9A-Za-z.]+)?$/;
   var ASSET_PATTERN = { windows: /-setup\.exe$/i, macos: /\.dmg$/i, linux: /\.AppImage$/i };
@@ -161,6 +160,40 @@
     }
   }
 
+  var GH_RELEASES_LIST_API = 'https://api.github.com/repos/' + GH_REPO + '/releases?per_page=5';
+
+  function normalizeRelease(tag, list){
+    if(typeof tag !== 'string' || !TAG_RE.test(tag)) return null;
+    var assets = trustedAssets(list);
+    return assets.length ? { tag: tag, assets: assets } : null;
+  }
+
+  /* 1. release.json: written at deploy time from the newest published release (pre-releases included). Same
+        origin, so no third-party request and no API rate limit. */
+  function releaseFromSite(){
+    return fetch('release.json', { cache: 'no-cache' })
+      .then(function(res){ if(!res.ok) throw new Error('no release.json'); return res.json(); })
+      .then(function(r){ return normalizeRelease(r && r.tag, r && r.assets); });
+  }
+
+  /* 2. GitHub API fallback (local dev, or the deploy step could not reach GitHub). The list endpoint is used
+        instead of /releases/latest because that one skips pre-releases, which would break the buttons for a
+        pre-1.0 project. Cached for an hour to stay far below the unauthenticated rate limit. */
+  function releaseFromApi(){
+    var cached = readReleaseCache();
+    if(cached) return Promise.resolve(normalizeRelease(cached.tag, cached.assets));
+    return fetch(GH_RELEASES_LIST_API, { headers: { 'Accept': 'application/vnd.github+json' } })
+      .then(function(res){ if(!res.ok) throw new Error('release lookup failed'); return res.json(); })
+      .then(function(list){
+        for(var i=0;i<list.length;i++){
+          if(!list[i] || list[i].draft) continue;
+          var rel = normalizeRelease(list[i].tag_name, (list[i].assets || []).map(function(a){ return { name: a.name, url: a.browser_download_url }; }));
+          if(rel){ writeReleaseCache(rel.tag, rel.assets); return rel; }
+        }
+        return null;
+      });
+  }
+
   function initSmartDownload(){
     var ctas = document.querySelectorAll('[data-role="get-aerini-cta"]');
     var cards = document.querySelectorAll('[data-platform]');
@@ -168,19 +201,10 @@
     if(!('fetch' in window)) return;
     if(!ctas.length && !cards.length) return;
 
-    var cached = readReleaseCache();
-    if(cached){ applyRelease(cached.tag, trustedAssets(cached.assets), ctas, cards, detected); return; }
-
-    fetch(GH_RELEASES_API, { headers: { 'Accept': 'application/vnd.github+json' } })
-      .then(function(res){ if(!res.ok) throw new Error('release lookup failed'); return res.json(); })
-      .then(function(release){
-        var tag = typeof release.tag_name === 'string' ? release.tag_name : '';
-        if(!TAG_RE.test(tag)) return;
-        var assets = trustedAssets((release.assets || []).map(function(a){ return { name: a.name, url: a.browser_download_url }; }));
-        if(!assets.length) return;
-        writeReleaseCache(tag, assets);
-        applyRelease(tag, assets, ctas, cards, detected);
-      })
+    releaseFromSite()
+      .catch(function(){ return null; })
+      .then(function(rel){ return rel || releaseFromApi(); })
+      .then(function(rel){ if(rel) applyRelease(rel.tag, rel.assets, ctas, cards, detected); })
       /* Repo private, no release published yet, offline, or GitHub API
          rate-limited: every CTA and platform card already has a working
          fallback href in the markup, so there is nothing to recover here. */
