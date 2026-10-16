@@ -44,7 +44,7 @@
 }
 
 *,*::before,*::after{ box-sizing: border-box; }
-html{ scroll-behavior: smooth; scroll-padding-top: 84px; }
+html{ scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce){
   html{ scroll-behavior: auto; }
   *,*::before,*::after{ animation-duration: 0.001ms !important; animation-iteration-count: 1 !important; transition-duration: 0.001ms !important; scroll-behavior: auto !important; }
@@ -148,8 +148,10 @@ button{ font-family: inherit; cursor:pointer; }
 .js .reveal{ opacity:0; transform: translateY(18px); transition: opacity .7s var(--ease), transform .7s var(--ease); }
 .js .reveal.is-visible{ opacity:1; transform:none; }
 
-section{ position:relative; z-index:1; padding: 128px 0; scroll-margin-top: 84px; }
-@media (max-width: 720px){ section{ padding: 84px 0; } }
+/* Anchor jumps: land so a section's eyebrow sits one --anchor-gap below the fixed nav, instead of leaving the
+   section's own top padding (plus the nav height) as empty space above the content. */
+section{ position:relative; z-index:1; padding: 128px 0; --section-pad: 128px; scroll-margin-top: calc(var(--nav-h, 68px) + var(--anchor-gap, 32px) - var(--section-pad)); }
+@media (max-width: 720px){ section{ padding: 84px 0; --section-pad: 84px; } }
 
 .section-head{ max-width: 640px; margin-bottom: 56px; }
 .section-head h2{ font-size: clamp(28px,4vw,42px); margin-top:14px; }

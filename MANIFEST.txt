@@ -1,38 +1,23 @@
 CHANGED:
-- index.html
-- pricing.html
+- .github/workflows/deploy.yml
+- 404.html
 - contact.html
+- index.html
+- license-terms-v1.0.html
+- license-terms.html
+- pricing.html
 - privacy.html
 - security.html
-- license-terms.html
-- license-terms-v1.0.html
-- 404.html
-- styles.css
 - script.js
-- llms.txt
-- sitemap.xml
+- styles.css
 - scripts/check-site.mjs
 - scripts/dev.mjs
-- package.json
-- .github/workflows/ci.yml
-- .github/workflows/deploy.yml
 
 ADDED:
-- guard.js
-- site.webmanifest
-- icons/favicon.svg
-- favicon.ico
-- icons/apple-touch-icon.png
-- icons/icon-192.png
-- icons/icon-512.png
-- fonts/inter-latin-wght-normal.woff2
-- fonts/jetbrains-mono-latin-wght-normal.woff2
-- fonts/OFL-Inter.txt
-- fonts/OFL-JetBrainsMono.txt
-- .well-known/security.txt
+- scripts/fetch-release.mjs
 
 DELETE BEFORE EXTRACTING:
 - none
 
 NOTICED BUT NOT FIXED:
-- art.css is not linked by any page (monochrome terminal theme). Left untouched; needs your decision.
+- none
