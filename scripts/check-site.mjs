@@ -120,7 +120,12 @@ for (const f of files) {
       continue;
     }
     let route = null;
-    if (link.startsWith("/")) route = link;
+    // Pages sit at the site root, so relative URLs also work from the github.io project preview.
+    // The 404 page is served from any path, so it must use absolute URLs.
+    if (!/^(https?:|\/)/.test(link)) {
+      if (f === "404.html") { fail(`404.html: relative URL "${link}" (must be absolute; the page is served from any path)`); continue; }
+      route = "/" + link.replace(/^\.\//, "");
+    } else if (link.startsWith("/")) route = link;
     else if (link.startsWith(`${SITE}/`) || link === SITE) route = link.slice(SITE.length) || "/";
     if (route !== null) {
       const [routePath, anchor] = route.split("#");
@@ -130,8 +135,6 @@ for (const f of files) {
     } else if (/^https?:\/\//.test(link)) {
       if (!externalToCheck.has(link)) externalToCheck.set(link, []);
       externalToCheck.get(link).push(f);
-    } else if (!link.startsWith("//")) {
-      fail(`${f}: relative URL "${link}" (use an absolute path so it also works from the 404 page)`);
     }
   }
 }

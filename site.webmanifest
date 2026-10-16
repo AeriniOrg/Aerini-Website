@@ -2,14 +2,14 @@
   "name": "Aerini",
   "short_name": "Aerini",
   "description": "A local-first visual workflow engine you run yourself.",
-  "start_url": "/",
-  "scope": "/",
+  "start_url": "./",
+  "scope": "./",
   "display": "browser",
   "background_color": "#08090d",
   "theme_color": "#08090d",
   "icons": [
-    { "src": "/icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
-    { "src": "/icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
-    { "src": "/icons/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
+    { "src": "icons/icon-192.png", "sizes": "192x192", "type": "image/png" },
+    { "src": "icons/icon-512.png", "sizes": "512x512", "type": "image/png" },
+    { "src": "icons/favicon.svg", "sizes": "any", "type": "image/svg+xml" }
   ]
 }
