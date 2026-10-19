@@ -2,12 +2,28 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.github.com; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-WBAtq6rODG7wXrE1z9NxRrnXv4rHMm1pEBvR5lcHp7k='; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.github.com; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#08090d">
 <script src="guard.js"></script>
+<script type="speculationrules">
+{
+  "prerender": [
+    {
+      "where": {
+        "and": [
+          { "href_matches": "/*" },
+          { "not": { "href_matches": "/.well-known/*" } },
+          { "not": { "selector_matches": "a[href^=\"#\"]" } }
+        ]
+      },
+      "eagerness": "moderate"
+    }
+  ]
+}
+</script>
 <title>Aerini: Local-first visual workflow automation, open source</title>
 <meta name="description" content="Aerini is an open source, local-first visual workflow engine. Wire nodes on a canvas, run them on your machine or a headless server. No account, no cloud, no telemetry.">
 <link rel="canonical" href="https://aerini.org/">

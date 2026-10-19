@@ -8,8 +8,12 @@
   var navLinks = document.getElementById('navLinks');
 
   if(nav){
+    var navScrolled = false;
     window.addEventListener('scroll', function(){
-      nav.classList.toggle('is-scrolled', window.scrollY > 8);
+      var scrolled = window.scrollY > 8;
+      if(scrolled === navScrolled) return;
+      navScrolled = scrolled;
+      nav.classList.toggle('is-scrolled', scrolled);
     }, { passive:true });
   }
   if(navToggle && nav){
@@ -79,10 +83,10 @@
     q.addEventListener('click', function(){
       var isOpen = item.classList.contains('is-open');
       document.querySelectorAll('.faq-item.is-open').forEach(function(other){
-        if(other!==item){ other.classList.remove('is-open'); other.querySelector('.faq-a').style.maxHeight = null; other.querySelector('.faq-q').setAttribute('aria-expanded', 'false'); }
+        if(other!==item){ other.classList.remove('is-open'); other.querySelector('.faq-q').setAttribute('aria-expanded', 'false'); }
       });
-      if(isOpen){ item.classList.remove('is-open'); a.style.maxHeight = null; q.setAttribute('aria-expanded', 'false'); }
-      else { item.classList.add('is-open'); a.style.maxHeight = a.scrollHeight + 'px'; q.setAttribute('aria-expanded', 'true'); }
+      item.classList.toggle('is-open', !isOpen);
+      q.setAttribute('aria-expanded', isOpen ? 'false' : 'true');
     });
   });
 
@@ -315,8 +319,10 @@
   } else if(heroCanvas){
     heroVisible = true;
   }
+  var graphBuiltWidth = 0;
   function initHeroGraph(){
     if(!heroCanvas) return;
+    graphBuiltWidth = document.documentElement.clientWidth;
     var gen = ++heroGen;
     var hw = heroCanvas.clientWidth, hh = heroCanvas.clientHeight;
     var hIsNarrow = hw < 420;
@@ -359,6 +365,7 @@
 
   function initDemoGraph(){
     if(!demoCanvas) return;
+    graphBuiltWidth = document.documentElement.clientWidth;
     var gen = ++demoGen;
     var dw = demoCanvas.clientWidth, dh = demoCanvas.clientHeight;
     var isNarrow = dw < 620;
@@ -412,11 +419,14 @@
     });
   }
 
-  /* ---------- rebuild both graphs on resize; ASCII canvases handle their own resize above, these need it separately since they position nodes in px, not on a canvas grid ---------- */
+  /* ---------- rebuild both graphs when the width changes; ASCII canvases handle their own resize below, these need it separately since they position nodes in px, not on a canvas grid. Height-only resizes (mobile address bar showing/hiding while scrolling) change nothing they depend on, so they are ignored ---------- */
   var graphResizeTimer;
   window.addEventListener('resize', function(){
     clearTimeout(graphResizeTimer);
-    graphResizeTimer = setTimeout(function(){ initHeroGraph(); initDemoGraph(); }, 200);
+    graphResizeTimer = setTimeout(function(){
+      if(document.documentElement.clientWidth === graphBuiltWidth) return;
+      initHeroGraph(); initDemoGraph();
+    }, 200);
   });
 
   /* ---------- mobile mode flag ---------- */
@@ -451,22 +461,31 @@
     if(!spotEls.length) return;
     spotEls.forEach(function(el){ el.classList.add('spot'); });
     var fineHover = window.matchMedia('(hover:hover) and (pointer:fine)').matches;
+    var pending = null, frameQueued = false;
+    function paintSpot(){
+      frameQueued = false;
+      var p = pending;
+      pending = null;
+      if(!p) return;
+      var rect = p.el.getBoundingClientRect();
+      p.el.style.setProperty('--mx', ((p.x-rect.left)/rect.width*100)+'%');
+      p.el.style.setProperty('--my', ((p.y-rect.top)/rect.height*100)+'%');
+    }
+    function queueSpot(el, e){
+      pending = { el: el, x: e.clientX, y: e.clientY };
+      if(!frameQueued){ frameQueued = true; requestAnimationFrame(paintSpot); }
+    }
     if(fineHover){
       document.addEventListener('pointermove', function(e){
         var el = e.target.closest('.spot');
-        if(!el) return;
-        var rect = el.getBoundingClientRect();
-        el.style.setProperty('--mx', ((e.clientX-rect.left)/rect.width*100)+'%');
-        el.style.setProperty('--my', ((e.clientY-rect.top)/rect.height*100)+'%');
+        if(el) queueSpot(el, e);
       }, { passive:true });
     } else {
       document.addEventListener('pointerdown', function(e){
         if(e.pointerType!=='touch') return;
         var el = e.target.closest('.spot');
         if(!el) return;
-        var rect = el.getBoundingClientRect();
-        el.style.setProperty('--mx', ((e.clientX-rect.left)/rect.width*100)+'%');
-        el.style.setProperty('--my', ((e.clientY-rect.top)/rect.height*100)+'%');
+        queueSpot(el, e);
         el.classList.add('is-tapped');
         setTimeout(function(){ el.classList.remove('is-tapped'); }, 550);
       }, { passive:true });
@@ -506,23 +525,65 @@
     var h = Math.max(1, Math.round(rect.height * dpr));
     canvas.width = w; canvas.height = h;
     var ctx = canvas.getContext('2d');
+    lastCtx = null; /* resizing the bitmap reset the context's fillStyle */
     var cw = w / cols, ch = h / rows;
     ctx.font = Math.ceil(ch) + 'px monospace';
     ctx.textBaseline = 'top';
     return { ctx: ctx, cw: cw, ch: ch, w: w, h: h };
   }
 
+  var STYLE_CACHE = {};
+  function fillFor(color, brightness){
+    var a = Math.round(Math.min(brightness,1) * 100);
+    var row = STYLE_CACHE[color] || (STYLE_CACHE[color] = []);
+    return row[a] || (row[a] = 'rgba(' + color + ',' + (a / 100).toFixed(2) + ')');
+  }
+
+  var lastCtx = null, lastFill = '';
   function putChar(ctx, col, row, cw, ch, glyph, brightness, colorOverride){
     if(brightness <= 0.03) return;
-    var color = colorOverride || (brightness > 0.55 ? COLOR_PEAK : COLOR_BASE);
-    ctx.fillStyle = 'rgba(' + color + ',' + Math.min(brightness,1).toFixed(2) + ')';
+    var fill = fillFor(colorOverride || (brightness > 0.55 ? COLOR_PEAK : COLOR_BASE), brightness);
+    if(ctx !== lastCtx || fill !== lastFill){ ctx.fillStyle = fill; lastCtx = ctx; lastFill = fill; }
     ctx.fillText(glyph, col * cw, row * ch);
   }
 
-  function runScene(canvas, setup){
+  /* One pointer tracker per scene, attached once. The handlers only record the latest client position; read() turns it
+     into canvas-relative coordinates, and a scene calls it once per rendered frame, so pointer movement never forces layout. */
+  function trackPointer(target, canvas, trackY, touchDelay){
+    var p = { active:false, nx:0, ny:0, has:false, cx:0, cy:0, timer:null };
+    function record(e){ p.cx = e.clientX; p.cy = e.clientY; p.has = true; }
+    target.addEventListener('pointermove', function(e){
+      if(p.timer){ clearTimeout(p.timer); p.timer = null; }
+      record(e);
+    }, { passive:true });
+    target.addEventListener('pointerdown', record, { passive:true });
+    target.addEventListener('pointerleave', function(e){
+      if(e.pointerType === 'touch'){ p.timer = setTimeout(function(){ p.has = false; }, touchDelay); }
+      else { p.has = false; }
+    }, { passive:true });
+    p.read = function(){
+      p.active = false;
+      if(!p.has) return;
+      var rect = canvas.getBoundingClientRect();
+      if(rect.width <= 0 || (trackY && rect.height <= 0)) return;
+      var nx = (p.cx - rect.left) / rect.width, ny = (p.cy - rect.top) / rect.height;
+      if(nx < 0 || nx > 1 || (trackY && (ny < 0 || ny > 1))) return;
+      p.active = true; p.nx = nx; p.ny = ny;
+    };
+    return p;
+  }
+
+  /* A scene is built lazily the first time its canvas is on screen and rebuilt only when its size or breakpoint changed. */
+  function runScene(canvas, setup, pointerOpts){
     if(!canvas || !canvas.getContext) return;
-    var state = setup(canvas);
-    var running = false, raf = null, lastFrame = 0;
+    var pointer = pointerOpts ? trackPointer(pointerOpts.target, canvas, pointerOpts.trackY, pointerOpts.touchDelay) : null;
+    var state = null, builtFor = '';
+    var running = false, raf = null, lastFrame = 0, relayoutTimer;
+    function layoutKey(){
+      var rect = canvas.getBoundingClientRect();
+      return Math.round(rect.width) + 'x' + Math.round(rect.height) + (document.body.classList.contains('is-mobile') ? 'm' : 'd');
+    }
+    function build(){ state = setup(canvas, pointer); builtFor = layoutKey(); }
     function frame(now){
       raf = null;
       if(!running) return;
@@ -534,6 +595,7 @@
     }
     function start(){
       if(running) return;
+      if(!state || layoutKey() !== builtFor) build();
       running = true;
       state.render(0);
       if(!asciiReduceMotion) raf = requestAnimationFrame(frame);
@@ -542,18 +604,18 @@
     if('IntersectionObserver' in window){
       new IntersectionObserver(function(entries){ if(entries[0].isIntersecting) start(); else stop(); }, { threshold: 0.01 }).observe(canvas);
     } else { start(); }
-    var resizeTimer;
-    window.addEventListener('resize', function(){
-      clearTimeout(resizeTimer);
-      resizeTimer = setTimeout(function(){ state = setup(canvas); if(!running) state.render(0); }, 200);
-    });
-    if(document.fonts && document.fonts.ready){
-      document.fonts.ready.then(function(){ state = setup(canvas); if(!running) state.render(0); });
+    function relayout(){
+      if(!running || layoutKey() === builtFor) return;
+      build();
+      state.render(0);
     }
+    function scheduleRelayout(){ clearTimeout(relayoutTimer); relayoutTimer = setTimeout(relayout, 200); }
+    if('ResizeObserver' in window){ new ResizeObserver(scheduleRelayout).observe(canvas); }
+    else { window.addEventListener('resize', scheduleRelayout); }
   }
 
   /* primary: oscilloscope-style pulse trace, below "What it is" — the engine is alive, running unattended */
-  function setupHeartbeat(canvas){
+  function setupHeartbeat(canvas, pointer){
     var mobile = document.body.classList.contains('is-mobile');
     var cols = mobile ? 46 : 74, rows = mobile ? 24 : 36;
     var g = makeCharCanvas(canvas, cols, rows);
@@ -575,26 +637,6 @@
     }
     var beatsVisible = mobile ? 2.4 : 3.4, speed = 0.22;
 
-    var pointer = { active:false, col:-1, touchTimer:null };
-    var wrapEl = canvas.closest('.ascii-feature') || canvas;
-    function setPointer(clientX){
-      var rect = canvas.getBoundingClientRect();
-      if(rect.width<=0){ pointer.active=false; return; }
-      var nx = (clientX - rect.left) / rect.width;
-      if(nx<0 || nx>1){ pointer.active=false; return; }
-      pointer.active = true;
-      pointer.col = Math.max(0, Math.min(cols-1, Math.round(nx*cols - 0.5)));
-    }
-    wrapEl.addEventListener('pointermove', function(e){
-      if(pointer.touchTimer){ clearTimeout(pointer.touchTimer); pointer.touchTimer=null; }
-      setPointer(e.clientX);
-    }, { passive:true });
-    wrapEl.addEventListener('pointerdown', function(e){ setPointer(e.clientX); }, { passive:true });
-    wrapEl.addEventListener('pointerleave', function(e){
-      if(e.pointerType==='touch'){ pointer.touchTimer = setTimeout(function(){ pointer.active=false; }, 650); }
-      else{ pointer.active=false; }
-    }, { passive:true });
-
     return {
       frameInterval: mobile ? 1000/24 : 1000/30,
       render: function(t){
@@ -604,6 +646,8 @@
           for(var fc=0; fc<cols; fc++){ putChar(g.ctx, fc, flatRow, g.cw, g.ch, '\u2500', 0.3, COLOR_BASE); }
           return false;
         }
+        pointer.read();
+        var pointerCol = pointer.active ? Math.max(0, Math.min(cols-1, Math.round(pointer.nx*cols - 0.5))) : -1;
         var mid = Math.round(rows/2);
         for(var gc=0; gc<cols; gc+=3){ putChar(g.ctx, gc, mid, g.cw, g.ch, '\u00B7', 0.1); }
         var prevRow = null;
@@ -620,7 +664,7 @@
           var glyph = RAMP[Math.max(0,Math.min(RAMP.length-1,Math.floor(peakBright*(RAMP.length-1))))];
           putChar(g.ctx, c, tr, g.cw, g.ch, glyph, peakBright);
           prevRow = tr;
-          if(pointer.active && c===pointer.col){
+          if(c===pointerCol){
             for(var pr=0; pr<rows; pr++){ if(pr!==tr) putChar(g.ctx, c, pr, g.cw, g.ch, '\u00B7', 0.16); }
             putChar(g.ctx, c, tr, g.cw, g.ch, '\u25C6', 1, COLOR_PEAK);
           }
@@ -657,28 +701,44 @@
         ]
       };
     });
+    /* A cell only reaches the first visible glyph (brightness 1/6 of the ramp) when it lies within about 0.038 of a loop
+       edge, and that distance never changes. Collect those (cell, loop, edge position, falloff) entries once per layout;
+       a frame then only advances each loop's phase and revisits the entries instead of every cell against every edge. */
+    var minGlow = 1 / (RAMP.length - 1);
+    var entryCell = [], entryLoop = [], entryPos = [], entryFalloff = [];
+    for(var r=0;r<rows;r++){
+      for(var c=0;c<cols;c++){
+        var px=(c+0.5)/cols, py=(r+0.5)/rows;
+        for(var L=0;L<loops.length;L++){
+          for(var i=0;i<4;i++){
+            var e=loops[L].edges[i];
+            var res=distToSeg(px,py,e.x1,e.y1,e.x2,e.y2);
+            var falloff=Math.max(0,1-res.d*22);
+            if(falloff < minGlow) continue;
+            entryCell.push(r*cols+c); entryLoop.push(L); entryPos.push(e.p0+res.u*0.25); entryFalloff.push(falloff);
+          }
+        }
+      }
+    }
+    var entries = entryCell.length;
+    var bright = new Float64Array(cols*rows);
+    var phases = new Float64Array(loops.length);
     return {
       frameInterval: mobile ? 1000/12 : 1000/20,
       render: function(t){
         g.ctx.clearRect(0,0,g.w,g.h);
-        for(var r=0;r<rows;r++){
-          for(var c=0;c<cols;c++){
-            var px=(c+0.5)/cols, py=(r+0.5)/rows, bright=0;
-            for(var L=0;L<loops.length;L++){
-              var loop=loops[L];
-              var phase=((t*loop.sp+loop.ph)%1+1)%1;
-              for(var i=0;i<4;i++){
-                var e=loop.edges[i];
-                var res=distToSeg(px,py,e.x1,e.y1,e.x2,e.y2);
-                if(res.d<0.03) bright=Math.max(bright,0.14);
-                var gp=e.p0+res.u*0.25;
-                var dphase=Math.abs(gp-phase); dphase=Math.min(dphase,1-dphase);
-                var glow=Math.max(0,1-dphase*9)*Math.max(0,1-res.d*22);
-                bright=Math.max(bright,glow);
-              }
-            }
-            putChar(g.ctx, c, r, g.cw, g.ch, RAMP[Math.floor(bright*(RAMP.length-1))], bright);
-          }
+        bright.fill(0);
+        for(var L=0;L<loops.length;L++){ phases[L]=((t*loops[L].sp+loops[L].ph)%1+1)%1; }
+        for(var k=0;k<entries;k++){
+          var dphase=Math.abs(entryPos[k]-phases[entryLoop[k]]); dphase=Math.min(dphase,1-dphase);
+          var glow=Math.max(0,1-dphase*9)*entryFalloff[k];
+          if(glow>bright[entryCell[k]]) bright[entryCell[k]]=glow;
+        }
+        for(var cell=0;cell<bright.length;cell++){
+          var b=bright[cell];
+          if(b<minGlow) continue;
+          var row=(cell/cols)|0;
+          putChar(g.ctx, cell-row*cols, row, g.cw, g.ch, RAMP[Math.floor(b*(RAMP.length-1))], b);
         }
       }
     };
@@ -759,7 +819,7 @@
     return { branches:branches, blobs:blobs, roots:roots, aerials:aerials, groundY: baseY };
   }
 
-  function setupBranch(canvas){
+  function setupBranch(canvas, pointer){
     var mobile = document.body.classList.contains('is-mobile');
     var cols = mobile ? 48 : 54, rows = mobile ? 24 : 54;
     var g = makeCharCanvas(canvas, cols, rows);
@@ -784,84 +844,87 @@
       re.by0 = Math.min(re.y1,re.y2) - 0.011; re.by1 = Math.max(re.y1,re.y2) + 0.011;
     });
 
-    var pointer = { active:false, x:0, y:0, touchTimer:null };
-    var section = canvas.closest('section') || canvas;
-    function setPointer(clientX, clientY){
-      var rect = canvas.getBoundingClientRect();
-      if(rect.width<=0 || rect.height<=0){ pointer.active=false; return; }
-      var nx=(clientX-rect.left)/rect.width, ny=(clientY-rect.top)/rect.height;
-      if(nx<0||nx>1||ny<0||ny>1){ pointer.active=false; return; }
-      pointer.active=true; pointer.x=nx; pointer.y=ny;
+    // Which shapes cover a cell never changes for a given layout; only the canopy shimmer, the travelling branch pulse
+    // and the pointer glow vary per frame. Resolve the coverage once here so render() skips empty cells and does no
+    // distance math.
+    var cells = [];
+    for(var r=0;r<rows;r++){
+      for(var c=0;c<cols;c++){
+        var px=(c+0.5)/cols, py=(r+0.5)/rows;
+        var cell = { c:c, r:r, px:px, py:py, blob:-1, base:0, color:null, hits:[], roots:[], aerial:false, ground:false };
+
+        var bestNd=Infinity, bestBlob=-1;
+        for(var i=0;i<tree.blobs.length;i++){
+          var bl=tree.blobs[i];
+          if(px<bl.cx-bl.r || px>bl.cx+bl.r || py<bl.cy-bl.ry || py>bl.cy+bl.ry) continue;
+          var nd=Math.hypot((px-bl.cx)/bl.r, (py-bl.cy)/bl.ry);
+          if(nd<bestNd){ bestNd=nd; bestBlob=i; }
+        }
+        if(bestBlob>=0 && bestNd<1){
+          var edge=0.22;
+          cell.blob=bestBlob;
+          cell.base = bestNd<(1-edge) ? 0.99 : 0.99*(1-(bestNd-(1-edge))/edge);
+          cell.color = bandColors[tree.blobs[bestBlob].band];
+        }
+        for(var k=0;k<tree.branches.length;k++){
+          var e=tree.branches[k];
+          if(px<e.bx0 || px>e.bx1 || py<e.by0 || py>e.by1) continue;
+          var res=distToSeg(px,py,e.x1,e.y1,e.x2,e.y2);
+          if(res.d<e.width){ cell.hits.push(k, 0.82+0.18*(1-res.d/e.width), res.u); }
+        }
+        for(var m=0;m<tree.roots.length;m++){
+          var re=tree.roots[m];
+          if(px<re.bx0 || px>re.bx1 || py<re.by0 || py>re.by1) continue;
+          if(distToSeg(px,py,re.x1,re.y1,re.x2,re.y2).d<0.011) cell.roots.push(m);
+        }
+        for(var n=0;n<tree.aerials.length;n++){
+          var ae=tree.aerials[n];
+          if(py>ae.y1 && py<ae.y2){
+            var at=(py-ae.y1)/(ae.y2-ae.y1);
+            var aw=0.005 + Math.max(0,at-0.55)*0.018;
+            if(Math.abs(px-ae.x)<aw) cell.aerial=true;
+          }
+        }
+        cell.ground = r>=groundRow-1 && r<=groundRow+1 && (c%2===0);
+        if(cell.blob>=0 || cell.hits.length || cell.roots.length || cell.aerial || cell.ground) cells.push(cell);
+      }
     }
-    section.addEventListener('pointermove', function(e){
-      if(pointer.touchTimer){ clearTimeout(pointer.touchTimer); pointer.touchTimer=null; }
-      setPointer(e.clientX, e.clientY);
-    }, { passive:true });
-    section.addEventListener('pointerdown', function(e){ setPointer(e.clientX, e.clientY); }, { passive:true });
-    section.addEventListener('pointerleave', function(e){
-      if(e.pointerType==='touch'){ pointer.touchTimer = setTimeout(function(){ pointer.active=false; }, 700); }
-      else{ pointer.active=false; }
-    }, { passive:true });
+    var blobShimmer = new Float64Array(tree.blobs.length);
+    var pulseTime = new Float64Array(tree.branches.length);
 
     return {
       frameInterval: mobile ? 1000/12 : 1000/20,
       render: function(t){
         g.ctx.clearRect(0,0,g.w,g.h);
-        for(var r=0;r<rows;r++){
-          for(var c=0;c<cols;c++){
-            var px=(c+0.5)/cols, py=(r+0.5)/rows, bright=0, glyph=null, color=null;
+        pointer.read();
+        var pointerOn = pointer.active, pointerX = pointer.nx, pointerY = pointer.ny;
+        for(var bi=0;bi<blobShimmer.length;bi++){ blobShimmer[bi]=Math.sin(t*0.5+tree.blobs[bi].phase); }
+        for(var bk=0;bk<pulseTime.length;bk++){ pulseTime[bk]=(((t*0.4)-tree.branches[bk].off)%2.2+2.2)%2.2; }
+        for(var ci=0;ci<cells.length;ci++){
+          var cl=cells[ci], bright=0, glyph=null, color=null;
 
-            var bestNd=Infinity, bestBlob=null;
-            for(var i=0;i<tree.blobs.length;i++){
-              var bl=tree.blobs[i];
-              if(px<bl.cx-bl.r || px>bl.cx+bl.r || py<bl.cy-bl.ry || py>bl.cy+bl.ry) continue;
-              var nd=Math.hypot((px-bl.cx)/bl.r, (py-bl.cy)/bl.ry);
-              if(nd<bestNd){ bestNd=nd; bestBlob=bl; }
+          if(cl.blob>=0){
+            var b = cl.base + 0.06*blobShimmer[cl.blob];
+            if(pointerOn){
+              var pd=Math.hypot(cl.px-pointerX,cl.py-pointerY);
+              if(pd<0.12) b += (1-pd/0.12)*0.35;
             }
-            if(bestBlob && bestNd<1){
-              var edge=0.22;
-              var b = bestNd<(1-edge) ? 0.99 : 0.99*(1-(bestNd-(1-edge))/edge);
-              b += 0.06*Math.sin(t*0.5+bestBlob.phase);
-              if(pointer.active){
-                var pd=Math.hypot(px-pointer.x,py-pointer.y);
-                if(pd<0.12) b += (1-pd/0.12)*0.35;
-              }
-              bright=Math.max(0,b); color=bandColors[bestBlob.band]; glyph=null;
-            }
-            for(var k=0;k<tree.branches.length;k++){
-              var e=tree.branches[k];
-              if(px<e.bx0 || px>e.bx1 || py<e.by0 || py>e.by1) continue;
-              var res=distToSeg(px,py,e.x1,e.y1,e.x2,e.y2);
-              if(res.d<e.width){
-                var lb=0.82+0.18*(1-res.d/e.width);
-                var localT=(((t*0.4)-e.off)%2.2+2.2)%2.2;
-                if(localT<0.5){ lb=Math.max(lb, lb+Math.max(0,1-Math.abs(res.u-localT/0.5)*5)*0.18); }
-                if(lb>=bright){ bright=Math.max(bright,lb); color=COLOR_BASE; glyph=e.glyph; }
-              }
-            }
-            for(var m=0;m<tree.roots.length;m++){
-              var re=tree.roots[m];
-              if(px<re.bx0 || px>re.bx1 || py<re.by0 || py>re.by1) continue;
-              var rres=distToSeg(px,py,re.x1,re.y1,re.x2,re.y2);
-              if(rres.d<0.011){ var rb=0.7; if(rb>=bright){ bright=Math.max(bright,rb); color=COLOR_TRIGGER; glyph=re.glyph; } }
-            }
-            for(var n=0;n<tree.aerials.length;n++){
-              var ae=tree.aerials[n];
-              if(py>ae.y1 && py<ae.y2){
-                var at=(py-ae.y1)/(ae.y2-ae.y1);
-                var aw=0.005 + Math.max(0,at-0.55)*0.018;
-                if(Math.abs(px-ae.x)<aw){
-                  var ab=0.4; if(ab>=bright){ bright=Math.max(bright,ab); color=COLOR_TRIGGER; glyph='\u2502'; }
-                }
-              }
-            }
-            if(bright<0.07 && r>=groundRow-1 && r<=groundRow+1 && (c%2===0)){
-              bright=0.2; glyph='\u00B7'; color=COLOR_BASE;
-            }
-            if(bright<=0.03) continue;
-            if(glyph===null){ glyph = RAMP[Math.max(0,Math.min(RAMP.length-1,Math.floor(bright*(RAMP.length-1))))]; }
-            putChar(g.ctx, c, r, g.cw, g.ch, glyph, bright, color);
+            bright=Math.max(0,b); color=cl.color;
           }
+          for(var h=0;h<cl.hits.length;h+=3){
+            var bk2=cl.hits[h], lb=cl.hits[h+1], localT=pulseTime[bk2];
+            if(localT<0.5){ lb=Math.max(lb, lb+Math.max(0,1-Math.abs(cl.hits[h+2]-localT/0.5)*5)*0.18); }
+            if(lb>=bright){ bright=Math.max(bright,lb); color=COLOR_BASE; glyph=tree.branches[bk2].glyph; }
+          }
+          for(var rr=0;rr<cl.roots.length;rr++){
+            if(0.7>=bright){ bright=Math.max(bright,0.7); color=COLOR_TRIGGER; glyph=tree.roots[cl.roots[rr]].glyph; }
+          }
+          if(cl.aerial && 0.4>=bright){ bright=Math.max(bright,0.4); color=COLOR_TRIGGER; glyph='│'; }
+          if(bright<0.07 && cl.ground){ bright=0.2; glyph='·'; color=COLOR_BASE; }
+          if(bright<=0.03) continue;
+          if(glyph===null){ glyph = RAMP[Math.max(0,Math.min(RAMP.length-1,Math.floor(bright*(RAMP.length-1))))]; }
+          if(glyph===' ') continue;
+          putChar(g.ctx, cl.c, cl.r, g.cw, g.ch, glyph, bright, color);
         }
       }
     };
@@ -894,7 +957,9 @@
     }).catch(function(){});
   })();
 
-  runScene(document.getElementById('asciiWireframe'), setupHeartbeat);
+  var wireframeCanvas = document.getElementById('asciiWireframe');
+  var branchCanvas = document.getElementById('asciiBranch');
+  runScene(wireframeCanvas, setupHeartbeat, wireframeCanvas && { target: wireframeCanvas.closest('.ascii-feature') || wireframeCanvas, trackY: false, touchDelay: 650 });
   runScene(document.getElementById('asciiNetwork'), setupNetwork);
-  runScene(document.getElementById('asciiBranch'), setupBranch);
+  runScene(branchCanvas, setupBranch, branchCanvas && { target: branchCanvas.closest('section') || branchCanvas, trackY: true, touchDelay: 700 });
 })();

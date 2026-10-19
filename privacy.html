@@ -2,12 +2,28 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self'; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.github.com; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-WBAtq6rODG7wXrE1z9NxRrnXv4rHMm1pEBvR5lcHp7k='; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.github.com; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#08090d">
 <script src="guard.js"></script>
+<script type="speculationrules">
+{
+  "prerender": [
+    {
+      "where": {
+        "and": [
+          { "href_matches": "/*" },
+          { "not": { "href_matches": "/.well-known/*" } },
+          { "not": { "selector_matches": "a[href^=\"#\"]" } }
+        ]
+      },
+      "eagerness": "moderate"
+    }
+  ]
+}
+</script>
 <title>Privacy Policy · Aerini</title>
 <meta name="description" content="What the Aerini website stores (nothing) and shares (your IP, via fonts/checkout) — plus how the Aerini app handles data: no telemetry, no cloud.">
 <link rel="canonical" href="https://aerini.org/privacy">
@@ -137,7 +153,7 @@
       <p>Loading this page triggers a small number of requests to services we do not control:</p>
       <ul>
         <li><strong>Fonts.</strong> The Inter and JetBrains Mono typefaces are served from this site's own domain. No font request goes to Google or any other third party.</li>
-        <li><strong>GitHub's public API.</strong> The "Get Aerini" button checks GitHub's releases API to find the correct installer for your operating system, and the platform picker does the same for each platform. The site also asks GitHub's public API whether the repository is archived. Both are public, unauthenticated endpoints. They send nothing about you beyond a standard HTTP request; GitHub sees your IP address the way any site you visit does.</li>
+        <li><strong>GitHub's public API.</strong> The "Get Aerini" button and the platform picker normally read the latest release from a file on this site, and only fall back to GitHub's releases API when that file is unavailable. The site also asks GitHub's public API whether the repository is archived. Both are public, unauthenticated endpoints. They send nothing about you beyond a standard HTTP request; GitHub sees your IP address the way any site you visit does.</li>
         <li><strong>Polar.</strong> The Pricing page loads Polar's checkout script, served from the jsDelivr CDN (<code>cdn.jsdelivr.net</code>), which sees your IP address and browser the way any CDN does. Polar is the payment processor used for commercial licenses. It only runs when you visit that page, and it only opens a payment window if you click "Buy commercial license." If you complete a purchase, your name, email, and payment details are collected and processed by Polar as the merchant of record — not stored on this site. See <a href="https://polar.sh/legal/privacy" target="_blank" rel="noopener">Polar's privacy policy</a> for how they handle that data.</li>
       </ul>
       <p>If this site is hosted on GitHub Pages or a comparable static host, that host may keep ordinary web server access logs (IP address, requested page, timestamp) as part of normal operation. We don't add any tracking on top of that, and we don't have a separate analytics dashboard for this site.</p>

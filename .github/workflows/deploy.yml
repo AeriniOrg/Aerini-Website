@@ -3,6 +3,8 @@ name: Deploy site
 on:
   push:
     branches: [main]
+  schedule:
+    - cron: '23 4 * * *'
   workflow_dispatch:
 
 concurrency:
@@ -34,6 +36,11 @@ jobs:
           mkdir _site
           cp ./*.html ./*.css ./*.js ./*.png ./*.ico ./*.xml ./*.webmanifest llms.txt robots.txt CNAME _site/
           cp -r fonts icons .well-known _site/
+
+      - name: Bake the newest release into the site
+        run: node scripts/fetch-release.mjs _site
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
 
       - name: Upload Pages artifact
         uses: actions/upload-pages-artifact@fc324d3547104276b827a68afc52ff2a11cc49c9 # v5.0.0

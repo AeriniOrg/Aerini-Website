@@ -44,6 +44,7 @@
 }
 
 *,*::before,*::after{ box-sizing: border-box; }
+@view-transition{ navigation: auto; }
 html{ scroll-behavior: smooth; }
 @media (prefers-reduced-motion: reduce){
   html{ scroll-behavior: auto; }
@@ -392,9 +393,10 @@ section{ position:relative; z-index:1; padding: 128px 0; --section-pad: 128px; s
 }
 .faq-q svg{ width:16px; height:16px; flex-shrink:0; color:var(--text-3); transition: transform .25s var(--ease); }
 .faq-item.is-open .faq-q svg{ transform: rotate(45deg); color: var(--k-logic); }
-.faq-a{ max-height:0; overflow:hidden; visibility:hidden; transition: max-height .3s var(--ease), visibility 0s linear .3s; }
-.faq-item.is-open .faq-a{ visibility:visible; transition-delay:0s; }
-.faq-a-inner{ padding-bottom:22px; color:var(--text-2); font-size:14.5px; line-height:1.7; max-width:640px; }
+.faq-a{ display:grid; grid-template-rows:0fr; visibility:hidden; transition: grid-template-rows .3s var(--ease), visibility 0s linear .3s; }
+.faq-item.is-open .faq-a{ grid-template-rows:1fr; visibility:visible; transition-delay:0s; }
+.faq-a-inner{ min-height:0; overflow:hidden; color:var(--text-2); font-size:14.5px; line-height:1.7; max-width:640px; }
+.faq-a-inner::after{ content:""; display:block; height:22px; }
 
 /* ================= FINAL CTA ================= */
 .final-cta{ text-align:center; padding: 140px 0; }

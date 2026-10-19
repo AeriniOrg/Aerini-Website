@@ -16,6 +16,7 @@
 // Warn-only: external link returns non-2xx/3xx (--live); security.txt expires within 30 days.
 
 import { readFileSync, readdirSync, existsSync } from "node:fs";
+import { createHash } from "node:crypto";
 import { join, dirname } from "node:path";
 import { fileURLToPath } from "node:url";
 
@@ -64,9 +65,14 @@ for (const f of files) {
   if (/\sstyle\s*=\s*"/i.test(html)) fail(`${f}: inline style attribute (CSP forbids it; use a class)`);
   if (/\son[a-z]+\s*=\s*"/i.test(html.replace(/<script type="application\/ld\+json">[\s\S]*?<\/script>/g, ""))) fail(`${f}: inline event handler`);
   if (/<style[\s>]/i.test(html)) fail(`${f}: <style> element (CSP forbids it)`);
+  const speculationRules = [];
   for (const m of html.matchAll(/<script\b([^>]*)>/gi)) {
     const attrs = m[1];
     if (/type="application\/ld\+json"/.test(attrs)) continue;
+    if (/type="speculationrules"/.test(attrs)) {
+      speculationRules.push(html.slice(m.index + m[0].length, html.indexOf("</script>", m.index)));
+      continue;
+    }
     const src = meta(attrs, /\ssrc="([^"]+)"/) ?? (attrs.startsWith(" src=") ? meta(attrs, /^\s*src="([^"]+)"/) : undefined);
     if (!src) { fail(`${f}: inline executable <script>`); continue; }
     if (/^https?:\/\//.test(src)) {
@@ -87,7 +93,13 @@ for (const f of files) {
     if (!/default-src 'none'/.test(csp) || !/object-src 'none'/.test(csp) || !/base-uri 'none'/.test(csp)) fail(`${f}: CSP lost default-src/object-src/base-uri 'none'`);
     if (!/connect-src 'self'/.test(csp)) fail(`${f}: CSP connect-src must include 'self' (script.js reads release.json)`);
     if (f !== "pricing.html" && /frame-src|cdn\.jsdelivr\.net/.test(csp)) fail(`${f}: CSP allows frames/CDN scripts but only pricing.html needs them`);
+    for (const rules of speculationRules) {
+      try { JSON.parse(rules); } catch (e) { fail(`${f}: invalid speculation rules JSON (${e.message})`); }
+      const hash = createHash("sha256").update(rules).digest("base64");
+      if (!csp.includes(`'sha256-${hash}'`)) fail(`${f}: speculation rules hash 'sha256-${hash}' missing from CSP script-src`);
+    }
   }
+  if (!csp && speculationRules.length) fail(`${f}: speculation rules need a CSP script-src hash but the page has no CSP`);
 
   for (const m of html.matchAll(/<script type="application\/ld\+json">\s*([\s\S]*?)\s*<\/script>/g)) {
     try { JSON.parse(m[1]); } catch (e) { fail(`${f}: invalid JSON-LD (${e.message})`); }
