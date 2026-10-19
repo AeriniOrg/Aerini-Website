@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-WBAtq6rODG7wXrE1z9NxRrnXv4rHMm1pEBvR5lcHp7k='; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.github.com; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
-<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#08090d">
 <script src="guard.js"></script>
@@ -91,7 +91,7 @@
       "description": "Aerini is an open source, local-first visual workflow engine. Wire nodes on a canvas, run them on your machine or a headless server. No account, no cloud, no telemetry.",
       "applicationCategory": "DeveloperApplication",
       "operatingSystem": "Windows, macOS, Linux",
-      "softwareVersion": "0.4.2",
+      "softwareVersion": "0.4.3",
       "isAccessibleForFree": true,
       "offers": {
         "@type": "Offer",
@@ -176,6 +176,14 @@
         },
         {
           "@type": "Question",
+          "name": "What is the MCP server, and is it safe to give an AI agent access?",
+          "acceptedAnswer": {
+            "@type": "Answer",
+            "text": "aerini-mcp is a separate small program that lets an AI agent (Claude Code, Claude Desktop, or any MCP client that can start a local program) look up node types, check a workflow, save it, and run it. Offline mode needs no server and only writes a .aerini file you open in the desktop app; it never runs anything. Online mode talks to aerini-server api with a token, and saving, deleting and scheduling stay off unless you start it with --allow-write. Running a workflow has real side effects, so give agents the narrowest token that works, and do not enable Shell, Code or Database nodes on a server where an agent holds a write token."
+          }
+        },
+        {
+          "@type": "Question",
           "name": "How do I update Aerini?",
           "acceptedAnswer": {
             "@type": "Answer",
@@ -224,6 +232,7 @@
     </a>
     <ul class="nav-links" id="navLinks">
       <li><a href="#how-it-works">How it works</a></li>
+      <li><a href="#agents">AI agents</a></li>
       <li><a href="#why">Why Aerini</a></li>
       <li><a href="#open-source">Open source</a></li>
       <li><a href="#community">Community</a></li>
@@ -259,6 +268,7 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M9 18c-4.5 1.5-4.5-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2-.2 4-1 4-4.5a3.5 3.5 0 00-1-2.5 3.3 3.3 0 00-.1-2.5s-.85-.25-2.9 1a10 10 0 00-5 0c-2.05-1.25-2.9-1-2.9-1a3.3 3.3 0 00-.1 2.5 3.5 3.5 0 00-1 2.5c0 3.5 2 4.3 4 4.5-.5.5-.5 1-.5 2V21"/></svg>
         </a>
       </div>
+      <p class="hero-new"><span class="hero-new-tag">New in 0.4.3</span><a href="#agents">MCP server: let an AI agent build and run workflows →</a></p>
       <p class="hero-plat">Windows x64 · macOS Apple Silicon · Linux x64 and ARM64 · v0.4, pre-1.0</p>
     </div>
 
@@ -398,6 +408,72 @@
   </div>
 </section>
 
+<section id="agents">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow eb-ai">New in 0.4.3 · AI agents</span>
+      <h2>Let an AI agent build and run your workflows.</h2>
+      <p><code>aerini-mcp</code> is a Model Context Protocol server. Point Claude Code, Claude Desktop, or any MCP client that can start a local program at it, and the agent can look up what each node does, check a workflow, save it, and run it.</p>
+    </div>
+
+    <div class="agent-modes reveal">
+      <div class="agent-mode">
+        <span class="badge badge-action">Online</span>
+        <h3>With a server</h3>
+        <p>Connects to a running <code>aerini-server api</code> with a token. All 11 tools, including running workflows on the server, and the server's live node catalog, plugins included.</p>
+        <p class="spec">program: aerini-mcp · about 4 MB</p>
+      </div>
+      <div class="agent-mode">
+        <span class="badge badge-utility">Offline</span>
+        <h3>No server needed</h3>
+        <p>Four tools: list nodes, read a node's schema, validate a workflow, and save it as a <code>.aerini</code> file. Drag the file onto the desktop app's canvas to open it. Nothing is ever run, and only built-in nodes are known.</p>
+        <p class="spec">program: aerini-mcp-offline · about 47 MB</p>
+      </div>
+    </div>
+
+    <div class="agent-block reveal">
+      <span class="agent-label">11 tools</span>
+      <dl class="tool-list">
+        <div class="tool-row"><dt>Look up<small>both modes</small></dt><dd><code>list_nodes</code><code>get_node_schema</code><code>validate_workflow</code></dd></div>
+        <div class="tool-row"><dt>Read<small>online</small></dt><dd><code>list_workflows</code><code>get_workflow</code><code>get_scheduler_status</code></dd></div>
+        <div class="tool-row"><dt>Change<small>online, needs --allow-write</small></dt><dd><code>save_workflow</code><code>delete_workflow</code><code>start_schedule</code><code>stop_schedule</code></dd></div>
+        <div class="tool-row"><dt>Run<small>online, write-scoped token</small></dt><dd><code>run_workflow</code></dd></div>
+      </dl>
+      <p class="agent-note"><code>save_workflow</code> also works offline, where it writes the <code>.aerini</code> file and needs no flag.</p>
+    </div>
+
+    <div class="agent-block reveal">
+      <span class="agent-label">Guardrails</span>
+      <ul class="guard-list">
+        <li><b>Writes are off by default.</b>Saving to a server, deleting, and starting or stopping schedules are refused until you start <code>aerini-mcp</code> with <code>--allow-write</code>.</li>
+        <li><b>The server enforces the token.</b>A read-only token cannot change or run anything, and an access list can limit a token to named workflows.</li>
+        <li><b>Run output is treated as data.</b>Control, bidirectional and zero-width characters are stripped and results are cut at 32 KiB by default. That lowers prompt-injection risk but does not remove it, so keep your client's approval prompts on.</li>
+        <li><b>Know the sharp edge.</b>Running a workflow has real side effects. Shell, Code and Database nodes are off on <code>aerini-server api</code> by default. Do not enable them on a server where an agent holds a write token.</li>
+      </ul>
+    </div>
+
+    <div class="agent-block reveal">
+      <span class="agent-label">Connect Claude Code</span>
+      <div class="codebox">
+        <div class="codebox-head"><span>Offline · no server</span><button type="button" class="copy-btn" data-copy-target="cmd-offline" aria-live="polite">Copy</button></div>
+        <pre class="code-scroll"><code id="cmd-offline">claude mcp add --transport stdio aerini -- /path/to/aerini-mcp-offline</code></pre>
+      </div>
+      <div class="codebox">
+        <div class="codebox-head"><span>Online · read and run</span><button type="button" class="copy-btn" data-copy-target="cmd-online" aria-live="polite">Copy</button></div>
+        <pre class="code-scroll"><code id="cmd-online">claude mcp add --env AERINI_URL=http://127.0.0.1:7700 --env AERINI_TOKEN=&lt;agent token&gt; --transport stdio aerini -- /path/to/aerini-mcp</code></pre>
+      </div>
+      <p class="agent-note">Create a separate token for the agent: <code>read</code> is enough to explore and validate, add <code>write</code> only if it should run workflows. Never give an agent an admin token. Claude Desktop and other clients are covered in the setup guide.</p>
+      <p class="agent-note">Every release includes both programs for Linux (x64 and ARM64), macOS Apple Silicon and Windows x64, each with a <code>.sha256</code> checksum. The builds are not code-signed, so macOS and Windows may warn on first run.</p>
+      <p class="agent-note">A second route, with no server or MCP setup: the <a href="https://www.patreon.com/Panchak2d/posts/aerini-skill-for-172470926" target="_blank" rel="noopener">Claude Skill</a> builds ready-to-import <code>.aerini</code> files from plain-English requests in Claude or Claude Code. It cannot open them in the app, so do one manual run first. It is a Patreon add-on, included for supporters or available on its own, and is independent of Anthropic.</p>
+      <div class="agent-cta">
+        <a href="https://github.com/Panchak2d/Aerini/blob/main/docs/operations/mcp.md" class="btn btn-primary" target="_blank" rel="noopener">Read the setup guide</a>
+        <a href="https://github.com/Panchak2d/Aerini/blob/main/docs/guide/agents.md" class="btn btn-ghost" target="_blank" rel="noopener">Building workflows with an agent</a>
+        <a href="https://github.com/Panchak2d/Aerini/releases" class="btn btn-ghost" target="_blank" rel="noopener">Releases</a>
+      </div>
+    </div>
+  </div>
+</section>
+
 <section id="why">
   <div class="ascii-ambient" aria-hidden="true"><canvas id="asciiNetwork"></canvas></div>
   <div class="wrap">
@@ -509,8 +585,10 @@
         </div>
       </div>
       <div class="reveal">
-        <span class="lname roadmap-label">Shipped in v0.4</span>
+        <span class="lname roadmap-label">Shipped, v0.4 to v0.4.3</span>
         <div class="roadmap-list mt-14">
+          <div class="roadmap-item"><span class="badge badge-ai">AI</span>MCP server for AI agents (v0.4.3)</div>
+          <div class="roadmap-item"><span class="badge badge-utility">Utility</span>In-app updates, workflow tags, canvas undo and redo (v0.4.2)</div>
           <div class="roadmap-item"><span class="badge badge-logic">Logic</span>Workflow versioning and run history</div>
           <div class="roadmap-item"><span class="badge badge-utility">Utility</span>Multi-node plugin packages (.aerinipkg)</div>
         </div>
@@ -518,10 +596,11 @@
         <div class="roadmap-list mt-14">
           <div class="roadmap-item"><span class="badge badge-logic">Logic</span>Sub-workflows</div>
         </div>
-        <span class="lname roadmap-label roadmap-label-gap">Planned, v0.5</span>
+        <span class="lname roadmap-label roadmap-label-gap">Planned</span>
         <div class="roadmap-list mt-14">
-          <div class="roadmap-item"><span class="badge badge-trigger">Trigger</span>More trigger types (database poll)</div>
-          <div class="roadmap-item"><span class="badge badge-utility">Utility</span>Workflow bundle import</div>
+          <div class="roadmap-item"><span class="badge badge-utility">Utility</span>Improved canvas minimap (v0.4.4)</div>
+          <div class="roadmap-item"><span class="badge badge-trigger">Trigger</span>More trigger types, starting with database poll (v0.5)</div>
+          <div class="roadmap-item"><span class="badge badge-utility">Utility</span>Workflow bundle import (v0.5)</div>
         </div>
         <a href="https://github.com/Panchak2d/Aerini/blob/main/ROADMAP.md" class="btn btn-ghost mt-18" target="_blank" rel="noopener">Full roadmap →</a>
       </div>
@@ -612,6 +691,8 @@
 
     <ul class="install-notes reveal"><li><b>macOS:</b> the app is not signed with an Apple Developer certificate. The first time, right-click it and choose Open. There is no Intel build yet.</li><li><b>Windows:</b> the installer is not code-signed, so SmartScreen will warn you. Choose More info, then Run anyway.</li><li><b>Linux:</b> needs webkit2gtk 4.1, which most desktops already have.</li></ul>
 
+    <p class="dl-note reveal">Using an AI agent? The <code>aerini-mcp</code> programs are separate downloads on the same release page. See <a href="#agents">AI agents</a>.</p>
+
     <p class="dl-note reveal">Building from source: <code>git clone https://github.com/Panchak2d/Aerini.git</code>. See the repo's <code>docs/</code> folder for engine-embedding and plugin-authoring guides. Running the headless engine unattended (<code>aerini-server</code>): <code>docker pull ghcr.io/panchak2d/aerini-server</code>, or build the image yourself if you want to customize it; see the deployment guide above.</p>
   </div>
 </section>
@@ -646,6 +727,10 @@
       <div class="faq-item">
         <button type="button" class="faq-q">How is Aerini different from cloud automation services?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
         <div class="faq-a"><div class="faq-a-inner">Cloud automation services run your workflows on their servers, under their account system. Aerini runs on your own machine or server. Workflows, run history, and credentials stay there, and nothing runs until you start it. The source is open, so you can read exactly what it does.</div></div>
+      </div>
+      <div class="faq-item">
+        <button type="button" class="faq-q">What is the MCP server, and is it safe to give an AI agent access?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
+        <div class="faq-a"><div class="faq-a-inner">aerini-mcp is a separate small program that lets an AI agent (Claude Code, Claude Desktop, or any MCP client that can start a local program) look up node types, check a workflow, save it, and run it. Offline mode needs no server and only writes a .aerini file you open in the desktop app; it never runs anything. Online mode talks to aerini-server api with a token, and saving, deleting and scheduling stay off unless you start it with --allow-write. Running a workflow has real side effects, so give agents the narrowest token that works, and do not enable Shell, Code or Database nodes on a server where an agent holds a write token.</div></div>
       </div>
       <div class="faq-item">
         <button type="button" class="faq-q">How do I update Aerini?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
@@ -698,6 +783,7 @@
       <nav class="foot-col" aria-label="Product">
         <p class="foot-label">Product</p>
         <a href="#how-it-works">How it works</a>
+        <a href="#agents">AI agents (MCP)</a>
         <a href="#why">Why Aerini</a>
         <a href="#get-aerini">Download</a>
         <a href="https://docs.aerini.org" target="_blank" rel="noopener">Docs</a>

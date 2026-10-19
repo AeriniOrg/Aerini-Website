@@ -16,25 +16,26 @@
       nav.classList.toggle('is-scrolled', scrolled);
     }, { passive:true });
   }
-  if(navToggle && nav){
-    navToggle.addEventListener('click', function(){
-      var open = nav.classList.toggle('is-open');
-      navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
-    });
-  }
+  /* The menu is a full-screen drawer below the breakpoint in styles.css. While it is open the page behind it is
+     locked (html.nav-open), and it closes on Escape, on choosing a link, and when the viewport grows past the
+     breakpoint, so a stale open state never survives a rotation. */
   if(nav && navToggle){
+    var setNav = function(open){
+      nav.classList.toggle('is-open', open);
+      document.documentElement.classList.toggle('nav-open', open);
+      navToggle.setAttribute('aria-expanded', open ? 'true' : 'false');
+    };
+    navToggle.addEventListener('click', function(){ setNav(!nav.classList.contains('is-open')); });
     document.addEventListener('keydown', function(e){
-      if(e.key === 'Escape' && nav.classList.contains('is-open')){
-        nav.classList.remove('is-open');
-        navToggle.setAttribute('aria-expanded','false');
-        navToggle.focus();
-      }
+      if(e.key === 'Escape' && nav.classList.contains('is-open')){ setNav(false); navToggle.focus(); }
     });
-  }
-  if(navLinks && nav && navToggle){
-    navLinks.querySelectorAll('a').forEach(function(a){
-      a.addEventListener('click', function(){ nav.classList.remove('is-open'); navToggle.setAttribute('aria-expanded','false'); });
-    });
+    if(navLinks){
+      navLinks.querySelectorAll('a').forEach(function(a){ a.addEventListener('click', function(){ setNav(false); }); });
+    }
+    var wideMQ = window.matchMedia('(min-width: 1041px)');
+    var onWide = function(){ if(wideMQ.matches) setNav(false); };
+    if(wideMQ.addEventListener) wideMQ.addEventListener('change', onWide);
+    else if(wideMQ.addListener) wideMQ.addListener(onWide);
   }
 
   /* ---------- year ---------- */
@@ -66,12 +67,36 @@
   /* ---------- fact ticker ---------- */
   var facts = [
     '40 BUILT-IN NODES', 'AGPL-3.0 LICENSED', 'ZERO TELEMETRY', 'RUST WORKFLOW ENGINE',
-    'WASM-SANDBOXED PLUGINS', 'NO ACCOUNT REQUIRED', 'WINDOWS · MACOS · LINUX · ARM', 'RUNS AS A DESKTOP APP OR HEADLESS SERVER'
+    'WASM-SANDBOXED PLUGINS', 'MCP SERVER FOR AI AGENTS', 'NO ACCOUNT REQUIRED', 'WINDOWS · MACOS · LINUX · ARM', 'RUNS AS A DESKTOP APP OR HEADLESS SERVER'
   ];
   var tickerEl = document.getElementById('ticker');
   if(tickerEl){
     for(var r=0;r<2;r++){ facts.forEach(function(f){ var sp = document.createElement('span'); sp.textContent = f; tickerEl.appendChild(sp); }); }
   }
+
+  /* ---------- copy buttons for command snippets ---------- */
+  document.querySelectorAll('[data-copy-target]').forEach(function(btn){
+    var label = btn.textContent, timer;
+    function flash(text, ok){
+      btn.textContent = text;
+      btn.classList.toggle('is-done', ok);
+      clearTimeout(timer);
+      timer = setTimeout(function(){ btn.textContent = label; btn.classList.remove('is-done'); }, 2200);
+    }
+    btn.addEventListener('click', function(){
+      var src = document.getElementById(btn.getAttribute('data-copy-target'));
+      if(!src) return;
+      var text = src.textContent;
+      function selectIt(){
+        var range = document.createRange(); range.selectNodeContents(src);
+        var sel = window.getSelection(); sel.removeAllRanges(); sel.addRange(range);
+        flash('Selected: copy it', false);
+      }
+      if(navigator.clipboard && navigator.clipboard.writeText){
+        navigator.clipboard.writeText(text).then(function(){ flash('Copied', true); }, selectIt);
+      } else { selectIt(); }
+    });
+  });
 
   /* ---------- FAQ accordion ---------- */
   document.querySelectorAll('.faq-item').forEach(function(item, i){

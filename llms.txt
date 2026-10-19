@@ -4,9 +4,11 @@
 
 No account, no cloud, no telemetry. The app's interface loads one font from Google Fonts at startup; the only other call is the Check for Updates button, when clicked. This website serves its own fonts and sets no cookies.
 
-Desktop app for Windows (x64), macOS (Apple Silicon only), and Linux (x64 and ARM64). Current release: 0.4.2 (pre-1.0). 40 built-in nodes in seven categories: Triggers, Core Actions, Files & Storage, Integrations, AI, Logic, and Utility. Workflows run manually, on a schedule, or from a webhook.
+Desktop app for Windows (x64), macOS (Apple Silicon only), and Linux (x64 and ARM64). Current release: 0.4.3 (pre-1.0). 40 built-in nodes in seven categories: Triggers, Core Actions, Files & Storage, Integrations, AI, Logic, and Utility. Workflows run manually, on a schedule, or from a webhook.
 
 The workflow engine is a standalone Rust crate (`aerini-engine`) that can be embedded in other programs. A separate headless binary (`aerini-server`) runs workflows unattended, without the desktop app. Third-party plugin nodes compile to WebAssembly and run in a sandboxed Wasmtime instance with capped memory, a per-call time limit, filtered outbound HTTP, and no filesystem access; the Plugins panel installs single `.wasm` nodes or multi-node `.aerinipkg` packs via file picker or drag-and-drop. AI Prompt and AI Agent can point at Ollama or any OpenAI-compatible server on your own hardware instead of a hosted API. A workflow behind a Webhook trigger can also be exposed as an embeddable chat widget, dropped onto any web page with one script tag; it is served by aerini-server in api mode.
+
+AI agents: `aerini-mcp` is a Model Context Protocol server, a separate small program that lets an agent (Claude Code, Claude Desktop, or any MCP client that can start a local program) look up node types, validate a workflow, save it, and run it. Online mode connects to `aerini-server api` with a token and exposes 11 tools; saving, deleting and scheduling are refused unless it is started with `--allow-write`. Offline mode needs no server, exposes 4 tools, and only writes `.aerini` files; it never runs anything.
 
 Licensed AGPL-3.0: free to use, study, and modify. Distributing a modified version — including running it as a network service for others — requires sharing those changes back. A commercial license removes that requirement.
 
@@ -27,3 +29,5 @@ Licensed AGPL-3.0: free to use, study, and modify. Distributing a modified versi
 - [AGPL-3.0 license](https://github.com/Panchak2d/Aerini/blob/main/LICENSE): Full license text, in the same repository.
 - [Docs](https://docs.aerini.org): Engine-embedding, plugin-authoring, and deployment guides.
 - [Changelog](https://github.com/Panchak2d/Aerini/blob/main/CHANGELOG.md): Version history.
+- [MCP server guide](https://github.com/Panchak2d/Aerini/blob/main/docs/operations/mcp.md): Installing aerini-mcp, configuring an MCP client, and what to lock down first.
+- [Building workflows with an AI agent](https://github.com/Panchak2d/Aerini/blob/main/docs/guide/agents.md): How an agent should use the tools.

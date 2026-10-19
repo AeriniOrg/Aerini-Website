@@ -179,11 +179,13 @@ section{ position:relative; z-index:1; padding: 128px 0; --section-pad: 128px; s
 .nav.is-open .nti-mid{ opacity:0; }
 .nav.is-open .nti-bot{ transform: translateY(-6px) rotate(-45deg); }
 
-@media (max-width: 860px){
+@media (max-width: 1040px){
   .nav-links{
     position:fixed; inset: 68px 0 0 0; background: var(--ink);
     flex-direction:column; align-items:stretch; gap:0;
-    padding: 8px 32px 32px; border-top:1px solid var(--border-soft);
+    padding: 8px max(32px, env(safe-area-inset-right, 0px)) calc(32px + env(safe-area-inset-bottom, 0px)) max(32px, env(safe-area-inset-left, 0px));
+    border-top:1px solid var(--border-soft);
+    overflow-y:auto; overscroll-behavior:contain; -webkit-overflow-scrolling:touch;
     transform: translateY(-8px); opacity:0; visibility:hidden;
     transition: opacity .2s, transform .2s, visibility 0s linear .2s;
   }
@@ -191,7 +193,11 @@ section{ position:relative; z-index:1; padding: 128px 0; --section-pad: 128px; s
   .nav.is-open .nav-links{ opacity:1; transform:none; visibility:visible; transition-delay:0s; }
   .nav-toggle{ display:block; }
   .nav-cta .btn-ghost{ display:none; }
+  .nav-links a.btn{ display:flex; justify-content:center; margin-top:16px; padding:14px 20px; border-bottom:0; }
+  .nav-links a.btn-primary{ color:var(--ink); }
 }
+/* A Get Aerini button that sits inside the link list on the secondary pages is for the drawer only. */
+@media (min-width:1041px){ .nav-drawer-cta{ display:none; } }
 
 /* ================= HERO ================= */
 .hero{ padding: 168px 0 96px; }
@@ -566,4 +572,85 @@ footer{ border-top:1px solid var(--border-soft); padding: 64px 0 40px; position:
   .nav, .mobile-cta-bar, .ticker-wrap, .ascii-feature, .ascii-ambient, .hero-visual, .demo-shell{ display:none !important; }
   body{ background:#fff; color:#000; }
   .js .reveal{ opacity:1 !important; transform:none !important; }
+}
+
+
+/* ================= AI AGENTS (MCP) ================= */
+.hero-new{ display:flex; flex-wrap:wrap; align-items:center; gap:2px 12px; margin-top:22px; }
+.hero-new-tag{ font-family:var(--font-mono); font-size:12px; font-weight:600; letter-spacing:.08em; text-transform:uppercase; color:var(--text-1); border:1px solid var(--text-3); padding:3px 8px; border-radius:2px; }
+.hero-new a{ display:inline-flex; align-items:center; min-height:44px; color:var(--text-1); font-size:15px; text-decoration:underline; text-decoration-color:var(--border); text-underline-offset:4px; }
+.hero-new a:hover{ text-decoration-color:var(--text-1); }
+
+#agents .section-head{ max-width:680px; }
+#agents .section-head p{ max-width:600px; }
+#agents code{ font-family:var(--font-mono); font-size:.92em; color:var(--text-1); overflow-wrap:anywhere; }
+.agent-modes{ display:grid; grid-template-columns:1fr 1fr; gap:18px; }
+.agent-mode{ background:var(--surface-1); border:1px solid var(--border); border-radius:var(--radius-m); padding:26px; display:flex; flex-direction:column; gap:12px; }
+.agent-mode h3{ font-size:19px; }
+.agent-mode p{ font-size:15px; color:var(--text-2); line-height:1.65; }
+.agent-mode .spec{ font-family:var(--font-mono); font-size:12.5px; color:var(--text-3); margin-top:auto; padding-top:14px; border-top:1px solid var(--border-soft); }
+.agent-block{ margin-top:56px; }
+.agent-label{ display:block; font-family:var(--font-mono); font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--text-3); }
+.tool-list{ margin:14px 0 0; border-top:1px solid var(--border-soft); }
+.tool-row{ display:grid; grid-template-columns:210px 1fr; gap:8px 28px; padding:18px 0; border-bottom:1px solid var(--border-soft); }
+.tool-row dt{ font-weight:600; font-size:15px; }
+.tool-row dt small{ display:block; margin-top:4px; font-family:var(--font-mono); font-size:12px; font-weight:400; color:var(--text-3); }
+.tool-row dd{ margin:0; display:flex; flex-wrap:wrap; gap:8px; }
+.tool-row code{ padding:4px 8px; background:var(--surface-2); border:1px solid var(--border); border-radius:2px; font-size:13px; }
+.guard-list{ display:grid; grid-template-columns:1fr 1fr; gap:1px; margin-top:14px; background:var(--border); border:1px solid var(--border); border-radius:var(--radius-m); overflow:hidden; }
+.guard-list li{ background:var(--surface-1); padding:22px 24px; font-size:15px; line-height:1.65; color:var(--text-2); }
+.guard-list b{ display:block; margin-bottom:6px; font-size:16px; color:var(--text-1); }
+.codebox{ margin-top:14px; background:var(--surface-1); border:1px solid var(--border); border-radius:var(--radius-m); }
+.codebox-head{ display:flex; align-items:center; justify-content:space-between; gap:12px; padding:2px 4px 2px 14px; border-bottom:1px solid var(--border); font-family:var(--font-mono); font-size:12px; color:var(--text-3); }
+.code-scroll{ margin:0; padding:14px; font-family:var(--font-mono); font-size:13px; line-height:1.7; white-space:pre-wrap; overflow-wrap:anywhere; color:var(--text-1); }
+.code-scroll code{ font-size:inherit; }
+.copy-btn{ min-height:44px; min-width:76px; padding:0 14px; font:600 13px var(--font-mono); color:var(--text-1); background:none; border:1px solid transparent; border-radius:var(--radius-s); }
+.copy-btn:hover{ background:var(--surface-3); border-color:var(--border); }
+.copy-btn.is-done{ color:var(--k-logic); }
+.agent-note{ margin-top:18px; max-width:70ch; font-size:15px; line-height:1.7; color:var(--text-2); }
+.agent-note a{ color:var(--text-1); text-decoration:underline; text-underline-offset:3px; text-decoration-color:var(--border); }
+.agent-note a:hover{ text-decoration-color:var(--text-1); }
+.agent-cta{ display:flex; flex-wrap:wrap; gap:14px; margin-top:32px; }
+@media (max-width:720px){
+  .agent-modes, .guard-list{ grid-template-columns:1fr; }
+  .tool-row{ grid-template-columns:1fr; }
+  .agent-block{ margin-top:44px; }
+}
+@media (max-width:640px){
+  .agent-cta .btn{ flex:1 1 100%; justify-content:center; }
+  .agent-mode, .guard-list li{ padding:20px; }
+}
+
+/* Eight nav links plus two buttons do not fit one row between the drawer breakpoint and about 1200px: tighten the
+   links and drop the secondary "View source" button there (it stays in the hero and footer). */
+@media (min-width:1041px) and (max-width:1200px){
+  .nav-links{ gap:20px; }
+  .nav-cta .btn-ghost{ display:none; }
+}
+
+/* ================= DEVICE POLISH ================= */
+html{ background:var(--ink); -webkit-text-size-adjust:100%; text-size-adjust:100%; }
+html.nav-open{ overflow:hidden; }
+a, button, summary{ touch-action:manipulation; }
+.wrap{
+  padding-left:max(clamp(20px, 5vw, 32px), env(safe-area-inset-left, 0px));
+  padding-right:max(clamp(20px, 5vw, 32px), env(safe-area-inset-right, 0px));
+}
+.mobile-cta-bar{
+  padding-left:max(16px, env(safe-area-inset-left, 0px));
+  padding-right:max(16px, env(safe-area-inset-right, 0px));
+}
+@media (pointer:coarse), (max-width:900px){
+  .brand, .foot-brand{ min-height:44px; }
+  .foot-col a{ display:flex; align-items:center; min-height:44px; padding:0; }
+  .platform-card a{ display:inline-flex; align-items:center; min-height:44px; }
+}
+@media (max-width:640px){
+  .cap-card p, .poll-card p, .license-card p, .ladder-step p, .roadmap-item, .support-col li, .reward-note,
+  .install-notes li, .dl-note, .foot-desc, .foot-col a, .faq-a-inner, .why-row p, .os-copy p{ font-size:15px; }
+  .badge{ font-size:11.5px; }
+  .foot-bottom{ font-size:12px; }
+}
+@media (max-height:480px) and (orientation:landscape){
+  .hero{ padding-top:104px; }
 }
