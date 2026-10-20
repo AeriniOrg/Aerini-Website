@@ -421,13 +421,13 @@
         <span class="badge badge-action">Online</span>
         <h3>With a server</h3>
         <p>Connects to a running <code>aerini-server api</code> with a token. All 11 tools, including running workflows on the server, and the server's live node catalog, plugins included.</p>
-        <p class="spec">program: aerini-mcp · about 4 MB</p>
+        <p class="spec">program: aerini-mcp · download about 3 to 4 MB</p>
       </div>
       <div class="agent-mode">
         <span class="badge badge-utility">Offline</span>
         <h3>No server needed</h3>
         <p>Four tools: list nodes, read a node's schema, validate a workflow, and save it as a <code>.aerini</code> file. Drag the file onto the desktop app's canvas to open it. Nothing is ever run, and only built-in nodes are known.</p>
-        <p class="spec">program: aerini-mcp-offline · about 47 MB</p>
+        <p class="spec">program: aerini-mcp-offline · download about 10 to 16 MB</p>
       </div>
     </div>
 
@@ -463,7 +463,7 @@
         <pre class="code-scroll"><code id="cmd-online">claude mcp add --env AERINI_URL=http://127.0.0.1:7700 --env AERINI_TOKEN=&lt;agent token&gt; --transport stdio aerini -- /path/to/aerini-mcp</code></pre>
       </div>
       <p class="agent-note">Create a separate token for the agent: <code>read</code> is enough to explore and validate, add <code>write</code> only if it should run workflows. Never give an agent an admin token. Claude Desktop and other clients are covered in the setup guide.</p>
-      <p class="agent-note">Every release includes both programs for Linux (x64 and ARM64), macOS Apple Silicon and Windows x64, each with a <code>.sha256</code> checksum. The builds are not code-signed, so macOS and Windows may warn on first run.</p>
+      <p class="agent-note">Every release includes both programs for Linux (x64 and ARM64), macOS Apple Silicon and Windows x64, each with a <code>.sha256</code> checksum. The sizes above are the compressed archives (<code>.tar.gz</code> on Linux and macOS, <code>.zip</code> on Windows). The builds are not code-signed, so macOS and Windows may warn on first run.</p>
       <p class="agent-note">A second route, with no server or MCP setup: the <a href="https://www.patreon.com/Panchak2d/posts/aerini-skill-for-172470926" target="_blank" rel="noopener">Claude Skill</a> builds ready-to-import <code>.aerini</code> files from plain-English requests in Claude or Claude Code. It cannot open them in the app, so do one manual run first. It is a Patreon add-on, included for supporters or available on its own, and is independent of Anthropic.</p>
       <div class="agent-cta">
         <a href="https://github.com/Panchak2d/Aerini/blob/main/docs/operations/mcp.md" class="btn btn-primary" target="_blank" rel="noopener">Read the setup guide</a>
