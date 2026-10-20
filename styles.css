@@ -63,15 +63,18 @@ body{
   -webkit-tap-highlight-color: transparent;
 }
 
-/* visually hidden until focused; lands on the existing #top target on <main> */
+/* Keyboard-only "skip to content" link. It sits fully above the viewport and is not clickable until it receives
+   keyboard focus, so a mouse never sees or hits it; activating it moves focus to <main>. */
 .skip-link{
-  position:absolute; top:-40px; left:8px; z-index:100;
+  position:fixed; top:8px; left:8px; z-index:100;
+  transform: translateY(calc(-100% - 16px)); pointer-events:none;
   background: var(--text-1); color: var(--ink);
   padding:10px 16px; border-radius: var(--radius-s);
   font-family: var(--font-sans); font-weight:600; font-size:14px;
-  transition: top .18s var(--ease);
+  transition: transform .18s var(--ease);
 }
-.skip-link:focus{ top:8px; }
+.skip-link:focus-visible{ transform:none; pointer-events:auto; }
+main:focus{ outline:none; }
 
 /* ambient canvas texture, the same dotted grid the app's own
    workspace uses behind every workflow */
@@ -165,7 +168,7 @@ section{ position:relative; z-index:1; padding: 128px 0; --section-pad: 128px; s
   transition: border-color .3s, background .3s;
 }
 .nav.is-scrolled{ background: rgba(8,9,13,0.86); backdrop-filter: blur(10px); border-color: var(--border-soft); }
-.nav-inner{ display:flex; align-items:center; justify-content:space-between; height:68px; }
+.nav-inner{ display:flex; align-items:center; justify-content:space-between; gap:24px; height:68px; max-width:1320px; }
 .brand{ display:flex; align-items:center; gap:10px; font-weight:700; font-size:15.5px; letter-spacing:-0.01em; }
 .brand svg{ width:24px; height:24px; }
 .nav-links{ display:flex; align-items:center; gap:30px; }
@@ -621,11 +624,15 @@ footer{ border-top:1px solid var(--border-soft); padding: 64px 0 40px; position:
   .agent-mode, .guard-list li{ padding:20px; }
 }
 
-/* Eight nav links plus two buttons do not fit one row between the drawer breakpoint and about 1200px: tighten the
-   links and drop the secondary "View source" button there (it stays in the hero and footer). */
-@media (min-width:1041px) and (max-width:1200px){
+/* Eight nav links plus two buttons (the primary one reads "Get Aerini for <OS>") need about 1190px of row; below
+   1341px of viewport they do not fit, so tighten the links and drop the secondary "View source" button there (it
+   stays in the hero and footer). */
+@media (min-width:1041px) and (max-width:1340px){
   .nav-links{ gap:20px; }
   .nav-cta .btn-ghost{ display:none; }
+}
+@media (min-width:1041px) and (max-width:1100px){
+  .nav-links{ gap:16px; }
 }
 
 /* ================= DEVICE POLISH ================= */
