@@ -661,3 +661,17 @@ a, button, summary{ touch-action:manipulation; }
 @media (max-height:480px) and (orientation:landscape){
   .hero{ padding-top:104px; }
 }
+
+.cap-group-label{ font-family:var(--font-mono); font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--text-3); margin:0 0 14px; }
+.cap-grid + .cap-group-label{ margin-top:48px; }
+.cap-card .spec{ font-family:var(--font-mono); font-size:12px; line-height:1.55; color:var(--text-3); margin-top:auto; padding-top:12px; border-top:1px solid var(--border-soft); }
+.first-cta{ display:flex; flex-wrap:wrap; gap:12px; margin-top:32px; }
+.first-next{ margin-top:48px; }
+.first-next .cap-card{ min-height:0; }
+.cap-links{ list-style:none; margin:0; padding:0; display:grid; gap:8px; font-size:13.5px; line-height:1.5; }
+.cap-links a{ color:var(--text-1); text-decoration:underline; text-underline-offset:3px; text-decoration-color:var(--border); }
+.cap-links a:hover{ text-decoration-color:var(--text-1); }
+.agent-more{ margin-top:56px; border-top:1px solid var(--border); padding-top:20px; }
+.agent-more summary{ cursor:pointer; font-family:var(--font-mono); font-size:12px; letter-spacing:.06em; text-transform:uppercase; color:var(--text-2); }
+.agent-more summary:hover{ color:var(--text-1); }
+.agent-more .agent-block{ margin-top:28px; }

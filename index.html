@@ -232,8 +232,8 @@
     </a>
     <ul class="nav-links" id="navLinks">
       <li><a href="#how-it-works">How it works</a></li>
-      <li><a href="#agents">AI agents</a></li>
       <li><a href="#why">Why Aerini</a></li>
+      <li><a href="#agents">AI agents</a></li>
       <li><a href="#open-source">Open source</a></li>
       <li><a href="#community">Community</a></li>
       <li><a href="#support">Support</a></li>
@@ -257,7 +257,7 @@
     <div>
       <span class="eyebrow eb-logic">Local-first workflow engine</span>
       <h1>Build automation the way you'd build software.</h1>
-      <p class="lede">Aerini is a visual workflow engine you run yourself. Wire nodes together on a canvas, then run the same engine on your machine or drop it onto a server. No account. No cloud. No telemetry.</p>
+      <p class="lede">Wire blocks together on a canvas and let Aerini handle the repetitive jobs, on your machine or a server you control. No account. No cloud. No telemetry.</p>
       <div class="hero-ctas">
         <a href="#get-aerini" class="btn btn-primary" data-role="get-aerini-cta">
           <span class="cta-label">Get Aerini</span>
@@ -353,124 +353,72 @@
   <div class="wrap">
     <div class="section-head reveal">
       <span class="eyebrow eb-action">What you can build</span>
-      <h2>Whatever you'd otherwise write a script for.</h2>
-      <p>A sample of what people build with it, not an exhaustive list.</p>
+      <h2>Jobs you'd otherwise do by hand, or write a script for.</h2>
+      <p>Starting points made from Aerini's built-in nodes. Each card lists the nodes it uses, so you can see how it is wired.</p>
     </div>
 
+    <p class="cap-group-label reveal">Everyday automation</p>
     <div class="cap-grid reveal">
       <div class="cap-card">
-        <span class="badge badge-trigger">Trigger</span>
-        <h3>Webhook receivers</h3>
-        <p>Turn an incoming HTTP request into the start of a workflow. The listener runs inside Aerini, bound to localhost.</p>
-      </div>
-      <div class="cap-card">
-        <span class="badge badge-action">Action</span>
-        <h3>Scheduled reports</h3>
-        <p>Pull data on a timer, shape it, and send it out as a file, message, or email.</p>
+        <span class="badge badge-action">Report</span>
+        <h3>A weekday report in your inbox</h3>
+        <p>Fetch figures from an API every weekday morning, pull out the one number you care about, and email it to yourself.</p>
+        <p class="spec">Schedule → HTTP Request → Transform Data → Send Email</p>
       </div>
       <div class="cap-card">
         <span class="badge badge-ai">AI</span>
-        <h3>AI pipelines</h3>
-        <p>Chain model calls with your own logic in between: retries, filters, and branching included.</p>
+        <h3>A morning briefing, summarised</h3>
+        <p>Grab a top story or any feed, have an AI model boil it down to a few lines, and message it to yourself.</p>
+        <p class="spec">Schedule → HTTP Request → AI Prompt → Telegram</p>
       </div>
       <div class="cap-card">
-        <span class="badge badge-logic">Logic</span>
-        <h3>Alerts &amp; monitors</h3>
-        <p>Poll something on a loop and branch on the result. Only notify when a condition actually changes.</p>
+        <span class="badge badge-logic">Alert</span>
+        <h3>Know when a site goes down</h3>
+        <p>Check a page or an API on a timer. When it fails or a value changes you get pinged, and when all is well you hear nothing.</p>
+        <p class="spec">Schedule → HTTP Request → If / Condition → Desktop Notification or Slack</p>
       </div>
       <div class="cap-card">
-        <span class="badge badge-utility">Utility</span>
-        <h3>File processing</h3>
-        <p>Watch a folder, reshape what lands in it, and write the result somewhere else. Folder watching is the <a href="https://www.patreon.com/Panchak2d/posts/file-watcher-for-172472318" target="_blank" rel="noopener">File Watcher</a> plugin on Patreon: included for supporters, or available to buy on its own.</p>
+        <span class="badge badge-utility">Tracker</span>
+        <h3>A daily log in a spreadsheet</h3>
+        <p>Record one number a day, such as a price, a temperature or a follower count, as a new Google Sheets row and watch the trend build.</p>
+        <p class="spec">Schedule → HTTP Request → Google Sheets</p>
       </div>
       <div class="cap-card">
-        <span class="badge badge-action">Action</span>
-        <h3>Cross-posting &amp; uploads</h3>
-        <p>Push the same output to several destinations from one workflow instead of several scripts.</p>
+        <span class="badge badge-ai">AI</span>
+        <h3>A reading list that files itself</h3>
+        <p>Each day, fetch a top story, summarise it with a model, and save the result as a page in Notion.</p>
+        <p class="spec">Schedule → HTTP Request → AI Prompt → Notion</p>
       </div>
       <div class="cap-card">
-        <span class="badge badge-utility">Utility</span>
-        <h3>Embeddable chat widget</h3>
-        <p>Put a floating chat window on any web page, backed by a Webhook workflow. One script tag on the page; the workflow is served by aerini-server in api mode.</p>
+        <span class="badge badge-ai">AI</span>
+        <h3>Private AI on your own hardware</h3>
+        <p>Point AI Prompt at Ollama or any OpenAI-compatible server on your machine or network, so the request stays there.</p>
+        <p class="spec">AI Prompt with your own Base URL</p>
+      </div>
+    </div>
+
+    <p class="cap-group-label reveal">For builders</p>
+    <div class="cap-grid reveal">
+      <div class="cap-card">
+        <span class="badge badge-trigger">Trigger</span>
+        <h3>React to a GitHub push</h3>
+        <p>Turn an incoming HTTP request into the start of a workflow, and post to Slack only when it is a push to main. The listener runs inside Aerini, bound to localhost.</p>
+        <p class="spec">Webhook → If / Condition → Slack</p>
+      </div>
+      <div class="cap-card">
+        <span class="badge badge-utility">Widget</span>
+        <h3>A chatbot on your own site</h3>
+        <p>A floating chat window on any web page, backed by a Webhook workflow that remembers the conversation. One script tag; the workflow is served by aerini-server in api mode.</p>
+        <p class="spec">Webhook → AI Memory → AI Prompt → AI Memory</p>
       </div>
       <div class="cap-card">
         <span class="badge badge-logic">Flow control</span>
         <h3>Branch-and-merge pipelines</h3>
         <p>Loop over a list, fan out to parallel branches, then merge the results back into one path before continuing.</p>
-      </div>
-      <div class="cap-card">
-        <span class="badge badge-action">Integration</span>
-        <h3>Two-way app sync</h3>
-        <p>Read from one system, reshape the data, and write it to another, on a schedule or when a webhook arrives.</p>
+        <p class="spec">Loop (For Each) → branches → Merge</p>
       </div>
     </div>
-    <div class="cap-stat reveal">40 built-in nodes in seven categories: Triggers, Core Actions, Files &amp; Storage, Integrations, AI, Logic, and Utility.</div>
-  </div>
-</section>
-
-<section id="agents">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <span class="eyebrow eb-ai">New in 0.4.3 · AI agents</span>
-      <h2>Let an AI agent build and run your workflows.</h2>
-      <p><code>aerini-mcp</code> is a Model Context Protocol server. Point Claude Code, Claude Desktop, or any MCP client that can start a local program at it, and the agent can look up what each node does, check a workflow, save it, and run it.</p>
-    </div>
-
-    <div class="agent-modes reveal">
-      <div class="agent-mode">
-        <span class="badge badge-action">Online</span>
-        <h3>With a server</h3>
-        <p>Connects to a running <code>aerini-server api</code> with a token. All 11 tools, including running workflows on the server, and the server's live node catalog, plugins included.</p>
-        <p class="spec">program: aerini-mcp · download about 3 to 4 MB</p>
-      </div>
-      <div class="agent-mode">
-        <span class="badge badge-utility">Offline</span>
-        <h3>No server needed</h3>
-        <p>Four tools: list nodes, read a node's schema, validate a workflow, and save it as a <code>.aerini</code> file. Drag the file onto the desktop app's canvas to open it. Nothing is ever run, and only built-in nodes are known.</p>
-        <p class="spec">program: aerini-mcp-offline · download about 10 to 16 MB</p>
-      </div>
-    </div>
-
-    <div class="agent-block reveal">
-      <span class="agent-label">11 tools</span>
-      <dl class="tool-list">
-        <div class="tool-row"><dt>Look up<small>both modes</small></dt><dd><code>list_nodes</code><code>get_node_schema</code><code>validate_workflow</code></dd></div>
-        <div class="tool-row"><dt>Read<small>online</small></dt><dd><code>list_workflows</code><code>get_workflow</code><code>get_scheduler_status</code></dd></div>
-        <div class="tool-row"><dt>Change<small>online, needs --allow-write</small></dt><dd><code>save_workflow</code><code>delete_workflow</code><code>start_schedule</code><code>stop_schedule</code></dd></div>
-        <div class="tool-row"><dt>Run<small>online, write-scoped token</small></dt><dd><code>run_workflow</code></dd></div>
-      </dl>
-      <p class="agent-note"><code>save_workflow</code> also works offline, where it writes the <code>.aerini</code> file and needs no flag.</p>
-    </div>
-
-    <div class="agent-block reveal">
-      <span class="agent-label">Guardrails</span>
-      <ul class="guard-list">
-        <li><b>Writes are off by default.</b>Saving to a server, deleting, and starting or stopping schedules are refused until you start <code>aerini-mcp</code> with <code>--allow-write</code>.</li>
-        <li><b>The server enforces the token.</b>A read-only token cannot change or run anything, and an access list can limit a token to named workflows.</li>
-        <li><b>Run output is treated as data.</b>Control, bidirectional and zero-width characters are stripped and results are cut at 32 KiB by default. That lowers prompt-injection risk but does not remove it, so keep your client's approval prompts on.</li>
-        <li><b>Know the sharp edge.</b>Running a workflow has real side effects. Shell, Code and Database nodes are off on <code>aerini-server api</code> by default. Do not enable them on a server where an agent holds a write token.</li>
-      </ul>
-    </div>
-
-    <div class="agent-block reveal">
-      <span class="agent-label">Connect Claude Code</span>
-      <div class="codebox">
-        <div class="codebox-head"><span>Offline · no server</span><button type="button" class="copy-btn" data-copy-target="cmd-offline" aria-live="polite">Copy</button></div>
-        <pre class="code-scroll"><code id="cmd-offline">claude mcp add --transport stdio aerini -- /path/to/aerini-mcp-offline</code></pre>
-      </div>
-      <div class="codebox">
-        <div class="codebox-head"><span>Online · read and run</span><button type="button" class="copy-btn" data-copy-target="cmd-online" aria-live="polite">Copy</button></div>
-        <pre class="code-scroll"><code id="cmd-online">claude mcp add --env AERINI_URL=http://127.0.0.1:7700 --env AERINI_TOKEN=&lt;agent token&gt; --transport stdio aerini -- /path/to/aerini-mcp</code></pre>
-      </div>
-      <p class="agent-note">Create a separate token for the agent: <code>read</code> is enough to explore and validate, add <code>write</code> only if it should run workflows. Never give an agent an admin token. Claude Desktop and other clients are covered in the setup guide.</p>
-      <p class="agent-note">Every release includes both programs for Linux (x64 and ARM64), macOS Apple Silicon and Windows x64, each with a <code>.sha256</code> checksum. The sizes above are the compressed archives (<code>.tar.gz</code> on Linux and macOS, <code>.zip</code> on Windows). The builds are not code-signed, so macOS and Windows may warn on first run.</p>
-      <p class="agent-note">A second route, with no server or MCP setup: the <a href="https://www.patreon.com/Panchak2d/posts/aerini-skill-for-172470926" target="_blank" rel="noopener">Claude Skill</a> builds ready-to-import <code>.aerini</code> files from plain-English requests in Claude or Claude Code. It cannot open them in the app, so do one manual run first. It is a Patreon add-on, included for supporters or available on its own, and is independent of Anthropic.</p>
-      <div class="agent-cta">
-        <a href="https://docs.aerini.org/operations/mcp" class="btn btn-primary" target="_blank" rel="noopener">Read the setup guide</a>
-        <a href="https://docs.aerini.org/guide/agents" class="btn btn-ghost" target="_blank" rel="noopener">Building workflows with an agent</a>
-        <a href="https://github.com/Panchak2d/Aerini/releases" class="btn btn-ghost" target="_blank" rel="noopener">Releases</a>
-      </div>
-    </div>
+    <div class="cap-stat reveal">40 built-in nodes in seven categories: Triggers, Core Actions, Files &amp; Storage, Integrations, AI, Logic, and Utility. More ideas: cross-post one output to several destinations, sync two apps on a schedule, or watch a folder and reshape what lands in it (the File Watcher plugin on Patreon).</div>
   </div>
 </section>
 
@@ -512,6 +460,184 @@
         <div><p>Point AI Prompt or AI Agent's Base URL at Ollama or any OpenAI-compatible server on your own machine or network, and the request stays there.</p></div>
       </div>
     </div>
+  </div>
+</section>
+
+<section id="get-aerini">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow eb-action">Get Aerini</span>
+      <h2>Pick a platform.</h2>
+    </div>
+
+    <div class="platform-grid reveal">
+      <div class="platform-card" data-platform="windows">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="3" y="3" width="8" height="8"/><rect x="13" y="3" width="8" height="8"/><rect x="3" y="13" width="8" height="8"/><rect x="13" y="13" width="8" height="8"/></svg>
+        <h3>Windows</h3>
+        <span class="sub">x64 · .msi / .exe</span>
+        <a href="https://github.com/Panchak2d/Aerini/releases" target="_blank" rel="noopener">Download →</a>
+      </div>
+      <div class="platform-card" data-platform="macos">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>
+        <h3>macOS</h3>
+        <span class="sub">Apple Silicon only · .dmg</span>
+        <a href="https://github.com/Panchak2d/Aerini/releases" target="_blank" rel="noopener">Download →</a>
+      </div>
+      <div class="platform-card" data-platform="linux">
+        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.504 0c-.155 0-.315.008-.48.021-4.226.333-3.105 4.807-3.17 6.298-.076 1.092-.3 1.953-1.05 3.02-.885 1.051-2.127 2.75-2.716 4.521-.278.832-.41 1.684-.287 2.489a.424.424 0 00-.11.135c-.26.268-.45.6-.663.839-.199.199-.485.267-.797.4-.313.136-.658.269-.864.68-.09.189-.136.394-.132.602 0 .199.027.4.055.536.058.399.116.728.04.97-.249.68-.28 1.145-.106 1.484.174.334.535.47.94.601.81.2 1.91.135 2.774.6.926.466 1.866.67 2.616.47.526-.116.97-.464 1.208-.946.587-.003 1.23-.269 2.26-.334.699-.058 1.574.267 2.577.2.025.134.063.198.114.333l.003.003c.391.778 1.113 1.132 1.884 1.071.771-.06 1.592-.536 2.257-1.306.631-.765 1.683-1.084 2.378-1.503.348-.199.629-.469.649-.853.023-.4-.2-.811-.714-1.376v-.097l-.003-.003c-.17-.2-.25-.535-.338-.926-.085-.401-.182-.786-.492-1.046h-.003c-.059-.054-.123-.067-.188-.135a.357.357 0 00-.19-.064c.431-1.278.264-2.55-.173-3.694-.533-1.41-1.465-2.638-2.175-3.483-.796-1.005-1.576-1.957-1.56-3.368.026-2.152.236-6.133-3.544-6.139zm.529 3.405h.013c.213 0 .396.062.584.198.19.135.33.332.438.533.105.259.158.459.166.724 0-.02.006-.04.006-.06v.105a.086.086 0 01-.004-.021l-.004-.024a1.807 1.807 0 01-.15.706.953.953 0 01-.213.335.71.71 0 00-.088-.042c-.104-.045-.198-.064-.284-.133a1.312 1.312 0 00-.22-.066c.05-.06.146-.133.183-.198.053-.128.082-.264.088-.402v-.02a1.21 1.21 0 00-.061-.4c-.045-.134-.101-.2-.183-.333-.084-.066-.167-.132-.267-.132h-.016c-.093 0-.176.03-.262.132a.8.8 0 00-.205.334 1.18 1.18 0 00-.09.4v.019c.002.089.008.179.02.267-.193-.067-.438-.135-.607-.202a1.635 1.635 0 01-.018-.2v-.02a1.772 1.772 0 01.15-.768c.082-.22.232-.406.43-.533a.985.985 0 01.594-.2zm-2.962.059h.036c.142 0 .27.048.399.135.146.129.264.288.344.465.09.199.14.4.153.667v.004c.007.134.006.2-.002.266v.08c-.03.007-.056.018-.083.024-.152.055-.274.135-.393.2.012-.09.013-.18.003-.267v-.015c-.012-.133-.04-.2-.082-.333a.613.613 0 00-.166-.267.248.248 0 00-.183-.064h-.021c-.071.006-.13.04-.186.132a.552.552 0 00-.12.27.944.944 0 00-.023.33v.015c.012.135.037.2.08.334.046.134.098.2.166.268.01.009.02.018.034.024-.07.057-.117.07-.176.136a.304.304 0 01-.131.068 2.62 2.62 0 01-.275-.402 1.772 1.772 0 01-.155-.667 1.759 1.759 0 01.08-.668 1.43 1.43 0 01.283-.535c.128-.133.26-.2.418-.2zm1.37 1.706c.332 0 .733.065 1.216.399.293.2.523.269 1.052.468h.003c.255.136.405.266.478.399v-.131a.571.571 0 01.016.47c-.123.31-.516.643-1.063.842v.002c-.268.135-.501.333-.775.465-.276.135-.588.292-1.012.267a1.139 1.139 0 01-.448-.067 3.566 3.566 0 01-.322-.198c-.195-.135-.363-.332-.612-.465v-.005h-.005c-.4-.246-.616-.512-.686-.71-.07-.268-.005-.47.193-.6.224-.135.38-.271.483-.336.104-.074.143-.102.176-.131h.002v-.003c.169-.202.436-.47.839-.601.139-.036.294-.065.466-.065zm2.8 2.142c.358 1.417 1.196 3.475 1.735 4.473.286.534.855 1.659 1.102 3.024.156-.005.33.018.513.064.646-1.671-.546-3.467-1.089-3.966-.22-.2-.232-.335-.123-.335.59.534 1.365 1.572 1.646 2.757.13.535.16 1.104.021 1.67.067.028.135.06.205.067 1.032.534 1.413.938 1.23 1.537v-.043c-.06-.003-.12 0-.18 0h-.016c.151-.467-.182-.825-1.065-1.224-.915-.4-1.646-.336-1.77.465-.008.043-.013.066-.018.135-.068.023-.139.053-.209.064-.43.268-.662.669-.793 1.187-.13.533-.17 1.156-.205 1.869v.003c-.02.334-.17.838-.319 1.35-1.5 1.072-3.58 1.538-5.348.334a2.645 2.645 0 00-.402-.533 1.45 1.45 0 00-.275-.333c.182 0 .338-.03.465-.067a.615.615 0 00.314-.334c.108-.267 0-.697-.345-1.163-.345-.467-.931-.995-1.788-1.521-.63-.4-.986-.87-1.15-1.396-.165-.534-.143-1.085-.015-1.645.245-1.07.873-2.11 1.274-2.763.107-.065.037.135-.408.974-.396.751-1.14 2.497-.122 3.854a8.123 8.123 0 01.647-2.876c.564-1.278 1.743-3.504 1.836-5.268.048.036.217.135.289.202.218.133.38.333.59.465.21.201.477.335.876.335.039.003.075.006.11.006.412 0 .73-.134.997-.268.29-.134.52-.334.74-.4h.005c.467-.135.835-.402 1.044-.7zm2.185 8.958c.037.6.343 1.245.882 1.377.588.134 1.434-.333 1.791-.765l.211-.01c.315-.007.577.01.847.268l.003.003c.208.199.305.53.391.876.085.4.154.78.409 1.066.486.527.645.906.636 1.14l.003-.007v.018l-.003-.012c-.015.262-.185.396-.498.595-.63.401-1.746.712-2.457 1.57-.618.737-1.37 1.14-2.036 1.191-.664.053-1.237-.2-1.574-.898l-.005-.003c-.21-.4-.12-1.025.056-1.69.176-.668.428-1.344.463-1.897.037-.714.076-1.335.195-1.814.12-.465.308-.797.641-.984l.045-.022zm-10.814.049h.01c.053 0 .105.005.157.014.376.055.706.333 1.023.752l.91 1.664.003.003c.243.533.754 1.064 1.189 1.637.434.598.77 1.131.729 1.57v.006c-.057.744-.48 1.148-1.125 1.294-.645.135-1.52.002-2.395-.464-.968-.536-2.118-.469-2.857-.602-.369-.066-.61-.2-.723-.4-.11-.2-.113-.602.123-1.23v-.004l.002-.003c.117-.334.03-.752-.027-1.118-.055-.401-.083-.71.043-.94.16-.334.396-.4.69-.533.294-.135.64-.202.915-.47h.002v-.002c.256-.268.445-.601.668-.838.19-.201.38-.336.663-.336zm7.159-9.074c-.435.201-.945.535-1.488.535-.542 0-.97-.267-1.28-.466-.154-.134-.28-.268-.373-.335-.164-.134-.144-.333-.074-.333.109.016.129.134.199.2.096.066.215.2.36.333.292.2.68.467 1.167.467.485 0 1.053-.267 1.398-.466.195-.135.445-.334.648-.467.156-.136.149-.267.279-.267.128.016.034.134-.147.332a8.097 8.097 0 01-.69.468zm-1.082-1.583V5.64c-.006-.02.013-.042.029-.05.074-.043.18-.027.26.004.063 0 .16.067.15.135-.006.049-.085.066-.135.066-.055 0-.092-.043-.141-.068-.052-.018-.146-.008-.163-.065zm-.551 0c-.02.058-.113.049-.166.066-.047.025-.086.068-.14.068-.05 0-.13-.02-.136-.068-.01-.066.088-.133.15-.133.08-.031.184-.047.259-.005.019.009.036.03.03.05v.02h.003z"/></svg>
+        <h3>Linux</h3>
+        <span class="sub">x64 &amp; ARM64 · .deb / .AppImage</span>
+        <a href="https://github.com/Panchak2d/Aerini/releases" target="_blank" rel="noopener">Download →</a>
+      </div>
+      <div class="platform-card">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3M13 15h4"/></svg>
+        <h3>Build from source</h3>
+        <span class="sub">Rust 1.96+ · Node 20.19+</span>
+        <a href="https://github.com/Panchak2d/Aerini" target="_blank" rel="noopener">View repo →</a>
+      </div>
+      <div class="platform-card">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 2l8 4.5v9L12 20l-8-4.5v-9L12 2z"/><path d="M4 6.5l8 4.5 8-4.5M12 11v9"/></svg>
+        <h3>Server</h3>
+        <span class="sub">Docker image, linux/amd64</span>
+        <a href="https://docs.aerini.org/operations/server-deploy" target="_blank" rel="noopener">Deployment guide →</a>
+      </div>
+    </div>
+
+    <ul class="install-notes reveal"><li><b>macOS:</b> the app is not signed with an Apple Developer certificate. The first time, right-click it and choose Open. There is no Intel build yet.</li><li><b>Windows:</b> the installer is not code-signed, so SmartScreen will warn you. Choose More info, then Run anyway.</li><li><b>Linux:</b> needs webkit2gtk 4.1, which most desktops already have.</li></ul>
+
+    <p class="dl-note reveal">Using an AI agent? The <code>aerini-mcp</code> programs are separate downloads on the same release page. See <a href="#agents">AI agents</a>.</p>
+
+    <p class="dl-note reveal">Building from source: <code>git clone https://github.com/Panchak2d/Aerini.git</code>. See the repo's <code>docs/</code> folder for engine-embedding and plugin-authoring guides. Running the headless engine unattended (<code>aerini-server</code>): <code>docker pull ghcr.io/panchak2d/aerini-server</code>, or build the image yourself if you want to customize it; see the deployment guide above.</p>
+  </div>
+</section>
+
+<section id="first-steps">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow eb-logic">After you install</span>
+      <h2>Your first workflow, step by step.</h2>
+      <p>Start from a blank canvas. Building one small workflow yourself teaches the parts faster than reading about them.</p>
+    </div>
+
+    <div class="ladder reveal">
+      <div class="ladder-step bc-trigger">
+        <span class="n">01</span><h3>Open Aerini</h3><p>In the welcome dialog, choose Start with a blank canvas.</p>
+      </div>
+      <div class="ladder-step bc-action">
+        <span class="n">02</span><h3>Wire three nodes</h3><p>Manual Trigger, then HTTP Request pointed at httpbin.org/get, then Output.</p>
+      </div>
+      <div class="ladder-step bc-logic">
+        <span class="n">03</span><h3>Press Run</h3><p>Each node shows a preview of its output right on the canvas.</p>
+      </div>
+      <div class="ladder-step bc-ai">
+        <span class="n">04</span><h3>Make it automatic</h3><p>Swap in a Schedule trigger, then choose Schedule Run from the Run menu.</p>
+      </div>
+    </div>
+
+    <div class="first-cta reveal">
+      <a href="https://docs.aerini.org/getting-started/getting-started" class="btn btn-primary" target="_blank" rel="noopener">Follow the full guide</a>
+      <a href="https://docs.aerini.org/getting-started/installation" class="btn btn-ghost" target="_blank" rel="noopener">Installation help</a>
+      <a href="https://docs.aerini.org/troubleshooting" class="btn btn-ghost" target="_blank" rel="noopener">Troubleshooting</a>
+    </div>
+
+    <div class="cap-grid first-next reveal">
+      <div class="cap-card">
+        <h3>New to automation</h3>
+        <ul class="cap-links">
+          <li><a href="https://docs.aerini.org/getting-started/concepts" target="_blank" rel="noopener">Concepts: triggers, nodes, runs</a></li>
+          <li><a href="https://docs.aerini.org/glossary" target="_blank" rel="noopener">Glossary</a></li>
+          <li><a href="https://docs.aerini.org/faq" target="_blank" rel="noopener">FAQ</a></li>
+        </ul>
+      </div>
+      <div class="cap-card">
+        <h3>Ready to build</h3>
+        <ul class="cap-links">
+          <li><a href="https://docs.aerini.org/guide/examples" target="_blank" rel="noopener">Worked examples</a></li>
+          <li><a href="https://docs.aerini.org/guide/nodes" target="_blank" rel="noopener">Nodes reference</a></li>
+          <li><a href="https://docs.aerini.org/guide/expressions" target="_blank" rel="noopener">Expressions</a></li>
+        </ul>
+      </div>
+      <div class="cap-card">
+        <h3>Developers and operators</h3>
+        <ul class="cap-links">
+          <li><a href="https://docs.aerini.org/operations/server-deploy" target="_blank" rel="noopener">Run it on a server</a></li>
+          <li><a href="https://docs.aerini.org/development/embedding" target="_blank" rel="noopener">Embed aerini-engine</a></li>
+          <li><a href="https://docs.aerini.org/development/plugin-authoring" target="_blank" rel="noopener">Write a plugin node</a></li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="agents">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow eb-ai">New in 0.4.3 · AI agents</span>
+      <h2>Let an AI agent build and run your workflows.</h2>
+      <p>Describe the job in plain English, such as &ldquo;every weekday at 8, email me the top story, summarised&rdquo;, and an AI agent can look up the nodes, draft the workflow and validate it before anything runs.</p>
+      <p><code>aerini-mcp</code> is a Model Context Protocol server. Point Claude Code, Claude Desktop, or any MCP client that can start a local program at it, and the agent can look up what each node does, check a workflow, save it, and run it.</p>
+    </div>
+
+    <div class="agent-modes reveal">
+      <div class="agent-mode">
+        <span class="badge badge-action">Online</span>
+        <h3>With a server</h3>
+        <p>Connects to a running <code>aerini-server api</code> with a token. All 11 tools, including running workflows on the server, and the server's live node catalog, plugins included.</p>
+        <p class="spec">program: aerini-mcp · download about 3 to 4 MB</p>
+      </div>
+      <div class="agent-mode">
+        <span class="badge badge-utility">Offline</span>
+        <h3>No server needed</h3>
+        <p>Four tools: list nodes, read a node's schema, validate a workflow, and save it as a <code>.aerini</code> file. Drag the file onto the desktop app's canvas to open it. Nothing is ever run, and only built-in nodes are known.</p>
+        <p class="spec">program: aerini-mcp-offline · download about 10 to 16 MB</p>
+      </div>
+    </div>
+
+    <div class="agent-block reveal">
+      <span class="agent-label">Guardrails</span>
+      <ul class="guard-list">
+        <li><b>Writes are off by default.</b>Saving to a server, deleting, and starting or stopping schedules are refused until you start <code>aerini-mcp</code> with <code>--allow-write</code>.</li>
+        <li><b>The server enforces the token.</b>A read-only token cannot change or run anything, and an access list can limit a token to named workflows.</li>
+        <li><b>Run output is treated as data.</b>Control, bidirectional and zero-width characters are stripped and results are cut at 32 KiB by default. That lowers prompt-injection risk but does not remove it, so keep your client's approval prompts on.</li>
+        <li><b>Know the sharp edge.</b>Running a workflow has real side effects. Shell, Code and Database nodes are off on <code>aerini-server api</code> by default. Do not enable them on a server where an agent holds a write token.</li>
+      </ul>
+    </div>
+
+    <div class="agent-block reveal">
+      <span class="agent-label">Connect Claude Code</span>
+      <div class="codebox">
+        <div class="codebox-head"><span>Offline · no server</span><button type="button" class="copy-btn" data-copy-target="cmd-offline" aria-live="polite">Copy</button></div>
+        <pre class="code-scroll"><code id="cmd-offline">claude mcp add --transport stdio aerini -- /path/to/aerini-mcp-offline</code></pre>
+      </div>
+      <div class="codebox">
+        <div class="codebox-head"><span>Online · read and run</span><button type="button" class="copy-btn" data-copy-target="cmd-online" aria-live="polite">Copy</button></div>
+        <pre class="code-scroll"><code id="cmd-online">claude mcp add --env AERINI_URL=http://127.0.0.1:7700 --env AERINI_TOKEN=&lt;agent token&gt; --transport stdio aerini -- /path/to/aerini-mcp</code></pre>
+      </div>
+      <p class="agent-note">Create a separate token for the agent: <code>read</code> is enough to explore and validate, add <code>write</code> only if it should run workflows. Never give an agent an admin token. Claude Desktop and other clients are covered in the setup guide.</p>
+      <div class="agent-cta">
+        <a href="https://docs.aerini.org/operations/mcp" class="btn btn-primary" target="_blank" rel="noopener">Read the setup guide</a>
+        <a href="https://docs.aerini.org/guide/agents" class="btn btn-ghost" target="_blank" rel="noopener">Building workflows with an agent</a>
+        <a href="https://github.com/Panchak2d/Aerini/releases" class="btn btn-ghost" target="_blank" rel="noopener">Releases</a>
+      </div>
+    </div>
+
+    <details class="agent-more reveal">
+      <summary>Reference: all 11 tools, release files, the Claude Skill</summary>
+      <div class="agent-block">
+        <span class="agent-label">11 tools</span>
+        <dl class="tool-list">
+          <div class="tool-row"><dt>Look up<small>both modes</small></dt><dd><code>list_nodes</code><code>get_node_schema</code><code>validate_workflow</code></dd></div>
+          <div class="tool-row"><dt>Read<small>online</small></dt><dd><code>list_workflows</code><code>get_workflow</code><code>get_scheduler_status</code></dd></div>
+          <div class="tool-row"><dt>Change<small>online, needs --allow-write</small></dt><dd><code>save_workflow</code><code>delete_workflow</code><code>start_schedule</code><code>stop_schedule</code></dd></div>
+          <div class="tool-row"><dt>Run<small>online, write-scoped token</small></dt><dd><code>run_workflow</code></dd></div>
+        </dl>
+        <p class="agent-note"><code>save_workflow</code> also works offline, where it writes the <code>.aerini</code> file and needs no flag.</p>
+      </div>
+      <div class="agent-block">
+        <p class="agent-note">Every release includes both programs for Linux (x64 and ARM64), macOS Apple Silicon and Windows x64, each with a <code>.sha256</code> checksum. The sizes above are the compressed archives (<code>.tar.gz</code> on Linux and macOS, <code>.zip</code> on Windows). The builds are not code-signed, so macOS and Windows may warn on first run.</p>
+        <p class="agent-note">A second route, with no server or MCP setup: the <a href="https://www.patreon.com/Panchak2d/posts/aerini-skill-for-172470926" target="_blank" rel="noopener">Claude Skill</a> builds ready-to-import <code>.aerini</code> files from plain-English requests in Claude or Claude Code. It cannot open them in the app, so do one manual run first. It is a Patreon add-on, included for supporters or available on its own, and is independent of Anthropic.</p>
+      </div>
+    </details>
   </div>
 </section>
 
@@ -646,54 +772,6 @@
       </div>
     </div>
     <p class="reward-note reveal">Once monthly donations average more than $500 over three months, a share goes to contributors. The split is published in REWARDS.md in the repository.</p>
-  </div>
-</section>
-
-<section id="get-aerini">
-  <div class="wrap">
-    <div class="section-head reveal">
-      <span class="eyebrow eb-action">Get Aerini</span>
-      <h2>Pick a platform.</h2>
-    </div>
-
-    <div class="platform-grid reveal">
-      <div class="platform-card" data-platform="windows">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><rect x="3" y="3" width="8" height="8"/><rect x="13" y="3" width="8" height="8"/><rect x="3" y="13" width="8" height="8"/><rect x="13" y="13" width="8" height="8"/></svg>
-        <h3>Windows</h3>
-        <span class="sub">x64 · .msi / .exe</span>
-        <a href="https://github.com/Panchak2d/Aerini/releases" target="_blank" rel="noopener">Download →</a>
-      </div>
-      <div class="platform-card" data-platform="macos">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.152 6.896c-.948 0-2.415-1.078-3.96-1.04-2.04.027-3.91 1.183-4.961 3.014-2.117 3.675-.546 9.103 1.519 12.09 1.013 1.454 2.208 3.09 3.792 3.039 1.52-.065 2.09-.987 3.935-.987 1.831 0 2.35.987 3.96.948 1.637-.026 2.676-1.48 3.676-2.948 1.156-1.688 1.636-3.325 1.662-3.415-.039-.013-3.182-1.221-3.22-4.857-.026-3.04 2.48-4.494 2.597-4.559-1.429-2.09-3.623-2.324-4.39-2.376-2-.156-3.675 1.09-4.61 1.09zM15.53 3.83c.843-1.012 1.4-2.427 1.245-3.83-1.207.052-2.662.805-3.532 1.818-.78.896-1.454 2.338-1.273 3.714 1.338.104 2.715-.688 3.559-1.701"/></svg>
-        <h3>macOS</h3>
-        <span class="sub">Apple Silicon only · .dmg</span>
-        <a href="https://github.com/Panchak2d/Aerini/releases" target="_blank" rel="noopener">Download →</a>
-      </div>
-      <div class="platform-card" data-platform="linux">
-        <svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M12.504 0c-.155 0-.315.008-.48.021-4.226.333-3.105 4.807-3.17 6.298-.076 1.092-.3 1.953-1.05 3.02-.885 1.051-2.127 2.75-2.716 4.521-.278.832-.41 1.684-.287 2.489a.424.424 0 00-.11.135c-.26.268-.45.6-.663.839-.199.199-.485.267-.797.4-.313.136-.658.269-.864.68-.09.189-.136.394-.132.602 0 .199.027.4.055.536.058.399.116.728.04.97-.249.68-.28 1.145-.106 1.484.174.334.535.47.94.601.81.2 1.91.135 2.774.6.926.466 1.866.67 2.616.47.526-.116.97-.464 1.208-.946.587-.003 1.23-.269 2.26-.334.699-.058 1.574.267 2.577.2.025.134.063.198.114.333l.003.003c.391.778 1.113 1.132 1.884 1.071.771-.06 1.592-.536 2.257-1.306.631-.765 1.683-1.084 2.378-1.503.348-.199.629-.469.649-.853.023-.4-.2-.811-.714-1.376v-.097l-.003-.003c-.17-.2-.25-.535-.338-.926-.085-.401-.182-.786-.492-1.046h-.003c-.059-.054-.123-.067-.188-.135a.357.357 0 00-.19-.064c.431-1.278.264-2.55-.173-3.694-.533-1.41-1.465-2.638-2.175-3.483-.796-1.005-1.576-1.957-1.56-3.368.026-2.152.236-6.133-3.544-6.139zm.529 3.405h.013c.213 0 .396.062.584.198.19.135.33.332.438.533.105.259.158.459.166.724 0-.02.006-.04.006-.06v.105a.086.086 0 01-.004-.021l-.004-.024a1.807 1.807 0 01-.15.706.953.953 0 01-.213.335.71.71 0 00-.088-.042c-.104-.045-.198-.064-.284-.133a1.312 1.312 0 00-.22-.066c.05-.06.146-.133.183-.198.053-.128.082-.264.088-.402v-.02a1.21 1.21 0 00-.061-.4c-.045-.134-.101-.2-.183-.333-.084-.066-.167-.132-.267-.132h-.016c-.093 0-.176.03-.262.132a.8.8 0 00-.205.334 1.18 1.18 0 00-.09.4v.019c.002.089.008.179.02.267-.193-.067-.438-.135-.607-.202a1.635 1.635 0 01-.018-.2v-.02a1.772 1.772 0 01.15-.768c.082-.22.232-.406.43-.533a.985.985 0 01.594-.2zm-2.962.059h.036c.142 0 .27.048.399.135.146.129.264.288.344.465.09.199.14.4.153.667v.004c.007.134.006.2-.002.266v.08c-.03.007-.056.018-.083.024-.152.055-.274.135-.393.2.012-.09.013-.18.003-.267v-.015c-.012-.133-.04-.2-.082-.333a.613.613 0 00-.166-.267.248.248 0 00-.183-.064h-.021c-.071.006-.13.04-.186.132a.552.552 0 00-.12.27.944.944 0 00-.023.33v.015c.012.135.037.2.08.334.046.134.098.2.166.268.01.009.02.018.034.024-.07.057-.117.07-.176.136a.304.304 0 01-.131.068 2.62 2.62 0 01-.275-.402 1.772 1.772 0 01-.155-.667 1.759 1.759 0 01.08-.668 1.43 1.43 0 01.283-.535c.128-.133.26-.2.418-.2zm1.37 1.706c.332 0 .733.065 1.216.399.293.2.523.269 1.052.468h.003c.255.136.405.266.478.399v-.131a.571.571 0 01.016.47c-.123.31-.516.643-1.063.842v.002c-.268.135-.501.333-.775.465-.276.135-.588.292-1.012.267a1.139 1.139 0 01-.448-.067 3.566 3.566 0 01-.322-.198c-.195-.135-.363-.332-.612-.465v-.005h-.005c-.4-.246-.616-.512-.686-.71-.07-.268-.005-.47.193-.6.224-.135.38-.271.483-.336.104-.074.143-.102.176-.131h.002v-.003c.169-.202.436-.47.839-.601.139-.036.294-.065.466-.065zm2.8 2.142c.358 1.417 1.196 3.475 1.735 4.473.286.534.855 1.659 1.102 3.024.156-.005.33.018.513.064.646-1.671-.546-3.467-1.089-3.966-.22-.2-.232-.335-.123-.335.59.534 1.365 1.572 1.646 2.757.13.535.16 1.104.021 1.67.067.028.135.06.205.067 1.032.534 1.413.938 1.23 1.537v-.043c-.06-.003-.12 0-.18 0h-.016c.151-.467-.182-.825-1.065-1.224-.915-.4-1.646-.336-1.77.465-.008.043-.013.066-.018.135-.068.023-.139.053-.209.064-.43.268-.662.669-.793 1.187-.13.533-.17 1.156-.205 1.869v.003c-.02.334-.17.838-.319 1.35-1.5 1.072-3.58 1.538-5.348.334a2.645 2.645 0 00-.402-.533 1.45 1.45 0 00-.275-.333c.182 0 .338-.03.465-.067a.615.615 0 00.314-.334c.108-.267 0-.697-.345-1.163-.345-.467-.931-.995-1.788-1.521-.63-.4-.986-.87-1.15-1.396-.165-.534-.143-1.085-.015-1.645.245-1.07.873-2.11 1.274-2.763.107-.065.037.135-.408.974-.396.751-1.14 2.497-.122 3.854a8.123 8.123 0 01.647-2.876c.564-1.278 1.743-3.504 1.836-5.268.048.036.217.135.289.202.218.133.38.333.59.465.21.201.477.335.876.335.039.003.075.006.11.006.412 0 .73-.134.997-.268.29-.134.52-.334.74-.4h.005c.467-.135.835-.402 1.044-.7zm2.185 8.958c.037.6.343 1.245.882 1.377.588.134 1.434-.333 1.791-.765l.211-.01c.315-.007.577.01.847.268l.003.003c.208.199.305.53.391.876.085.4.154.78.409 1.066.486.527.645.906.636 1.14l.003-.007v.018l-.003-.012c-.015.262-.185.396-.498.595-.63.401-1.746.712-2.457 1.57-.618.737-1.37 1.14-2.036 1.191-.664.053-1.237-.2-1.574-.898l-.005-.003c-.21-.4-.12-1.025.056-1.69.176-.668.428-1.344.463-1.897.037-.714.076-1.335.195-1.814.12-.465.308-.797.641-.984l.045-.022zm-10.814.049h.01c.053 0 .105.005.157.014.376.055.706.333 1.023.752l.91 1.664.003.003c.243.533.754 1.064 1.189 1.637.434.598.77 1.131.729 1.57v.006c-.057.744-.48 1.148-1.125 1.294-.645.135-1.52.002-2.395-.464-.968-.536-2.118-.469-2.857-.602-.369-.066-.61-.2-.723-.4-.11-.2-.113-.602.123-1.23v-.004l.002-.003c.117-.334.03-.752-.027-1.118-.055-.401-.083-.71.043-.94.16-.334.396-.4.69-.533.294-.135.64-.202.915-.47h.002v-.002c.256-.268.445-.601.668-.838.19-.201.38-.336.663-.336zm7.159-9.074c-.435.201-.945.535-1.488.535-.542 0-.97-.267-1.28-.466-.154-.134-.28-.268-.373-.335-.164-.134-.144-.333-.074-.333.109.016.129.134.199.2.096.066.215.2.36.333.292.2.68.467 1.167.467.485 0 1.053-.267 1.398-.466.195-.135.445-.334.648-.467.156-.136.149-.267.279-.267.128.016.034.134-.147.332a8.097 8.097 0 01-.69.468zm-1.082-1.583V5.64c-.006-.02.013-.042.029-.05.074-.043.18-.027.26.004.063 0 .16.067.15.135-.006.049-.085.066-.135.066-.055 0-.092-.043-.141-.068-.052-.018-.146-.008-.163-.065zm-.551 0c-.02.058-.113.049-.166.066-.047.025-.086.068-.14.068-.05 0-.13-.02-.136-.068-.01-.066.088-.133.15-.133.08-.031.184-.047.259-.005.019.009.036.03.03.05v.02h.003z"/></svg>
-        <h3>Linux</h3>
-        <span class="sub">x64 &amp; ARM64 · .deb / .AppImage</span>
-        <a href="https://github.com/Panchak2d/Aerini/releases" target="_blank" rel="noopener">Download →</a>
-      </div>
-      <div class="platform-card">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><rect x="3" y="4" width="18" height="16" rx="2"/><path d="M7 9l3 3-3 3M13 15h4"/></svg>
-        <h3>Build from source</h3>
-        <span class="sub">Rust 1.96+ · Node 20.19+</span>
-        <a href="https://github.com/Panchak2d/Aerini" target="_blank" rel="noopener">View repo →</a>
-      </div>
-      <div class="platform-card">
-        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" aria-hidden="true"><path d="M12 2l8 4.5v9L12 20l-8-4.5v-9L12 2z"/><path d="M4 6.5l8 4.5 8-4.5M12 11v9"/></svg>
-        <h3>Server</h3>
-        <span class="sub">Docker image, linux/amd64</span>
-        <a href="https://docs.aerini.org/operations/server-deploy" target="_blank" rel="noopener">Deployment guide →</a>
-      </div>
-    </div>
-
-    <ul class="install-notes reveal"><li><b>macOS:</b> the app is not signed with an Apple Developer certificate. The first time, right-click it and choose Open. There is no Intel build yet.</li><li><b>Windows:</b> the installer is not code-signed, so SmartScreen will warn you. Choose More info, then Run anyway.</li><li><b>Linux:</b> needs webkit2gtk 4.1, which most desktops already have.</li></ul>
-
-    <p class="dl-note reveal">Using an AI agent? The <code>aerini-mcp</code> programs are separate downloads on the same release page. See <a href="#agents">AI agents</a>.</p>
-
-    <p class="dl-note reveal">Building from source: <code>git clone https://github.com/Panchak2d/Aerini.git</code>. See the repo's <code>docs/</code> folder for engine-embedding and plugin-authoring guides. Running the headless engine unattended (<code>aerini-server</code>): <code>docker pull ghcr.io/panchak2d/aerini-server</code>, or build the image yourself if you want to customize it; see the deployment guide above.</p>
   </div>
 </section>
 

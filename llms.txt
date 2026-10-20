@@ -29,5 +29,6 @@ Licensed AGPL-3.0: free to use, study, and modify. Distributing a modified versi
 - [AGPL-3.0 license](https://github.com/Panchak2d/Aerini/blob/main/LICENSE): Full license text, in the same repository.
 - [Docs](https://docs.aerini.org): Engine-embedding, plugin-authoring, and deployment guides.
 - [Changelog](https://github.com/Panchak2d/Aerini/blob/main/CHANGELOG.md): Version history.
+- [Getting started](https://docs.aerini.org/getting-started/getting-started): Build, run and schedule a first workflow, step by step.
 - [MCP server guide](https://docs.aerini.org/operations/mcp): Installing aerini-mcp, configuring an MCP client, and what to lock down first.
 - [Building workflows with an AI agent](https://docs.aerini.org/guide/agents): How an agent should use the tools.
