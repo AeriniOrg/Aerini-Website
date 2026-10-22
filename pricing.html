@@ -25,14 +25,14 @@
 }
 </script>
 <title>Pricing · Aerini</title>
-<meta name="description" content="Aerini is free under AGPL-3.0. The commercial license is a flat one-time fee for teams shipping a modified version without the share-back requirement.">
+<meta name="description" content="Aerini is free under AGPL-3.0. The commercial license is $5/month, or $50/year, for teams shipping a modified version without the share-back requirement.">
 <link rel="canonical" href="https://aerini.org/pricing">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Aerini">
 <meta property="og:locale" content="en_US">
 <meta property="og:url" content="https://aerini.org/pricing">
 <meta property="og:title" content="Pricing · Aerini">
-<meta property="og:description" content="Aerini is free under AGPL-3.0. The commercial license is a flat one-time fee for teams shipping a modified build without the share-back requirement.">
+<meta property="og:description" content="Aerini is free under AGPL-3.0. The commercial license is $5/month, or $50/year, for teams shipping a modified build without the share-back requirement.">
 <meta property="og:image" content="https://aerini.org/og-image.png">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
@@ -40,7 +40,7 @@
 <meta property="og:image:alt" content="Aerini: three connected workflow nodes, Start, Fetch Data and Show Result, above the tagline &#x27;A workflow engine you run yourself.&#x27;">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Pricing · Aerini">
-<meta name="twitter:description" content="Aerini is free under AGPL-3.0. The commercial license is a flat one-time fee for teams shipping a modified build without the share-back requirement.">
+<meta name="twitter:description" content="Aerini is free under AGPL-3.0. The commercial license is $5/month, or $50/year, for teams shipping a modified build without the share-back requirement.">
 <meta name="twitter:image" content="https://aerini.org/og-image.png">
 <meta name="twitter:image:alt" content="Aerini: three connected workflow nodes, Start, Fetch Data and Show Result, above the tagline &#x27;A workflow engine you run yourself.&#x27;">
 <link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
@@ -58,8 +58,14 @@
   "url": "https://aerini.org/pricing",
   "offers": {
     "@type": "Offer",
-    "price": 299,
+    "price": 5,
     "priceCurrency": "USD",
+    "priceSpecification": {
+      "@type": "UnitPriceSpecification",
+      "price": 5,
+      "priceCurrency": "USD",
+      "referenceQuantity": { "@type": "QuantitativeValue", "value": 1, "unitCode": "MON" }
+    },
     "availability": "https://schema.org/InStock",
     "url": "https://aerini.org/pricing"
   },
@@ -88,7 +94,7 @@
       "name": "What does the license actually cover?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "It removes the AGPL-3.0's source-sharing obligations, including the network-copyleft clause, for the version of Aerini you buy it against — for 0.4, that includes every 0.4.x patch release. You get a perpetual right to distribute a modified build, or run a modified aerini-server as a service, without publishing your changes, as part of one product or service you name at checkout. A new minor or major release (0.5.0, 1.0.0) or an additional product needs its own license. If you're not sure, email us."
+        "text": "It removes the AGPL-3.0's source-sharing obligations, including the network-copyleft clause, for every version of Aerini released while you're subscribed — including new minor and major releases. You can distribute a modified build, or run a modified aerini-server as a service, without publishing your changes, as part of one product or service you name at checkout. If you stop paying, you keep the right to use every version you were covered for. Once you've paid for 12 months in total, you also keep the right to ship and host those versions in your product; before that, shipping and hosting end when you stop paying. Versions released after you stop need a new subscription, and an additional product needs its own license. If you're not sure, email us."
       }
     },
     {
@@ -104,7 +110,7 @@
       "name": "How do I pay, and what happens after?",
       "acceptedAnswer": {
         "@type": "Answer",
-        "text": "Checkout runs through Polar. When payment completes you get an order confirmation and receipt by email, and your license key is issued through the same checkout. That key, plus the details you enter at checkout, is your license certificate, so there is nothing to wait for. Your rights start at payment. Fees are non-refundable except where the law requires or the licensor agrees in writing; refund requests go through Polar under its refund policy. If a payment is reversed or charged back, the license ends automatically. The full license text is available on the license terms page."
+        "text": "Checkout runs through Polar. When payment completes you get an order confirmation and receipt by email, and your license key is issued through the same checkout. That key, plus the details you enter at checkout, is your license certificate, so there is nothing to wait for. Your rights start at payment. The subscription renews until you cancel, and cancelling takes effect at the end of the period you've paid for. Each renewal receipt is your proof of that period, so keep them: if Polar revokes the key when you cancel, your rights under the license don't change. Fees are non-refundable except where the law requires or the licensor agrees in writing; refund requests go through Polar under its refund policy. If a payment is reversed or charged back, the license ends automatically. The full license text is available on the license terms page."
       }
     },
     {
@@ -206,19 +212,21 @@
         <span class="tag">Optional</span>
         <h2>Commercial license</h2>
         <div class="price-block">
-          <span class="price-amount">$299</span>
-          <span class="price-unit">One-time</span>
+          <span class="price-amount">$5</span>
+          <span class="price-unit">per month, or $50 per year</span>
         </div>
         <ul>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Ship a modified version closed-source — no share-back required</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Use it internally, or ship it inside one named product or service you offer to customers</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>One payment. No seats, no renewal, no subscription</li>
-          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Covers Aerini 0.4 and every 0.4.x patch release. A new minor version (0.5, 1.0) needs a new license</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Subscription, billed monthly or yearly. No seats. Cancel any time</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Covers every Aerini version released while you're subscribed, including new minor and major releases. No new license to buy</li>
+          <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>If you stop paying, you keep every version you were covered for. Once you've paid for 12 months in total, you also keep the right to ship and host them in your product</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>Each additional product or service needs its own license. The license is non-transferable</li>
           <li><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M20 6L9 17l-5-5"/></svg>If you ship Aerini to your customers, your end-user terms must pass on the ban on using it as AI training data (License §5)</li>
         </ul>
         <div class="hero-ctas mt-24">
-          <a href="https://buy.polar.sh/polar_cl_bMiN4vk99RbpCK4MrcGupNW5d27O5pkuDRUHk0bIs9i" class="btn btn-primary" data-polar-checkout data-polar-checkout-theme="dark" data-checkout-fallback="mailto:support@aerini.org?subject=Commercial%20license%20purchase" data-role="buy-license-cta">Buy commercial license</a>
+          <a href="https://buy.polar.sh/polar_cl_4Jve4zCq9bvZn7UNjFfjKMP1quafDo8M5Ohil3Su6JZ" class="btn btn-primary" data-polar-checkout data-polar-checkout-theme="dark" data-checkout-fallback="mailto:support@aerini.org?subject=Commercial%20license%20subscription" data-role="buy-license-cta">Subscribe · $5/month</a>
+          <a href="https://buy.polar.sh/polar_cl_3z8xIpir0TqW2xKN0DJVMhfJGVxCqd8qFE5Ij4ULeRA" class="btn btn-ghost" data-polar-checkout data-polar-checkout-theme="dark" data-checkout-fallback="mailto:support@aerini.org?subject=Commercial%20license%20subscription%20(yearly)" data-role="buy-license-cta-yearly">Subscribe · $50/year</a>
         </div>
         <p class="dl-note mt-14"><a href="license-terms">Read the full terms</a> · or <a href="mailto:support@aerini.org">email us</a> first if you want to read them before buying.</p>
       </div>
@@ -241,7 +249,7 @@
       </div>
       <div class="faq-item">
         <button type="button" class="faq-q">What does the license actually cover?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
-        <div class="faq-a"><div class="faq-a-inner">It removes the AGPL-3.0's source-sharing obligations, including the network-copyleft clause, for the version of Aerini you buy it against — for 0.4, that includes every 0.4.x patch release. You get a perpetual right to distribute a modified build, or run a modified aerini-server as a service, without publishing your changes, as part of one product or service you name at checkout. A new minor or major release (0.5.0, 1.0.0) or an additional product needs its own license. If you're not sure, email us.</div></div>
+        <div class="faq-a"><div class="faq-a-inner">It removes the AGPL-3.0's source-sharing obligations, including the network-copyleft clause, for every version of Aerini released while you're subscribed — including new minor and major releases. You can distribute a modified build, or run a modified aerini-server as a service, without publishing your changes, as part of one product or service you name at checkout. If you stop paying, you keep the right to use every version you were covered for. Once you've paid for 12 months in total, you also keep the right to ship and host those versions in your product; before that, shipping and hosting end when you stop paying. Versions released after you stop need a new subscription, and an additional product needs its own license. If you're not sure, email us.</div></div>
       </div>
       <div class="faq-item">
         <button type="button" class="faq-q">Is this the same as Patreon or GitHub Sponsors?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
@@ -249,7 +257,7 @@
       </div>
       <div class="faq-item">
         <button type="button" class="faq-q">How do I pay, and what happens after?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>
-        <div class="faq-a"><div class="faq-a-inner">Checkout runs through Polar. When payment completes you get an order confirmation and receipt by email, and your license key is issued through the same checkout. That key, plus the details you enter at checkout, is your license certificate, so there is nothing to wait for. Your rights start at payment. Fees are non-refundable except where the law requires or the licensor agrees in writing; refund requests go through Polar under its refund policy. If a payment is reversed or charged back, the license ends automatically. The full license text is available on the <a href="license-terms">license terms page</a>.</div></div>
+        <div class="faq-a"><div class="faq-a-inner">Checkout runs through Polar. When payment completes you get an order confirmation and receipt by email, and your license key is issued through the same checkout. That key, plus the details you enter at checkout, is your license certificate, so there is nothing to wait for. Your rights start at payment. The subscription renews until you cancel, and cancelling takes effect at the end of the period you've paid for. Each renewal receipt is your proof of that period, so keep them: if Polar revokes the key when you cancel, your rights under the license don't change. Fees are non-refundable except where the law requires or the licensor agrees in writing; refund requests go through Polar under its refund policy. If a payment is reversed or charged back, the license ends automatically. The full license text is available on the <a href="license-terms">license terms page</a>.</div></div>
       </div>
       <div class="faq-item">
         <button type="button" class="faq-q">What if something's wrong with my purchase?<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M12 5v14M5 12h14"/></svg></button>

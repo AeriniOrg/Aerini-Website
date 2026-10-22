@@ -38,7 +38,7 @@ const files = readdirSync(ROOT).filter((f) => f.endsWith(".html"));
 function routeToFile(route) {
   const clean = route.replace(/^\//, "").split("#")[0].split("?")[0];
   if (clean === "") return "index.html";
-  // "license-terms-v1.0" has a dot but is a page, so only real asset extensions count as files.
+  // "license-terms-v1.1" has a dot but is a page, so only real asset extensions count as files.
   if (/\.(html|css|js|png|ico|svg|xml|txt|webmanifest|woff2)$/.test(clean)) return clean;
   return clean + ".html";
 }

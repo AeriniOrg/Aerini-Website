@@ -16,8 +16,8 @@ Licensed AGPL-3.0: free to use, study, and modify. Distributing a modified versi
 
 - [Homepage](https://aerini.org/): Product overview, how it works, feature list, and download links for every platform.
 - [FAQ](https://aerini.org/#faq): Answers on license, cost, platform support, and how to contribute.
-- [Pricing](https://aerini.org/pricing): The commercial license — a flat one-time fee for teams shipping a modified version without the AGPL's share-back requirement.
-- [Commercial license terms](https://aerini.org/license-terms): The full text of the Aerini Commercial License Agreement. A permanent copy of each version is kept at a versioned URL (e.g. /license-terms-v1.0).
+- [Pricing](https://aerini.org/pricing): The commercial license — a $5/month subscription for teams shipping a modified version without the AGPL's share-back requirement.
+- [Commercial license terms](https://aerini.org/license-terms): The full text of the Aerini Commercial License Agreement. A permanent copy of each version is kept at a versioned URL (e.g. /license-terms-v1.1).
 - [Contact](https://aerini.org/contact): Email, GitHub Issues, and GitHub Discussions contact channels.
 - [Privacy policy](https://aerini.org/privacy): What the website stores (nothing) vs. shares with third parties (your IP, via GitHub's public API and the checkout script), and what the app sends over the network (nothing on its own).
 - [Security policy](https://aerini.org/security): How to report a vulnerability, response timeline, and what's protected by default.
