@@ -505,7 +505,7 @@
 
     <ul class="install-notes reveal"><li><b>macOS:</b> the app is not signed with an Apple Developer certificate. The first time, right-click it and choose Open. There is no Intel build yet.</li><li><b>Windows:</b> the installer is not code-signed, so SmartScreen will warn you. Choose More info, then Run anyway.</li><li><b>Linux:</b> needs webkit2gtk 4.1, which most desktops already have.</li></ul>
 
-    <p class="dl-note reveal">Using an AI agent? The <code>aerini-mcp</code> programs are separate downloads on the same release page. See <a href="#agents">AI agents</a>.</p>
+    <p class="dl-note reveal">Using an AI agent? Direct downloads for the <code>aerini-mcp</code> programs are under <a href="#agents">AI agents</a>.</p>
 
     <p class="dl-note reveal">Building from source: <code>git clone https://github.com/Panchak2d/Aerini.git</code>. See the repo's <code>docs/</code> folder for engine-embedding and plugin-authoring guides. Running the headless engine unattended (<code>aerini-server</code>): <code>docker pull ghcr.io/panchak2d/aerini-server</code>, or build the image yourself if you want to customize it; see the deployment guide above.</p>
   </div>
@@ -601,6 +601,17 @@
         <li><b>Run output is treated as data.</b>Control, bidirectional and zero-width characters are stripped and results are cut at 32 KiB by default. That lowers prompt-injection risk but does not remove it, so keep your client's approval prompts on.</li>
         <li><b>Know the sharp edge.</b>Running a workflow has real side effects. Shell, Code and Database nodes are off on <code>aerini-server api</code> by default. Do not enable them on a server where an agent holds a write token.</li>
       </ul>
+    </div>
+
+    <div class="agent-block reveal">
+      <span class="agent-label">Download</span>
+      <dl class="tool-list">
+          <div class="tool-row"><dt>Linux<small>x64</small></dt><dd><a href="https://github.com/Panchak2d/Aerini/releases" target="_blank" rel="noopener" data-mcp="aerini-mcp" data-mcp-target="x86_64-unknown-linux-gnu">aerini-mcp</a><a href="https://github.com/Panchak2d/Aerini/releases" target="_blank" rel="noopener" class="sum" data-mcp-sha="aerini-mcp" data-mcp-target="x86_64-unknown-linux-gnu">sha256</a><a href="https://github.com/Panchak2d/Aerini/releases" target="_blank" rel="noopener" data-mcp="aerini-mcp-offline" data-mcp-target="x86_64-unknown-linux-gnu">aerini-mcp-offline</a><a href="https://github.com/Panchak2d/Aerini/releases" target="_blank" rel="noopener" class="sum" data-mcp-sha="aerini-mcp-offline" data-mcp-target="x86_64-unknown-linux-gnu">sha256</a></dd></div>
+          <div class="tool-row"><dt>Linux<small>ARM64</small></dt><dd><a href="https://github.com/Panchak2d/Aerini/releases" target="_blank" rel="noopener" data-mcp="aerini-mcp" data-mcp-target="aarch64-unknown-linux-gnu">aerini-mcp</a><a href="https://github.com/Panchak2d/Aerini/releases" target="_blank" rel="noopener" class="sum" data-mcp-sha="aerini-mcp" data-mcp-target="aarch64-unknown-linux-gnu">sha256</a><a href="https://github.com/Panchak2d/Aerini/releases" target="_blank" rel="noopener" data-mcp="aerini-mcp-offline" data-mcp-target="aarch64-unknown-linux-gnu">aerini-mcp-offline</a><a href="https://github.com/Panchak2d/Aerini/releases" target="_blank" rel="noopener" class="sum" data-mcp-sha="aerini-mcp-offline" data-mcp-target="aarch64-unknown-linux-gnu">sha256</a></dd></div>
+          <div class="tool-row"><dt>macOS<small>Apple Silicon</small></dt><dd><a href="https://github.com/Panchak2d/Aerini/releases" target="_blank" rel="noopener" data-mcp="aerini-mcp" data-mcp-target="aarch64-apple-darwin">aerini-mcp</a><a href="https://github.com/Panchak2d/Aerini/releases" target="_blank" rel="noopener" class="sum" data-mcp-sha="aerini-mcp" data-mcp-target="aarch64-apple-darwin">sha256</a><a href="https://github.com/Panchak2d/Aerini/releases" target="_blank" rel="noopener" data-mcp="aerini-mcp-offline" data-mcp-target="aarch64-apple-darwin">aerini-mcp-offline</a><a href="https://github.com/Panchak2d/Aerini/releases" target="_blank" rel="noopener" class="sum" data-mcp-sha="aerini-mcp-offline" data-mcp-target="aarch64-apple-darwin">sha256</a></dd></div>
+          <div class="tool-row"><dt>Windows<small>x64</small></dt><dd><a href="https://github.com/Panchak2d/Aerini/releases" target="_blank" rel="noopener" data-mcp="aerini-mcp" data-mcp-target="x86_64-pc-windows-msvc">aerini-mcp</a><a href="https://github.com/Panchak2d/Aerini/releases" target="_blank" rel="noopener" class="sum" data-mcp-sha="aerini-mcp" data-mcp-target="x86_64-pc-windows-msvc">sha256</a><a href="https://github.com/Panchak2d/Aerini/releases" target="_blank" rel="noopener" data-mcp="aerini-mcp-offline" data-mcp-target="x86_64-pc-windows-msvc">aerini-mcp-offline</a><a href="https://github.com/Panchak2d/Aerini/releases" target="_blank" rel="noopener" class="sum" data-mcp-sha="aerini-mcp-offline" data-mcp-target="x86_64-pc-windows-msvc">sha256</a></dd></div>
+      </dl>
+      <p class="agent-note">Pick <code>aerini-mcp</code> to work with a server, or <code>aerini-mcp-offline</code> for no server. Save a <code>sha256</code> file next to its archive and <code>sha256sum -c</code> will check the download.</p>
     </div>
 
     <div class="agent-block reveal">

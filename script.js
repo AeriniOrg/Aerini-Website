@@ -166,6 +166,35 @@
     try{ localStorage.setItem(RELEASE_CACHE_KEY, JSON.stringify({ ts: Date.now(), tag: tag, assets: assets })); } catch(e){}
   }
 
+  /* MCP archives are named <program>_<version>_<target>.tar.gz (.zip on Windows). Matching the program name up to
+     the underscore keeps "aerini-mcp" from picking up "aerini-mcp-offline". */
+  function findMcpAsset(assets, program, target){
+    for(var i=0;i<assets.length;i++){
+      var n = assets[i].name;
+      if(n.indexOf(program + '_') === 0 && /\.(tar\.gz|zip)$/.test(n) && n.indexOf('_' + target + '.') > 0) return assets[i];
+    }
+    return null;
+  }
+
+  function findAssetByName(assets, name){
+    for(var i=0;i<assets.length;i++){ if(assets[i].name === name) return assets[i]; }
+    return null;
+  }
+
+  function applyMcpLinks(assets){
+    var links = document.querySelectorAll('a[data-mcp-target]');
+    for(var i=0;i<links.length;i++){
+      var isSum = links[i].hasAttribute('data-mcp-sha');
+      var program = links[i].getAttribute(isSum ? 'data-mcp-sha' : 'data-mcp');
+      var asset = findMcpAsset(assets, program, links[i].getAttribute('data-mcp-target'));
+      if(asset && isSum) asset = findAssetByName(assets, asset.name + '.sha256');
+      if(!asset) continue;
+      links[i].href = asset.url;
+      links[i].removeAttribute('target');
+      links[i].removeAttribute('rel');
+    }
+  }
+
   function applyRelease(tag, assets, ctas, cards, detected){
     cards.forEach(function(card){
       var os = card.getAttribute('data-platform');
@@ -177,6 +206,7 @@
       link.removeAttribute('target');
       link.removeAttribute('rel');
     });
+    applyMcpLinks(assets);
     if(detected){
       var heroAsset = findAsset(assets, detected);
       if(heroAsset){
