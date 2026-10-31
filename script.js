@@ -135,6 +135,28 @@
   }
   var linuxArm = /aarch64|arm64|armv[78]/i.test((navigator.userAgent || '') + ' ' + (navigator.platform || ''));
 
+  /* Semver order: 0.4.4 beats 0.4.4-rc.1; a missing pre-release part outranks any present one. */
+  function parseTag(tag){
+    var m = /^v?(\d+)\.(\d+)\.(\d+)(?:[-.]([0-9A-Za-z.]+))?$/.exec(tag);
+    return m ? { n: [+m[1], +m[2], +m[3]], pre: m[4] ? m[4].split('.') : null } : null;
+  }
+  function compareTags(a, b){
+    var x = parseTag(a), y = parseTag(b), i;
+    if(!x || !y) return 0;
+    for(i=0;i<3;i++){ if(x.n[i] !== y.n[i]) return x.n[i] < y.n[i] ? -1 : 1; }
+    if(!x.pre || !y.pre) return x.pre === y.pre ? 0 : (x.pre ? -1 : 1);
+    for(i=0;i<Math.max(x.pre.length, y.pre.length);i++){
+      var p = x.pre[i], q = y.pre[i];
+      if(p === undefined) return -1;
+      if(q === undefined) return 1;
+      var pn = /^\d+$/.test(p), qn = /^\d+$/.test(q);
+      if(pn && qn){ if(+p !== +q) return +p < +q ? -1 : 1; }
+      else if(pn !== qn){ return pn ? -1 : 1; }
+      else if(p !== q){ return p < q ? -1 : 1; }
+    }
+    return 0;
+  }
+
   function findAsset(assets, os){
     var candidates = [];
     for(var i=0;i<assets.length;i++){ if(ASSET_PATTERN[os].test(assets[i].name)) candidates.push(assets[i]); }
@@ -158,7 +180,7 @@
   function readReleaseCache(){
     try{
       var c = JSON.parse(localStorage.getItem(RELEASE_CACHE_KEY) || 'null');
-      if(c && typeof c.ts === 'number' && Date.now() - c.ts < RELEASE_TTL && TAG_RE.test(c.tag)) return c;
+      if(c && typeof c.ts === 'number' && Date.now() - c.ts < RELEASE_TTL && TAG_RE.test(c.tag) && !(parseTag(c.tag) || {}).pre) return c;
     } catch(e){}
     return null;
   }
@@ -219,15 +241,16 @@
     }
   }
 
-  var GH_RELEASES_LIST_API = 'https://api.github.com/repos/' + GH_REPO + '/releases?per_page=5';
+  var GH_RELEASES_LIST_API = 'https://api.github.com/repos/' + GH_REPO + '/releases?per_page=10';
 
   function normalizeRelease(tag, list){
-    if(typeof tag !== 'string' || !TAG_RE.test(tag)) return null;
+    var parsed = (typeof tag === 'string' && TAG_RE.test(tag)) ? parseTag(tag) : null;
+    if(!parsed || parsed.pre) return null;
     var assets = trustedAssets(list);
     return assets.length ? { tag: tag, assets: assets } : null;
   }
 
-  /* 1. release.json: written at deploy time from the newest published release (pre-releases included). Same
+  /* 1. release.json: written at deploy time from the newest published release (stable only). Same
         origin, so no third-party request and no API rate limit. */
   function releaseFromSite(){
     return fetch('release.json', { cache: 'no-cache' })
@@ -236,20 +259,21 @@
   }
 
   /* 2. GitHub API fallback (local dev, or the deploy step could not reach GitHub). The list endpoint is used
-        instead of /releases/latest because that one skips pre-releases, which would break the buttons for a
-        pre-1.0 project. Cached for an hour to stay far below the unauthenticated rate limit. */
+        to pick the highest stable version regardless of listing order. Cached for an hour to stay far below the unauthenticated rate limit. */
   function releaseFromApi(){
     var cached = readReleaseCache();
     if(cached) return Promise.resolve(normalizeRelease(cached.tag, cached.assets));
     return fetch(GH_RELEASES_LIST_API, { headers: { 'Accept': 'application/vnd.github+json' } })
       .then(function(res){ if(!res.ok) throw new Error('release lookup failed'); return res.json(); })
       .then(function(list){
+        var best = null;
         for(var i=0;i<list.length;i++){
-          if(!list[i] || list[i].draft) continue;
+          if(!list[i] || list[i].draft || list[i].prerelease) continue;
           var rel = normalizeRelease(list[i].tag_name, (list[i].assets || []).map(function(a){ return { name: a.name, url: a.browser_download_url }; }));
-          if(rel){ writeReleaseCache(rel.tag, rel.assets); return rel; }
+          if(rel && (!best || compareTags(rel.tag, best.tag) > 0)) best = rel;
         }
-        return null;
+        if(best) writeReleaseCache(best.tag, best.assets);
+        return best;
       });
   }
 
@@ -260,10 +284,18 @@
     if(!('fetch' in window)) return;
     if(!ctas.length && !cards.length) return;
 
+    var shown = null;
+    function show(rel){
+      if(!rel || (shown && compareTags(rel.tag, shown.tag) <= 0)) return;
+      shown = rel;
+      applyRelease(rel.tag, rel.assets, ctas, cards, detected);
+    }
+
     releaseFromSite()
       .catch(function(){ return null; })
-      .then(function(rel){ return rel || releaseFromApi(); })
-      .then(function(rel){ if(rel) applyRelease(rel.tag, rel.assets, ctas, cards, detected); })
+      .then(show)
+      .then(function(){ return releaseFromApi().catch(function(){ return null; }); })
+      .then(show)
       /* Repo private, no release published yet, offline, or GitHub API
          rate-limited: every CTA and platform card already has a working
          fallback href in the markup, so there is nothing to recover here. */
