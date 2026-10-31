@@ -91,7 +91,7 @@
       "description": "Aerini is an open source, local-first visual workflow engine. Wire nodes on a canvas, run them on your machine or a headless server. No account, no cloud, no telemetry.",
       "applicationCategory": "DeveloperApplication",
       "operatingSystem": "Windows, macOS, Linux",
-      "softwareVersion": "0.4.3",
+      "softwareVersion": "0.4.4",
       "isAccessibleForFree": true,
       "offers": {
         "@type": "Offer",
@@ -110,6 +110,7 @@
         "Headless server (aerini-server) for unattended runs",
         "WebAssembly-sandboxed plugin nodes",
         "Local AI model support through Ollama or any OpenAI-compatible server",
+        "AI Agent node with tool requests, web search and structured output",
         "No account, no cloud, no telemetry"
       ],
       "author": {
@@ -268,7 +269,7 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M9 18c-4.5 1.5-4.5-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2-.2 4-1 4-4.5a3.5 3.5 0 00-1-2.5 3.3 3.3 0 00-.1-2.5s-.85-.25-2.9 1a10 10 0 00-5 0c-2.05-1.25-2.9-1-2.9-1a3.3 3.3 0 00-.1 2.5 3.5 3.5 0 00-1 2.5c0 3.5 2 4.3 4 4.5-.5.5-.5 1-.5 2V21"/></svg>
         </a>
       </div>
-      <p class="hero-new"><span class="hero-new-tag">New in 0.4.3</span><a href="#agents">MCP server: let an AI agent build and run workflows →</a></p>
+      <p class="hero-new"><span class="hero-new-tag">New in 0.4.4</span><a href="https://github.com/Panchak2d/Aerini/blob/main/CHANGELOG.md" target="_blank" rel="noopener">AI Agent tools, web search and a new canvas minimap →</a></p>
       <p class="hero-plat">Windows x64 · macOS Apple Silicon · Linux x64 and ARM64 · v0.4, pre-1.0</p>
     </div>
 
@@ -414,7 +415,7 @@
       <div class="cap-card">
         <span class="badge badge-logic">Flow control</span>
         <h3>Branch-and-merge pipelines</h3>
-        <p>Loop over a list, fan out to parallel branches, then merge the results back into one path before continuing.</p>
+        <p>Loop over a list, fan out to parallel branches, then merge the results back into one path before continuing. An optional Stop When setting ends the loop early.</p>
         <p class="spec">Loop (For Each) → branches → Merge</p>
       </div>
     </div>
@@ -445,7 +446,7 @@
       </div>
       <div class="why-row reveal">
         <div><span class="badge badge-trigger">Trigger</span><h3>One engine, two ways to run it</h3></div>
-        <div><p>Build and test in the desktop app, then use Export → Export for Server to package the workflow for <code>aerini-server</code>, a headless binary. The Linux target is a zip with a systemd service.</p></div>
+        <div><p>Build and test in the desktop app, then use Export → Export for Server to package the workflow for <code>aerini-server</code>, a headless binary (<a href="#self-host">how self-hosting works</a>). The Linux target is a zip with a systemd service. The Docker target runs the official image and, for a Webhook trigger, adds a Caddy container that serves it over HTTPS.</p></div>
       </div>
       <div class="why-row reveal">
         <div><span class="badge badge-action">Action</span><h3>Built to be watched while it runs</h3></div>
@@ -457,7 +458,59 @@
       </div>
       <div class="why-row reveal">
         <div><span class="badge badge-ai">AI</span><h3>AI nodes that don't need a hosted API</h3></div>
-        <div><p>Point AI Prompt or AI Agent's Base URL at Ollama or any OpenAI-compatible server on your own machine or network, and the request stays there.</p></div>
+        <div><p>Point AI Prompt or AI Agent's Base URL at Ollama or any OpenAI-compatible server on your own machine or network, and the request stays there. With an Ollama server, the app can pull and delete models for you, only when you click.</p></div>
+      </div>
+      <div class="why-row reveal">
+        <div><span class="badge badge-ai">AI</span><h3>An AI Agent that asks for tools, not for trust</h3></div>
+        <div><p>AI Agent returns the tools the model wants to use, checked against your tool definitions. Route each request with Switch, run the tool, and hand the result back. It can also search the web, answer in JSON that follows a schema you write, and carry a conversation across nodes. The node makes one model call and never runs a tool itself.</p><p class="spec">providers: Anthropic · Gemini · OpenAI-compatible</p></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="self-host">
+  <div class="wrap">
+    <div class="section-head reveal">
+      <span class="eyebrow eb-trigger">Self-hosting</span>
+      <h2>Build on your laptop. Run it on your own server.</h2>
+      <p>When a workflow should keep running after you close the app, export it: <b>Export → Export for Server</b>. The package holds the workflow and the names of the credentials it needs. The secret values never leave your machine; you set them on the server.</p>
+    </div>
+
+    <div class="agent-modes reveal">
+      <div class="agent-mode">
+        <span class="badge badge-action">Linux server</span>
+        <h3>Unzip, run one script</h3>
+        <p><code>install.sh</code> sets up a systemd service. On x86-64 Linux it also downloads the matching <code>aerini-server</code> release and checks its checksum, so you don't need Rust. Fill in your credentials in <code>.env</code>, before the install or after.</p>
+        <p class="spec">needs: unzip · systemd · curl, sha256sum and tar for the download</p>
+        <div class="codebox">
+          <div class="codebox-head"><span>Linux</span><button type="button" class="copy-btn" data-copy-target="cmd-linux" aria-live="polite">Copy</button></div>
+          <pre class="code-scroll"><code id="cmd-linux">chmod +x install.sh &amp;&amp; ./install.sh</code></pre>
+        </div>
+      </div>
+      <div class="agent-mode">
+        <span class="badge badge-trigger">Docker</span>
+        <h3>Pull the official image, nothing to build</h3>
+        <p>The package's Compose file runs the official image, pinned to the release that exported it. Copy <code>.env.example</code> to <code>.env</code> and fill in your credentials first. A Webhook trigger is served over HTTPS by a Caddy container, on the domain you set in <code>.env</code>.</p>
+        <p class="spec">image: ghcr.io/panchak2d/aerini-server · x86-64 only</p>
+        <div class="codebox">
+          <div class="codebox-head"><span>Docker</span><button type="button" class="copy-btn" data-copy-target="cmd-docker" aria-live="polite">Copy</button></div>
+          <pre class="code-scroll"><code id="cmd-docker">cp .env.example .env
+nano .env
+docker compose up -d</code></pre>
+        </div>
+      </div>
+    </div>
+
+    <div class="agent-block reveal">
+      <span class="agent-label">What to know first</span>
+      <ul class="guard-list">
+        <li><b>x86-64 is the tested server target.</b>The prebuilt image and program are x86-64 Linux only. On ARM, build from source; Linux on arm64 has not been tested.</li>
+        <li><b>Locked down by default.</b>The status page listens on <code>127.0.0.1</code> only, and Shell, Code and Database nodes stay off until you turn them on. <code>install.sh</code> prints the SSH tunnel command for reaching the status page from your own computer.</li>
+        <li><b>One workflow per export.</b>An export runs a single workflow. To run many behind a REST API with scoped tokens, use <code>aerini-server api</code>.</li>
+      </ul>
+      <div class="agent-cta">
+        <a href="https://docs.aerini.org/operations/server-deploy" class="btn btn-primary" target="_blank" rel="noopener">Read the deployment guide</a>
+        <a href="https://docs.aerini.org/operations/vps-walkthrough" class="btn btn-ghost" target="_blank" rel="noopener">New server, start to finish</a>
       </div>
     </div>
   </div>
@@ -722,8 +775,10 @@
         </div>
       </div>
       <div class="reveal">
-        <span class="lname roadmap-label">Shipped, v0.4 to v0.4.3</span>
+        <span class="lname roadmap-label">Shipped, v0.4 to v0.4.4</span>
         <div class="roadmap-list mt-14">
+          <div class="roadmap-item"><span class="badge badge-ai">AI</span>AI Agent tools, web search, structured output and conversation continuation (v0.4.4)</div>
+          <div class="roadmap-item"><span class="badge badge-utility">Utility</span>Improved canvas minimap and a new node look (v0.4.4)</div>
           <div class="roadmap-item"><span class="badge badge-ai">AI</span>MCP server for AI agents (v0.4.3)</div>
           <div class="roadmap-item"><span class="badge badge-utility">Utility</span>In-app updates, workflow tags, canvas undo and redo (v0.4.2)</div>
           <div class="roadmap-item"><span class="badge badge-logic">Logic</span>Workflow versioning and run history</div>
@@ -735,7 +790,7 @@
         </div>
         <span class="lname roadmap-label roadmap-label-gap">Planned</span>
         <div class="roadmap-list mt-14">
-          <div class="roadmap-item"><span class="badge badge-utility">Utility</span>Improved canvas minimap (v0.4.4)</div>
+          <div class="roadmap-item"><span class="badge badge-action">Action</span>Feed Parser node for RSS, Atom and JSON Feed (v0.4.5)</div>
           <div class="roadmap-item"><span class="badge badge-trigger">Trigger</span>More trigger types, starting with database poll (v0.5)</div>
           <div class="roadmap-item"><span class="badge badge-utility">Utility</span>Workflow bundle import (v0.5)</div>
         </div>
