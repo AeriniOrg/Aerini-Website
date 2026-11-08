@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-WBAtq6rODG7wXrE1z9NxRrnXv4rHMm1pEBvR5lcHp7k='; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.github.com; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-WBAtq6rODG7wXrE1z9NxRrnXv4rHMm1pEBvR5lcHp7k='; style-src 'self'; img-src 'self' data: https://aerini.goatcounter.com; font-src 'self'; connect-src 'self' https://api.github.com https://aerini.goatcounter.com; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
 <meta name="color-scheme" content="dark">
@@ -91,7 +91,7 @@
       "description": "Aerini is an open source, local-first visual workflow engine. Wire nodes on a canvas, run them on your machine or a headless server. No account, no cloud, no telemetry.",
       "applicationCategory": "DeveloperApplication",
       "operatingSystem": "Windows, macOS, Linux",
-      "softwareVersion": "0.4.4",
+      "softwareVersion": "0.4.5",
       "isAccessibleForFree": true,
       "offers": {
         "@type": "Offer",
@@ -104,7 +104,7 @@
       "image": "https://aerini.org/og-image.png",
       "featureList": [
         "Visual node-and-wire workflow editor",
-        "40 built-in nodes in seven categories",
+        "41 built-in nodes in seven categories",
         "Manual, schedule, and webhook triggers",
         "Standalone Rust workflow engine (aerini-engine)",
         "Headless server (aerini-server) for unattended runs",
@@ -269,7 +269,7 @@
           <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.4" aria-hidden="true"><path d="M9 18c-4.5 1.5-4.5-2.5-6-3m12 5v-3.5c0-1 .1-1.4-.5-2 2-.2 4-1 4-4.5a3.5 3.5 0 00-1-2.5 3.3 3.3 0 00-.1-2.5s-.85-.25-2.9 1a10 10 0 00-5 0c-2.05-1.25-2.9-1-2.9-1a3.3 3.3 0 00-.1 2.5 3.5 3.5 0 00-1 2.5c0 3.5 2 4.3 4 4.5-.5.5-.5 1-.5 2V21"/></svg>
         </a>
       </div>
-      <p class="hero-new"><span class="hero-new-tag">New in 0.4.4</span><a href="https://github.com/Panchak2d/Aerini/blob/main/CHANGELOG.md" target="_blank" rel="noopener">AI Agent tools, web search and a new canvas minimap →</a></p>
+      <p class="hero-new"><span class="hero-new-tag">New in 0.4.5</span><a href="https://github.com/Panchak2d/Aerini/blob/main/CHANGELOG.md" target="_blank" rel="noopener">Feed Parser node, canvas notes and frames, copy/paste and right-click menus →</a></p>
       <p class="hero-plat">Windows x64 · macOS Apple Silicon · Linux x64 and ARM64 · v0.4, pre-1.0</p>
     </div>
 
@@ -419,7 +419,7 @@
         <p class="spec">Loop (For Each) → branches → Merge</p>
       </div>
     </div>
-    <div class="cap-stat reveal">40 built-in nodes in seven categories: Triggers, Core Actions, Files &amp; Storage, Integrations, AI, Logic, and Utility. More ideas: cross-post one output to several destinations, sync two apps on a schedule, or watch a folder and reshape what lands in it (the File Watcher plugin on Patreon).</div>
+    <div class="cap-stat reveal">41 built-in nodes in seven categories: Triggers, Core Actions, Files &amp; Storage, Integrations, AI, Logic, and Utility. More ideas: cross-post one output to several destinations, sync two apps on a schedule, or watch a folder and reshape what lands in it (the File Watcher plugin on Patreon).</div>
   </div>
 </section>
 
@@ -776,8 +776,10 @@ docker compose up -d</code></pre>
         </div>
       </div>
       <div class="reveal">
-        <span class="lname roadmap-label">Shipped, v0.4 to v0.4.4</span>
+        <span class="lname roadmap-label">Shipped, v0.4 to v0.4.5</span>
         <div class="roadmap-list mt-14">
+          <div class="roadmap-item"><span class="badge badge-utility">Utility</span>Feed Parser node for RSS, Atom and JSON Feed (v0.4.5)</div>
+          <div class="roadmap-item"><span class="badge badge-utility">Utility</span>Beginner-friendly canvas: examples, point-and-click data, notes, frames, copy and paste, right-click menus (v0.4.5)</div>
           <div class="roadmap-item"><span class="badge badge-ai">AI</span>AI Agent tools, web search, structured output and conversation continuation (v0.4.4)</div>
           <div class="roadmap-item"><span class="badge badge-utility">Utility</span>Improved canvas minimap and a new node look (v0.4.4)</div>
           <div class="roadmap-item"><span class="badge badge-ai">AI</span>MCP server for AI agents (v0.4.3)</div>
@@ -791,7 +793,6 @@ docker compose up -d</code></pre>
         </div>
         <span class="lname roadmap-label roadmap-label-gap">Planned</span>
         <div class="roadmap-list mt-14">
-          <div class="roadmap-item"><span class="badge badge-action">Action</span>Feed Parser node for RSS, Atom and JSON Feed (v0.4.5)</div>
           <div class="roadmap-item"><span class="badge badge-trigger">Trigger</span>More trigger types, starting with database poll (v0.5)</div>
           <div class="roadmap-item"><span class="badge badge-utility">Utility</span>Workflow bundle import (v0.5)</div>
         </div>
@@ -964,5 +965,6 @@ docker compose up -d</code></pre>
 </div>
 
 <script src="script.js" defer></script>
+<script data-goatcounter="https://aerini.goatcounter.com/count" async src="count.js"></script>
 </body>
 </html>

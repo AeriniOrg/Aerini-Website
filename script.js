@@ -293,8 +293,10 @@
 
     releaseFromSite()
       .catch(function(){ return null; })
-      .then(show)
-      .then(function(){ return releaseFromApi().catch(function(){ return null; }); })
+      .then(function(rel){
+        if(rel){ show(rel); return null; }
+        return releaseFromApi().catch(function(){ return null; });
+      })
       .then(show)
       /* Repo private, no release published yet, offline, or GitHub API
          rate-limited: every CTA and platform card already has a working

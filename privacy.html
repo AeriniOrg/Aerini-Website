@@ -2,7 +2,7 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-WBAtq6rODG7wXrE1z9NxRrnXv4rHMm1pEBvR5lcHp7k='; style-src 'self'; img-src 'self' data:; font-src 'self'; connect-src 'self' https://api.github.com; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; upgrade-insecure-requests">
+<meta http-equiv="Content-Security-Policy" content="default-src 'none'; script-src 'self' 'sha256-WBAtq6rODG7wXrE1z9NxRrnXv4rHMm1pEBvR5lcHp7k='; style-src 'self'; img-src 'self' data: https://aerini.goatcounter.com; font-src 'self'; connect-src 'self' https://api.github.com https://aerini.goatcounter.com; manifest-src 'self'; base-uri 'none'; form-action 'none'; object-src 'none'; upgrade-insecure-requests">
 <meta name="referrer" content="strict-origin-when-cross-origin">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="color-scheme" content="dark">
@@ -25,14 +25,14 @@
 }
 </script>
 <title>Privacy Policy · Aerini</title>
-<meta name="description" content="What the Aerini website stores (nothing) and shares (your IP, via fonts/checkout) — plus how the Aerini app handles data: no telemetry, no cloud.">
+<meta name="description" content="What the Aerini website counts (anonymous page views, no cookies) and shares with third parties — plus how the Aerini app handles data: no telemetry, no cloud.">
 <link rel="canonical" href="https://aerini.org/privacy">
 <meta property="og:type" content="website">
 <meta property="og:site_name" content="Aerini">
 <meta property="og:locale" content="en_US">
 <meta property="og:url" content="https://aerini.org/privacy">
 <meta property="og:title" content="Privacy Policy · Aerini">
-<meta property="og:description" content="No cookies, no analytics, no telemetry. What this site and the Aerini app actually do with data.">
+<meta property="og:description" content="No cookies, no app telemetry, and a cookieless visit counter on the site. What this site and the app actually do with data.">
 <meta property="og:image" content="https://aerini.org/og-image.png">
 <meta property="og:image:type" content="image/png">
 <meta property="og:image:width" content="1200">
@@ -40,7 +40,7 @@
 <meta property="og:image:alt" content="Aerini: three connected workflow nodes, Start, Fetch Data and Show Result, above the tagline &#x27;A workflow engine you run yourself.&#x27;">
 <meta name="twitter:card" content="summary_large_image">
 <meta name="twitter:title" content="Privacy Policy · Aerini">
-<meta name="twitter:description" content="No cookies, no analytics, no telemetry. What this site and the Aerini app actually do with data.">
+<meta name="twitter:description" content="No cookies, no app telemetry, and a cookieless visit counter on the site. What this site and the app actually do with data.">
 <meta name="twitter:image" content="https://aerini.org/og-image.png">
 <meta name="twitter:image:alt" content="Aerini: three connected workflow nodes, Start, Fetch Data and Show Result, above the tagline &#x27;A workflow engine you run yourself.&#x27;">
 <link rel="icon" href="icons/favicon.svg" type="image/svg+xml">
@@ -56,9 +56,9 @@
   "@id": "https://aerini.org/privacy#webpage",
   "url": "https://aerini.org/privacy",
   "name": "Privacy Policy · Aerini",
-  "description": "What the Aerini website stores (nothing) and shares (your IP, via fonts/checkout) — plus how the Aerini app handles data: no telemetry, no cloud.",
+  "description": "What the Aerini website counts (anonymous page views, no cookies) and shares with third parties — plus how the Aerini app handles data: no telemetry, no cloud.",
   "inLanguage": "en",
-  "dateModified": "2026-10-15",
+  "dateModified": "2026-11-07",
   "isPartOf": {
     "@type": "WebSite",
     "name": "Aerini",
@@ -139,32 +139,33 @@
     </div>
 
     <div class="policy">
-      <p class="updated">Last updated October 2026</p>
+      <p class="updated">Last updated November 2026</p>
 
       <h2>Short version</h2>
-      <p>This website does not use cookies, does not run analytics, and does not have accounts. The Aerini application does not send telemetry of any kind. Everything below explains exactly what small amount of network activity does happen, and why.</p>
+      <p>This website does not use cookies and does not have accounts. It counts visits with GoatCounter, a cookieless counter that does not store your IP address (details below). The Aerini application does not send telemetry of any kind. Everything below explains exactly what small amount of network activity does happen, and why.</p>
 
       <h2>What this website collects</h2>
-      <p>This site stores nothing itself: no account system, no sign-up form, no comment section, and no server-side database behind it. Nothing you type or click here is saved by us. Loading the page does trigger a few requests to third-party services that see your IP address: GitHub's API (only as a fallback, when the download links can't be resolved from this site) and, on the Pricing page, Polar's checkout script. Fonts are served from this site, not from a third party. See the next section for details.</p>
+      <p>This site stores nothing itself: no account system, no sign-up form, no comment section, and no server-side database behind it. Nothing you type or click here is saved by us. The one exception is the visit counter described below. Loading the page does trigger a few requests to third-party services that see your IP address: GoatCounter's visit counter, GitHub's API (only as a fallback, when the download links can't be resolved from this site) and, on the Pricing page, Polar's checkout script. Fonts are served from this site, not from a third party. See the next section for details.</p>
 
       <h2>Cookies and local storage</h2>
-      <p>This site sets no cookies. Its only use of your browser's local storage is two small caches. <code>aerini_repo_status</code> records whether Aerini's GitHub repository is archived, so the page doesn't repeat that lookup for six hours. <code>aerini_release</code> records the latest release's version number and installer links, so the download buttons don't repeat their lookup for an hour. Neither contains personal information, and neither is ever sent anywhere. Nothing here is used to recognize you on a return visit. The one exception to the no-cookies statement is the Pricing page, where clicking "Buy commercial license" opens a checkout window run by Polar (see below). That window is Polar's, not ours, and Polar's own cookie and privacy practices apply to it, not this policy.</p>
+      <p>This site sets no cookies. Its use of your browser's local storage is two small caches, plus one opt-out flag that exists only if you switch the visit counter off. <code>aerini_repo_status</code> records whether Aerini's GitHub repository is archived, so the page doesn't repeat that lookup for six hours. <code>aerini_release</code> records the latest release's version number and installer links, so the download buttons don't repeat their lookup for an hour. Neither contains personal information, and neither is ever sent anywhere. The opt-out flag, <code>skipgc</code>, is set only if you open <code>https://aerini.org/#toggle-goatcounter</code>; it makes the visit counter skip your browser, and open the same address again to switch counting back on. It is never sent anywhere. Nothing here is used to recognize you on a return visit. The one exception to the no-cookies statement is the Pricing page, where clicking "Buy commercial license" opens a checkout window run by Polar (see below). That window is Polar's, not ours, and Polar's own cookie and privacy practices apply to it, not this policy.</p>
 
       <h2>Requests this website makes to other services</h2>
       <p>Loading this page triggers a small number of requests to services we do not control:</p>
       <ul>
+        <li><strong>GoatCounter.</strong> Every page loads a small script from this site (<code>count.js</code>, GoatCounter's open-source counter, hosted here) that reports the page view to GoatCounter at <code>aerini.goatcounter.com</code>. The report contains the page path, any query string in the address, the page title, the address of the page you came from (if any) and your screen width. GoatCounter also receives your IP address and browser string with that request. Per <a href="https://www.goatcounter.com/help/sessions" target="_blank" rel="noopener">GoatCounter's documentation</a>, those two are combined only in memory, for up to 8 hours, to avoid counting the same visit twice, and are never written to a database or disk; what is stored with the page view is a random ID. The dashboard shows counts by page, referrer, browser, operating system, location and screen size. No cookie or other identifier is stored in your browser. We use the numbers only to see how many people visit the site and which pages they read. See <a href="https://goatcounter.com/privacy" target="_blank" rel="noopener">GoatCounter's privacy policy</a>.</li>
         <li><strong>Fonts.</strong> The Inter and JetBrains Mono typefaces are served from this site's own domain. No font request goes to Google or any other third party.</li>
         <li><strong>GitHub's public API.</strong> The "Get Aerini" button and the platform picker normally read the latest release from a file on this site, and only fall back to GitHub's releases API when that file is unavailable. The site also asks GitHub's public API whether the repository is archived. Both are public, unauthenticated endpoints. They send nothing about you beyond a standard HTTP request; GitHub sees your IP address the way any site you visit does.</li>
         <li><strong>Polar.</strong> The Pricing page loads Polar's checkout script, served from the jsDelivr CDN (<code>cdn.jsdelivr.net</code>), which sees your IP address and browser the way any CDN does. Polar is the payment processor used for commercial licenses. It only runs when you visit that page, and it only opens a payment window if you click "Buy commercial license." If you complete a purchase, your name, email, and payment details are collected and processed by Polar as the merchant of record — not stored on this site. See <a href="https://polar.sh/legal/privacy" target="_blank" rel="noopener">Polar's privacy policy</a> for how they handle that data.</li>
       </ul>
-      <p>If this site is hosted on GitHub Pages or a comparable static host, that host may keep ordinary web server access logs (IP address, requested page, timestamp) as part of normal operation. We don't add any tracking on top of that, and we don't have a separate analytics dashboard for this site.</p>
+      <p>If this site is hosted on GitHub Pages or a comparable static host, that host may keep ordinary web server access logs (IP address, requested page, timestamp) as part of normal operation. Apart from the visit counter described above, we don't add any tracking on top of that.</p>
 
       <h2>The Aerini application</h2>
       <p>The website and the desktop application are different things, and this section is about the app. Aerini makes no telemetry calls, no analytics calls, and no automatic update pings. Workflows, run history, and credentials stay on your machine and are never sent anywhere by Aerini itself.</p>
       <p>Two fixed exceptions, by design: the app loads the Inter typeface from Google Fonts over HTTPS at startup, and Settings → About has a "Check for Updates" button that fetches the latest GitHub release's update manifest only when you click it. If you then choose Install and restart, the app downloads the signed update from GitHub. Beyond that, any outbound connection comes from workflow nodes you build yourself, such as an HTTP request node hitting an API you configured, or an AI node calling a provider you chose and gave a key to. For the full technical breakdown, see the <a href="https://docs.aerini.org/guide/security" target="_blank" rel="noopener">security documentation</a>.</p>
 
       <h2>Data retention</h2>
-      <p>We have nothing to retain. There is no account data, no usage history, and no analytics database tied to this site or the app.</p>
+      <p>The app and this site's own code retain nothing: there is no account data and no usage history tied to the app. The visit counter keeps page-view records (no IP address and no cookie identifier) in our GoatCounter account until we delete them, and we can delete them at any time.</p>
 
       <h2>Children's privacy</h2>
       <p>This site and the app are not directed at children and are not designed to collect information from anyone, regardless of age.</p>
@@ -230,5 +231,6 @@
 </footer>
 
 <script src="script.js" defer></script>
+<script data-goatcounter="https://aerini.goatcounter.com/count" async src="count.js"></script>
 </body>
 </html>
